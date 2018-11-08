@@ -1,0 +1,102 @@
+git clone will create local repository
+
+git commit will commit to local repository
+git push will push changes to remove repository
+changes in code in eclipse means local changes ie that has not commited to local reposoitory
+cant see local repository its virtual
+
+
+git reset 
+
+remove files from staging area
+----------------------------------------
+git reset --hard
+it will reset all changes to from local repository and make in sync to local working , any new files  would not be deleted, it will be in untracked files
+ie any changes done locally will be removed and would be in sync with local repository ( not repository)
+
+$ git reset --hard
+HEAD is now at 98ae105d changes for java 9
+
+Sumit.Garg@SEZ55CROSSCODE MINGW64 /f/withJRE/cs-plugin (csplugin_java9_withJRE)
+$ git status
+On branch csplugin_java9_withJRE
+Your branch is up to date with 'origin/csplugin_java9_withJRE'.
+
+
+---------
+
+remove local untracked files from the current Git branch
+
+git clean -n
+will show which files will be removed
+
+git clean -f
+forcefull remove 
+
+To remove directories, run git clean -f -d or git clean -fd
+--------------
+Unstaged changes :- 
+
+the changes done in eclipse but not commited to local branch
+
+----------------------------------------------------
+git pull origin master 
+
+will pull changes from the origin remote, master branch and merge them to the local checked-out branch
+
+
+git pull origin/master 
+
+will pull changes from the locally stored branch origin/master and merge that to the local checked-out branch
+
+
+-----
+below command will only discard changes in working directory for given  file and make it in sync with local repository
+ git checkout --  csp-java/src/main/java/com/crosscode/process/plugin/Callee.java
+ 
+ 
+ -----
+ 
+ 
+ git diff   remotes/origin/csplugin_java9_withJRE   remotes/origin/csplugin_java9
+ 
+ will show difference between two branches
+ 
+ -------------
+ 
+ git diff
+ 
+ will show difference between local repository and workspace difference 
+ 
+ -----------------
+ 
+ git checkout
+ 
+ 
+ ----------------------------------------
+ 
+ git pull does a git fetch followed by a git merge.
+ 
+ ---------------------------------------------------------------------------------
+ to bring a local branch up-to-date with its remote version
+ git pull 
+ 
+ ------------------------
+ git fetch really only downloads new data from a remote repository - but it
+ doesn't integrate any of this new data into your working files. Fetch is great for getting a fresh view on all the things that happened in a remote repository.
+ 
+ ----
+ 
+ git push origin master
+ 
+ pushes all changes to master branch
+ 
+ -------
+ 
+ below command would add file to staging area
+ git add 
+ 
+ ------
+ 
+ 
+ 
