@@ -6,7 +6,7 @@ changes in code in eclipse means local changes ie that has not commited to local
 cant see local repository its virtual
 
 
-git reset 
+git reset changes
 
 remove files from staging area
 ----------------------------------------
