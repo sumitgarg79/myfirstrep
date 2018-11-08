@@ -98,5 +98,11 @@ below command will only discard changes in working directory for given  file and
  
  ------
  
+  git remote -v
+ 
+ remote repository URL
+ 
+ --------------
+ 
  
  
