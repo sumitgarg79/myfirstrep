@@ -1,4 +1,6 @@
 git clone will create local repository
+-----------------------
+git commit -m " test" gitTutorials.txt
 
 git commit will commit to local repository
 git push will push changes to remove repository
