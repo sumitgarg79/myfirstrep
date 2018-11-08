@@ -1,0 +1,202 @@
+An automatic module is a module that doesn't have a module descriptor
+
+https://stackoverflow.com/questions/46713289/how-to-use-3rd-party-library-in-java9-module
+
+rt.jar and tools.jar are removed 
+
+ modular jars cannot reference non-modular jars on the classpath. Automatic modules (non-modular jars on the modulepath) act as a bridge: modular jars can reference them, and automatic modules can read the classpath
+ 
+ 
+ 
+ The unnamed module does not have module-info.java. 
+Or in other words, the classes which do not have modules are promoted to the unnamed module.
+The unnamed module 'requires' all other modules and 'exports' all its packages. 
+The classes which were written in the older versions but now running in Java 9 environment will continue to work because they become the members of the unnamed module. 
+If we want to run old code in Java 9 environment without migrating them to the module system, we should run them using class path (not module path)
+
+
+Unnamed modules are created by placing a JAR file on the classpath (i.e. what happens in the current Java world).
+Automatic modules are created when a JAR file is placed on the new module path.
+Explicit/named modules are defined manually with the new module-info.java.
+
+
+
+
+
+
+When you run an application from module jar, that means that you run your application from named module. The module must require all of its dependencies which should be name modules. Note that even automatic modules which are created from your non-module JARs are indeed named. Java 9does not allow split-packages for the reason of the reliable configuration, only unnamed modules are excepted from this rule.
+
+
+
+How to solve split package issue
+
+repackage collision jars (keep one in module path and other on classpath )or you have to move your modules which require collision jars to non-module jar.
+
+
+
+Maven places jars on classpath , maven shade plugin wont solve java 9 split package dependency
+
+
+-----
+
+java -p <jarfile> --list-modules
+jdeps --list-deps user-dao.jar
+java --describe-module java.sql
+jdeps procedureFetcher.jar   ( list packages and dependent module)
+-----
+
+
+create own JRE
+jlink --module-path ../jmods --add-modules java.base --output d:\java\jre
+
+
+//jmods jas all modules , 
+C:\Users\sumit.garg\.m2\ALL_APP_jars\csp-java>jlink --module-path test;jmods --add-modules java.base --output outDir
+
+-------
+
+jdeps -s procedureFetcher.jar ( list only dependend modules )
+
+procedureFetcher.jar -> java.base
+procedureFetcher.jar -> java.desktop
+procedureFetcher.jar -> java.logging
+procedureFetcher.jar -> java.management
+procedureFetcher.jar -> java.naming
+procedureFetcher.jar -> java.security.sasl
+procedureFetcher.jar -> java.sql
+procedureFetcher.jar -> java.xml
+procedureFetcher.jar -> jdk.jdi
+procedureFetcher.jar -> not found
+
+
+
+---
+DESCRIBES A MODULE
+jar --file=csp-config-0.0.1-SNAPSHOT.jar --describe-module 
+ --------
+ jlink
+ 
+ "C:/Program Files/Java/jdk-9.0.4/bin/jlink" --module-path "C:/Program Files/Java/jdk-9.0.4/jmods";config --add-modules com.crosscode.cspconfig --output Java9cspconfig
+ 
+ 
+--------------------
+list all modules
+java -p classes --list-modules
+
+
+------
+
+create jmod file ( below classpath should be of module-info.class location)
+
+jmod create test.jmod --class-path  C:\Users\sumit.garg\eclipse-workspace_photon_java9.05\csplugin\csp-config\target\classes
+
+
+---------
+
+list the content of jmod file 
+
+jmod list test.jmod
+
+-----
+RUN A JAVA PROGRAM WITH MODULE ( libs is the directory containing the modular jars , we can give jmod file or modular jar in module path , --module  has parameters as <moduleName>/<package name>.<class name>
+
+C:\Users\sumit.garg\Desktop\crosscode\Java9-module-system-with-maven-master\Java9-module-system-with-maven-master\Java9ModuleSystem>  java  --module-path libs  --module info/com.kodcu.info.InfoUser
+
+
+----
+
+COMPILE A JAVA MODULE 
+
+javac -d out --module-source-path src/main/java --module com.jenkov.mymodule
+
+
+------
+
+BUILDING A JAVA MODULE JAR FILE
+
+jar -c --file=out-jar/com-jenkov-mymodule.jar -C out/com.jenkov.mymodule .
+
+-------
+
+java -p <jarfile> --list-modules
+jdeps --list-deps user-dao.jar
+java --describe-module java.sql
+jdeps procedureFetcher.jar   ( list packages and dependent module)
+-----
+
+
+create own JRE
+jlink --module-path ../jmods --add-modules java.base --output d:\java\jre
+
+
+//jmods jas all modules , 
+C:\Users\sumit.garg\.m2\ALL_APP_jars\csp-java>jlink --module-path test;jmods --add-modules java.base --output outDir
+
+-------
+
+jdeps -s procedureFetcher.jar ( list only dependend modules )
+
+procedureFetcher.jar -> java.base
+procedureFetcher.jar -> java.desktop
+procedureFetcher.jar -> java.logging
+procedureFetcher.jar -> java.management
+procedureFetcher.jar -> java.naming
+procedureFetcher.jar -> java.security.sasl
+procedureFetcher.jar -> java.sql
+procedureFetcher.jar -> java.xml
+procedureFetcher.jar -> jdk.jdi
+procedureFetcher.jar -> not found
+
+----
+
+
+jdeps -cp .;MODULEPATH/*    csp-java-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+
+---
+DESCRIBES A MODULE
+jar --file=csp-config-0.0.1-SNAPSHOT.jar --describe-module 
+ --------
+ jlink
+ 
+ "C:/Program Files/Java/jdk-9.0.4/bin/jlink" --module-path "C:/Program Files/Java/jdk-9.0.4/jmods";config --add-modules com.crosscode.cspconfig --output Java9cspconfig
+ 
+ 
+--------------------
+list all modules
+java -p classes --list-modules
+
+
+------
+
+create jmod file ( below classpath should be of module-info.class location)
+
+jmod create test.jmod --class-path  C:\Users\sumit.garg\eclipse-workspace_photon_java9.05\csplugin\csp-config\target\classes
+
+
+---------
+
+list the content of jmod file 
+
+jmod list test.jmod
+
+-----
+RUN A JAVA PROGRAM WITH MODULE ( libs is the directory containing the modular jars , we can give jmod file or modular jar in module path , --module  has parameters as <moduleName>/<package name>.<class name>
+
+C:\Users\sumit.garg\Desktop\crosscode\Java9-module-system-with-maven-master\Java9-module-system-with-maven-master\Java9ModuleSystem>  java  --module-path libs  --module info/com.kodcu.info.InfoUser
+
+
+----
+
+COMPILE A JAVA MODULE 
+
+javac -d out --module-source-path src/main/java --module com.jenkov.mymodule
+
+
+------
+
+BUILDING A JAVA MODULE JAR FILE
+
+jar -c --file=out-jar/com-jenkov-mymodule.jar -C out/com.jenkov.mymodule .
+
+-------
+
