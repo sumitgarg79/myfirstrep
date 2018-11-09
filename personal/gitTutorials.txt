@@ -39,7 +39,7 @@ To remove directories, run git clean -f -d or git clean -fd
 --------------
 Unstaged changes :- 
 
-the changes done in eclipse but not commited to local branch
+the changes done in eclipse but not commited to local branch.
 
 ----------------------------------------------------
 git pull origin master 
