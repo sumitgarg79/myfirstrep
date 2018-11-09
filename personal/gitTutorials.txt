@@ -106,5 +106,5 @@ below command will only discard changes in working directory for given  file and
  
  --------------
  
- 
+ .gitignore file contains all ignored files , manually we can add files to it
  
