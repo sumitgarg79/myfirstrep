@@ -111,4 +111,4 @@ below command will only discard changes in working directory for given  file and
 --------------
 
 git log
-will show log history , 
+will show log history ....
