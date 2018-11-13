@@ -1,4 +1,4 @@
-git clone will create local repository...
+git clone will create local repository
 -----------------------
 git commit -m " test" gitTutorials.txt
 
