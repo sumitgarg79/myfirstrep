@@ -178,9 +178,13 @@ Tagging is generally used to capture a point in history that is used for a marke
 By default, git tag will create a tag on the commit that HEAD is referencing
 git reset --hard 1311 would set local repository to specific tag
 ---------------------------------
-BRANCH CREATION
+BRANCH 
 git branch testMaster ( create a new branch from current branch , it will copy all code into new branch)
 git push origin testMaster ( push changes to repository)
+
+git branch -d testMaster  ( delete a branch locally) 
+git push --delete origin testMaster ( delete a branch from repository)
+
 ---------------------------------------------------
 git checkout testMaster (Switched to branch 'testMaster' from current branch and local code would be updated to code from the branch from which checkout done ie testMaster) 
 git checkout gitTutorials.txt will undo local changes , ie local code will be replaced from the code in tbe current branch ) 
