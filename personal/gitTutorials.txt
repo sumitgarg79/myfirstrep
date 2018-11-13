@@ -57,14 +57,11 @@ below command will only discard changes in working directory for given  file and
  
  
  -----
- 
- 
- git diff   remotes/origin/csplugin_java9_withJRE   remotes/origin/csplugin_java9
+ (before doing git diff brch1 brch2 , do a git pull)
+ git diff   branch1   branch2
  
  will show difference between two branches
- 
- -------------
- 
+  
  git diff
  
  will show difference between local repository and workspace difference 
