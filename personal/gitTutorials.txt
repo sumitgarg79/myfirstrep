@@ -1,5 +1,5 @@
 git clone will create local repository
-----------------------------------------
+------------------------------------------------
 git commit -m " test" gitTutorials.txt
 
 git commit will commit to local repository
@@ -180,7 +180,10 @@ proper way of pushing a file
 4.if merging is done review the changes and perform below else no need to review and perform below 
 5.git push origin master
 
+
 -------
 Tagging is generally used to capture a point in history that is used for a marked version release
 By default, git tag will create a tag on the commit that HEAD is referencing
-git reset --hard 1311 would 
+git reset --hard 1311 would set local repository to specific tag
+
+
