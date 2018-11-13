@@ -187,6 +187,6 @@ git checkout gitTutorials.txt will undo local changes , ie local code will be re
 
 -------
 
-
+git merge is used to merge branches 
 
 
