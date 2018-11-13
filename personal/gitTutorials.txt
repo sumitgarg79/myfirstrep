@@ -8,7 +8,7 @@ changes in code in eclipse means local changes ie that has not commited to local
 cant see local repository its virtual
 
 
-git reset changes
+git reset 
 
 remove files from staging area
 ----------------------------------------
@@ -188,6 +188,10 @@ git checkout gitTutorials.txt will undo local changes , ie local code will be re
 
 -------
 
-git merge is used to merge branchess 
+git merge is used to merge branches
+
+1.git checkout testMaster ( branch into which code needs to be merged )
+2.git merge master ( branch from which merge needs to be done)
+3.git push origin testMaster  ( pushed changes into remote repository)
 
 
