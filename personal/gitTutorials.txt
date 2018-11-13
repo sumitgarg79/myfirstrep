@@ -124,7 +124,11 @@ Aborting
 
 
 scenario 2
+local changes done , added to staging and commited to local repository then do a pull
 
+it will merge non conflict changes , our changes stays , if conflict issue , it will add line
+
+if need to pull either commit or reset to sync with local respository, it local workspace is in sync with local repository then pull will work else not
 ----
 
 
