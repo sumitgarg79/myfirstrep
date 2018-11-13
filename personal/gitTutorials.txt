@@ -182,8 +182,8 @@ BRANCH CREATION
 git branch testMaster ( create a new branch from current branch , it will copy all code into new branch)
 git push origin testMaster ( push changes to repository)
 ---------------------------------------------------
-git checkout testMaster (Switched to branch 'testMaster' from current branch ) 
-git checkout gitTutorials.txt will undo local changes
+git checkout testMaster (Switched to branch 'testMaster' from current branch and local code would be updated to code from the branch from which checkout done ie testMaster) 
+git checkout gitTutorials.txt will undo local changes , ie local code will be replaced from the code in tbe current branch ) 
 
 -------
 
