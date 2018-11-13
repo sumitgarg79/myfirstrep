@@ -164,5 +164,10 @@ Aborting
 files different between different branches
 
 git diff  --name-status  remotes/origin/csplugin_java9  remotes/origin/csplugin_java9_withJRE
-
  
+--------------
+
+if u want to undo ur changes and take latest changes from remote 
+
+git reset --hard then git pull
+-----
