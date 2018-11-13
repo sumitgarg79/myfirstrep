@@ -1,0 +1,240 @@
+sourceTree for bit, sqlyog,windows powershell
+
+
+Jackson API :- 
+Jackson is a high-performance JSON processor for Java. Its developers extol the combination of fast, correct, lightweight, and ergonomic attributes
+
+com.fasterxml.jackson.databind.ObjectMapper
+
+
+ObjectMapper provides functionality for reading and writing JSON, either to and from basic POJOs (Plain Old Java Objects), or to and from a general-purpose JSON Tree Model 
+
+
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+MAVEN
+
+resources:resources  goal would only copy resources 
+
+in maven build goal , we can give life cycle phases
+A maven plugin can only be executed if it's bound a life-cycle phase in Maven.
+-------------
+
+BELOW plugin would copy to target locatoion
+
+ 
+                <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>F:/testMaven/Java9ModuleOut</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>C:/Users/sumit.garg/eclipse-workspace_photon/DemoJava9/Java9ModuleOut</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+      
+      
+-----
+
+
+ <resource> default resources tag are src/main/java and src/main/test 
+ if need to give additional src dir , can be given using resource as below 
+ 
+<resource>
+<directory>C:/Users/sumit.garg/eclipse-workspace_photon/DemoJava9/Java9ModuleOut</directory>
+	<targetPath>F:/testMaven/</targetPath>
+<filtering>true</filtering>
+</resource>
+
+
+-------
+
+execute a goal
+mvn groupId:artifactId:version:goal
+---
+ 
+maven compile will only compile if class files are not upto date , if we add jar in class path using eclipse and not in maven dependecncy
+then project will be compiled and when mave compile runs it will run without any issue since eclipse classpth jars already helped compiling classes
+maven can only compile classes using jars in its dependency
+
+------
+
+backup from 
+<descriptorRefs>
+  <descriptorRef>jar-with-dependencies</descriptorRef>
+</descriptorRefs>
+ 
+ to
+ 
+<descriptor>src/bin/bin.xml</descriptor>
+<descriptor>src/bin/bin1.xml</descriptor>
+ </descriptors>
+
+                         
+ ----
+
+
+
+-------------------
+
+
+
+we can give jars in local machine as mave dependecy ie not need to be at maven repository as example below using <systemPath>
+
+
+<dependency>
+          <groupId>com.sun</groupId>
+          <artifactId>tools</artifactId>
+          <scope>system</scope>
+          <version>1.6</version>
+         <systemPath>${java.home}/../Classes/classes.jar</systemPath>
+       </dependency>
+
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+
+MY SQL
+
+
+select 
+	 aa.impacted_system_id, max(aa.event_date)
+FROM 
+	abs_genie.abs_event_log  aa,
+	abs_genie.abs_system bb
+where 
+	##impacted_system_id=116
+	aa.impacted_system_id=bb.system_id
+group by 
+	aa.impacted_system_id 
+
+
+select 
+	 aa.impacted_system_id, system_name ,max(aa.event_date)
+FROM 
+	abs_genie.abs_event_log  aa,
+	abs_genie.abs_system bb
+where 
+	##impacted_system_id=116
+	aa.impacted_system_id=bb.system_id
+group by 
+	aa.impacted_system_id   ;
+
+
+SELECT table_name, table_type, engine, TABLE_COMMENT 
+FROM information_schema.tables 
+Where TABLE_SCHEMA = 'mysql' 
+order by engine desc; 
+
+
+
+-----
+
+execute system functions 
+
+SELECT SYSTEM_USER();
+
+
+-----
+
+get all schema objects 
+
+SELECT OBJECT_TYPE
+	,OBJECT_SCHEMA
+	,OBJECT_NAME
+FROM (
+	SELECT 'TABLE' AS OBJECT_TYPE
+		,TABLE_NAME AS OBJECT_NAME
+		,TABLE_SCHEMA AS OBJECT_SCHEMA
+	FROM information_schema.TABLES
+	
+	UNION
+	
+	SELECT 'VIEW' AS OBJECT_TYPE
+		,TABLE_NAME AS OBJECT_NAME
+		,TABLE_SCHEMA AS OBJECT_SCHEMA
+	FROM information_schema.VIEWS
+	
+	UNION
+	
+	SELECT 'INDEX[Type:Name:Table]' AS OBJECT_TYPE
+		,CONCAT (
+			CONSTRAINT_TYPE
+			,' : '
+			,CONSTRAINT_NAME
+			,' : '
+			,TABLE_NAME
+			) AS OBJECT_NAME
+		,TABLE_SCHEMA AS OBJECT_SCHEMA
+	FROM information_schema.TABLE_CONSTRAINTS
+	
+	UNION
+	
+	SELECT ROUTINE_TYPE AS OBJECT_TYPE
+		,ROUTINE_NAME AS OBJECT_NAME
+		,ROUTINE_SCHEMA AS OBJECT_SCHEMA
+	FROM information_schema.ROUTINES
+	
+	UNION
+	
+	SELECT 'TRIGGER[Schema:Object]' AS OBJECT_TYPE
+		,CONCAT (
+			TRIGGER_NAME
+			,' : '
+			,EVENT_OBJECT_SCHEMA
+			,' : '
+			,EVENT_OBJECT_TABLE
+			) AS OBJECT_NAME
+		,TRIGGER_SCHEMA AS OBJECT_SCHEMA
+	FROM information_schema.triggers
+	) R
+    
+    wHERE R.OBJECT_SCHEMA = 'world';
+    
+    -------
+    
+    
+    IMP QUERIES
+    
+select * from INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
+
+select * from INFORMATION_SCHEMA.PROCESSLIST
+
+
+select * from INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS 
+
+
+select * from INFORMATION_SCHEMA.ROUTINES where routine_type ='PROCEDURE' and routine_schema ='world'
+
+
+select * from INFORMATION_SCHEMA.ROUTINES where routine_type ='FUNCTION' and routine_schema ='world'
+
+select * from      INFORMATION_SCHEMA.TRIGGERS
+
+
+SHOW CREATE PROCEDURE `stateUpdate`;
+
+SHOW CREATE FUNCTION `new_testFunction`;
+
+
+SELECT *
+FROM   information_schema.tables
+ INNER
+  JOIN information_schema.routines
+    ON routines.routine_definition LIKE Concat('%', tables.table_name, '%');
+ 
+----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------- 
