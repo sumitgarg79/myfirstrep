@@ -161,5 +161,8 @@ Please commit your changes or stash them before you merge.
 Aborting
 --------------------
 
+files different between different branches
+
+git diff  --name-status  remotes/origin/csplugin_java9  remotes/origin/csplugin_java9_withJRE
 
  
