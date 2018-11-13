@@ -1,5 +1,5 @@
 git clone will create local repository
---------------------------------------
+----------------------------------------
 git commit -m " test" gitTutorials.txt
 
 git commit will commit to local repository
@@ -143,6 +143,7 @@ git checkout gitTutorials.txt will undo local changes
  git add a1.txt a2.txt 
 ---------------------------
 
+
 what is origin in GIT 
 "origin" is the name of the remote repository where you want to publish you commits. By convention, the default remote repository is called "origin"
  git remote -v
@@ -158,5 +159,7 @@ error: Your local changes to the following files would be overwritten by merge:
         personal/gitTutorials.txt
 Please commit your changes or stash them before you merge.
 Aborting
+--------------------
 
 
+ 
