@@ -127,6 +127,9 @@ scenario 2 ( if the files that we are working on are latest in remote repo , pul
 local changes done , added to staging and commited to local repository then do a pull
 it will merge non conflict changes , our changes stays , if conflict issue , it will add line
 if need to pull either commit or reset to sync with local respository, if local workspace is in sync with local repository then pull will work  
+
+
+PULL WILL ONLY BE ABORTED WHEN WE HAVE DONE SOME CHANGES LOCALLY AND SAME FILE IN REMOTE REPO ALSO UPDATED BY SOMEONE 
 --------------------------------
 
  
