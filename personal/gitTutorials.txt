@@ -78,10 +78,9 @@ below command will only discard changes in working directory for given  file and
  ----------------------------------------
  
  git pull does a git fetch followed by a git merge.
- 
- ---------------------------------------------------------------------------------
- to bring a local branch up-to-date with its remote version
- git pull 
+  to bring a local branch up-to-date with its remote version
+  it does not change local changes done , only updates files on which we are not working
+
  
  ------------------------
  git fetch really only downloads new data from a remote repository - but it
@@ -111,4 +110,4 @@ below command will only discard changes in working directory for given  file and
 --------------
 
 git log
-will show history logs
+will show history logs....
