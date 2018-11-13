@@ -114,7 +114,7 @@ will show history logs....
 
 --------
 
-scenario 1 
+scenario 1 ( if the file that we are working locally has been updated in remote repository ie remote repo is ahead in version )
 
 local changes done but not added to staging or commited to remote branch and if we do  a pull , in that case 
 it will throw below error and whole pull will be aborted , other files wont be updated from remote repository ie local repository wont get updated 
@@ -123,12 +123,10 @@ Please commit your changes or stash them before you merge.
 Aborting
 
 
-scenario 2
+scenario 2 ( if the files that we are working on are latest in remote repo , pull will works)
 local changes done , added to staging and commited to local repository then do a pull
-
 it will merge non conflict changes , our changes stays , if conflict issue , it will add line
+if need to pull either commit or reset to sync with local respository, if local workspace is in sync with local repository then pull will work  
+--------------------------------
 
-if need to pull either commit or reset to sync with local respository, it local workspace is in sync with local repository then pull will work else not
-----
-
-
+ 
