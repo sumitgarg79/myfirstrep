@@ -54,7 +54,6 @@ will pull changes from the locally stored branch origin/master and merge that to
 
 -----
 below command will only discard changes in working directory for given  file and make it in sync with local repository
- git checkout --  csp-java/src/main/java/com/crosscode/process/plugin/Callee.java
  
  
  -----
@@ -72,10 +71,6 @@ below command will only discard changes in working directory for given  file and
  
  -----------------
  
- git checkout
- 
- 
- ----------------------------------------
  
  git pull does a git fetch followed by a git merge.
   to bring a local branch up-to-date with its remote version
@@ -132,9 +127,6 @@ if need to pull either commit or reset to sync with local respository, if local 
 PULL WILL ONLY BE ABORTED WHEN WE HAVE DONE SOME CHANGES LOCALLY AND SAME FILE IN REMOTE REPO ALSO UPDATED BY SOMEONE 
 --------------------------------
 
-git checkout gitTutorials.txt will undo local changes
-
-
 ----------------------
 
  git push origin master will only push commited changes
@@ -185,5 +177,16 @@ proper way of pushing a file
 Tagging is generally used to capture a point in history that is used for a marked version release
 By default, git tag will create a tag on the commit that HEAD is referencing
 git reset --hard 1311 would set local repository to specific tag
+---------------------------------
+BRANCH CREATION
+git branch testMaster ( create a new branch from current branch , it will copy all code into new branch)
+git push origin testMaster ( push changes to repository)
+---------------------------------------------------
+git checkout testMaster (Switched to branch 'testMaster' from current branch ) 
+git checkout gitTutorials.txt will undo local changes
+
+-------
+
+
 
 
