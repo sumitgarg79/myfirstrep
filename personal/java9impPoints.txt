@@ -198,5 +198,5 @@ BUILDING A JAVA MODULE JAR FILE
 
 jar -c --file=out-jar/com-jenkov-mymodule.jar -C out/com.jenkov.mymodule .
 
------------------------------------11-------------------
+-----------------------------------111-------------------
 
