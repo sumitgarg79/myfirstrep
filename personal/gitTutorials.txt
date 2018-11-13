@@ -79,7 +79,7 @@ below command will only discard changes in working directory for given  file and
  
  git pull does a git fetch followed by a git merge.
   to bring a local branch up-to-date with its remote version
-  it does not change local changes done , only updates files on which we are not working
+  it merges into local code  and updates files on which we are not working
 
  
  ------------------------
@@ -111,3 +111,20 @@ below command will only discard changes in working directory for given  file and
 
 git log
 will show history logs....
+
+--------
+
+scenario 1 
+
+local changes done but not added to staging or commited to remote branch and if we do  a pull , in that case 
+it will throw below error and whole pull will be aborted , other files wont be updated from remote repository ie local repository wont get updated 
+
+Please commit your changes or stash them before you merge.
+Aborting
+
+
+scenario 2
+
+----
+
+
