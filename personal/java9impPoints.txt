@@ -1,4 +1,4 @@
-An automatic module is a module that doesn't have a module descriptor
+An automatic module is a module that doesn't have a module descriptor..
 
 https://stackoverflow.com/questions/46713289/how-to-use-3rd-party-library-in-java9-module
 
