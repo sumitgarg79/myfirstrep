@@ -1,5 +1,5 @@
 git clone will create local repository
---------------------------------------
+----------------------------------------
 git commit -m " test" gitTutorials.txt
 
 git commit will commit to local repository
