@@ -1,0 +1,387 @@
+Serializable is marker interface without any methods. Externalizable interface contains two methods: writeExternal() and readExternal().
+--
+readExternal and writeExternal in Externalizable( customize serializatoin)
+--
+Bridge Design Pattern The Bridge design pattern allows you to separate the abstraction from the implementation.It is a structural design pattern.
+https://www.geeksforgeeks.org/bridge-design-pattern/
+----
+
+Immutable class means that once an object is created, we cannot change its content
+
+executor , executoerservice , callable, future , comletablefuture
+First of all, the CompletableFuture class implements the Future interface, so you can use it as a Future implementation, but with additional completion logic.
+
+Lambda expressions are just like functions and they accept parameters just like functions.
+
+Enable to treat functionality as a method argument, or code as data.
+
+---
+A semaphore controls access to a shared resource through the use of a counter. If the counter is greater than zero, then access is allowed. If it is zero, then access is denied. What the counter is counting are permits that allow access to the shared resource. Thus, to access the resource, a thread must be granted a permit from the semaphore.
+https://www.geeksforgeeks.org/semaphore-in-java/
+---
+
+CountDownLatch
+A java.util.concurrent.CountDownLatch is a concurrency construct that allows one or more threads to wait for a given set of operations to complete.
+---
+
+The java.util.concurrent.CyclicBarrier class is a synchronization mechanism that can synchronize threads progressing through some algorithm. In other words, it is a barrier that all threads must wait at, until all threads reach it, before any of the threads can continue
+http://tutorials.jenkov.com/java-util-concurrent/cyclicbarrier.html
+------
+
+JVM has four types of GC implementations:
+
+Serial Garbage Collector
+Parallel Garbage Collector
+
+----
+
+young gneration , old generation in GC
+--------
+
+
+Lambda expression eliminates the need of anonymous class and gives a very simple yet powerful functional programming capability to Java.
+
+--
+Java provides a new feature called method reference in Java 8. Method reference is used to refer method of functional interface. It is compact and easy form of lambda expression. Each time when you are using lambda expression to just referring a method, you can replace your lambda expression with method reference
+-----
+
+
+
+String str = new String("abc");
+String str1 = "abc";
+When we create a String using double quotes, JVM looks in the String pool to find if any other String is stored with same value. If found, it just returns the reference to that String object else it creates a new String object with given value and stores it in the String pool.
+When we use new operator, JVM creates the String object but don’t store it into the String Pool. We can use intern() method to store the String object into String pool or return the reference if there is already a String with equal value present in the pool.
+
+
+---------------------
+
+
+
+Can we use any class as Map key?
+We can use any class as Map Key, however following points should be considered before using them.
+
+If the class overrides equals() method, it should also override hashCode() method.
+The class should follow the rules associated with equals() and hashCode() for all instances. Please refer earlier question for these rules.
+If a class field is not used in equals(), you should not use it in hashCode() method.
+Best practice for user defined key class is to make it immutable, so that hashCode() value can be cached for fast performance. Also immutable classes make sure that hashCode() and equals() will not change in future that will solve any issue with mutability.
+For example, let’s say I have a class MyKey that I am using for HashMap key.
+
+
+Why can’t we create generic array? or write code as List<Integer>[] array = new ArrayList<Integer>[10];
+We are not allowed to create generic arrays because array carry type information of it’s elements at runtime. This information is used at runtime to throw ArrayStoreException if elements type doesn’t match to the defined type. Since generics type information gets erased at compile time by Type Erasure, the array store check would have been passed where it should have failed. Let’s understand this with a simple example code
+
+
+------
+
+
+
+functional interfaces :- Comparable  and runnable
+spring , hibernate , diagrams
+
+design pattern 
+core java
+webservice 
+rest
+extras/resume
+
+junit for automated testing
+
+@test & assertEquals
+
+----
+class loaders 
+There are three types of built-in ClassLoader in Java:
+Bootstrap Class Loader – It loads JDK internal classes, typically loads rt.jar and other core classes for example java.lang.* package classes
+Extensions Class Loader – It loads classes from the JDK extensions directory, usually $JAVA_HOME/lib/ext directory.
+System Class Loader – It loads classes from the current classpath that can be set while invoking a program using -cp or -classpath command line options
+
+-----
+a static nested class does not have access to the instance variables and methods of the outer class
+It can be accessed without instantiating the outer class, using other static members.
+-----
+
+
+jstat 
+Jhat is used for analyzing the garbage collection dump in java 
+Use jmap - to generate heap dump 
+
+VisualVM VisualVM is a visual workbench 
+-------------
+
+
+
+protected accesible in same class or subclass in same or other packages when accessed directly ie without instance variable 
+
+if accessed using instance variable of superclass,then this is not accesible outside package , 
+
+abstract method
+ public abstract sample(); 
+
+ 
+--
+
+collections framewrk
+
+
+Q3) If an Employee class is present and its objects are added in an arrayList. Now I want the list to be sorted on the basis of the employeeID of Employee class. What are the steps?
+
+Ans) 
+•Implement Comparable interface for the Employee class and override the compareTo(Object obj) method in which compare the employeeID 
+•Now call Collections.sort() method and pass the list as an argument
+
+
+---
+
+volatile 
+ volatile variable, which will instruct JVM threads to read the value of volatile variable from main memory and don't cache it locally. If a variable is not shared between multiple threads then there is no need to use volatile keyword
+---
+
+operaters
+  arthematic
+  bitwise
+  Logical Operators
+  increment/decrement 
+
+------
+
+subclass object (tt) instanceof T1 --> true if tt represents class that somehow implements/extends class T1 
+
+superclass object instanceof subclass --> false
+
+-----
+
+switch 
+ integers, convertable integers (byte, short, char), strings and enums
+The value for a case must be the same data type as the variable in the switch and it must be a constant or a literal. 
+ 
+--------
+
+Integer x = 5;  //boxing
+
+
+-----
+
+wrapper classes have overriden equals method 
+
+----
+
+-------
+
+
+The StringBuilder class was introduced as of Java 5 and the main difference between the StringBuffer and StringBuilder is that StringBuilders methods are not thread safe (not synchronised). 
+It is recommended to use StringBuilder whenever possible because it is faster than StringBuffer. However, if the thread safety is necessary, the best option is StringBuffer objects.
+
+Strings are immutable , Integers are  immutable
+
+When a class has two or more methods by the same name but different parameters, it is known as method overloading. It is different from overriding. In overriding, a method has the same method name, type, number of parameters, etc
+JDK 1.5 enables you to pass a variable number of arguments of the same type to a method
+
+-----
+
+first superclass no arg constructor is called then subclass one , if want to call super class or subclass contructor with arg
+then use super(arg) or this(arg) in first line , if super(""); is called then no arg cons wont be called 
+
+
+•When you create an instance of a class that extends another class, then first the superclass part of the object is created. A constructor of the superclass will be called as part of this.
+•If a constructor does not have an explicit super call, then the compiler will automatically add super();
+•If a class does not have any constructors defined, then the compiler will automatically add a no-args constructor.
+
+
+-----------
+
+The difference between FileInputStream and FileReader is, FileInputStream reads the file byte by byte and FileReader reads the file character by character. ... "FileWriter is meant for writing streams of characters. For writing streams of raw bytes, consider using a FileOutputStream
+
+file input stream :- 
+ file reader
+object input stream 
+buffered input stream (When the BufferedInputStream is created, an internal buffer array is created )
+ BufferedReader class is used to create such buffered reader stream through which a chunk of characters are read out of a file and transferred to a local buffer for later use.
+
+http://chortle.ccsu.edu/java5/notes/chap82/ch82_7.html
+http://chortle.ccsu.edu/java5/notes/chap82/ch82_9.html
+http://chortle.ccsu.edu/java5/notes/chap82/ch82_10.html
+http://chortle.ccsu.edu/java5/notes/chap82/ch82_11.html
+
+BufferedReader isr = new BufferedReader(new InputStreamReader(System.in));
+----
+
+arraystore excetion
+Object[] s = new String[4];
+s[0] = new Object[5];
+
+-----
+
+upcasting
+Dog d = new Dog();
+Animal a = (Animal) d; 
+
+downcasting
+Animal animal = new Dog();
+Dog castedDog = (Dog) animal;
+
+
+classcast occurs if superclass is casted to sub type or sub type casted to sibling type
+
+we can take superclass object out of subclass object but not vice versa
+
+------
+rules for overriding
+
+ The argument list should be exactly the same as that of the overridden method. 
+ 
+ The return type should be the same or a subtype of the return type declared in the original overridden method in the superclass. 
+ 
+ The access level cannot be more restrictive than the overridden method's access level. For example: If the superclass method is declared public then the overridding method in the sub lass cannot be either private or protected. 
+ 
+ Instance methods can be overridden only if they are inherited by the subclass. 
+ 
+ A method declared final cannot be overridden. 
+ An overriding method can throw any uncheck exceptions, regardless of whether the overridden method throws exceptions or not. However, the overriding method should not throw checked exceptions that are new or broader than the ones declared by the overridden method. The overriding method can throw narrower or fewer exceptions than the overridden method. 
+ A method declared static cannot be overridden but can be re-declared. 
+----
+Encapsulation is one of the four fundamental OOP concepts. The other three are inheritance, polymorphism, and abstraction. 
+
+
+-----
+
+diff between arraylist and linkedlist
+https://www.javatpoint.com/difference-between-arraylist-and-linkedlist
+
+manipulation is fast in linkedlist because no shifting needs to be occurred.
+
+
+---
+A comparable object is capable of comparing itself with another object
+
+---
+1) Iterator is used for traversing List and Set both. We can use ListIterator to traverse List only, we cannot traverse Set using ListIterator. 2) We can traverse in only forward direction using Iterator. Using ListIterator, we can traverse a List in 
+
+---
+http://www.sergiy.ca/how-to-iterate-over-a-map-in-java/
+----
+
+Generics was added in Java 5 to provide compile-time type checking and removing risk of ClassCastException that was common while working with collection classes. The whole collection framework was re-written to use generics for type-safety. Let’s see how generics help us using collection classes safely.
+
+public class Box<T> {  ---> class Box accepts generic type T
+ 
+}
+ Box<Integer> integerBox = new Box<Integer>(); 
+ Box<String> stringBox = new Box<String>(); 
+   
+cannot create generic array
+----
+
+Concurrency API in Java 8 ?
+
+---
+
+ConcurrentHashMap  does not give ConcurrentModificationException exception while iterator iterates it 
+---
+
+If o1.equals(o2), then o1.hashCode() == o2.hashCode()should always be true.
+If o1.hashCode() == o2.hashCode is true, it doesn’t mean that o1.equals(o2) will be true
+---
+
+Collections.sort() can be used for sorting
+
+Collections.unmodifiableCollection(Collection c) -- readonly
+
+---
+
+catch (FileNotFoundException | IOException e) --> wont compile
+
+
+--
+
+it's entirely possible that an object never gets garbage collected (and thus finalize is never called). 
+---
+below would give error since static method should not hide instance method , it should be overriden
+public static String toString(){
+
+}
+
+--
+
+Pattern  compile()
+
+Matcher matcher()
+
+---
+normal inner class
+Outer_Demo.Inner_Demo inner=outer.new Inner_Demo(); 
+
+static :-
+Outer.Nested_Demo nested = new Outer.Nested_Demo(); 
+
+
+----
+
+java 10 :- 
+Java 10 introduced var as a reserve type name to reduce verbosity. It can be used as a variable, method, and package name, but we cannot use it as a class or interface name.
+Java 10 introduced the new method orElseThrow to the Optional class
+Removal of Runtime.getLocalizedInputStream and getLocalizedOutputStream Methods
+APIs for Creating Unmodifiable Collections
+classes that extend the FileInputStream or FileOutputStream should modify the cleanup approach such as Cleaner instead overriding the finalize method.
+Removal of Deprecated Methods
+
+java 9 :- https://www.journaldev.com/13121/java-9-features-with-examples
+
+JShell introduction
+Factory Methods for Immutable List, Set, Map and Map.Entry
+Private methods in Interfaces
+Java Module System
+
+-------------
+java 8 
+default and static methods in Interfaces
+A new java.util.stream has been added in Java 8 to perform filter/map/reduce like operations with the collection. Stream API will allow sequential as well as parallel execution. This is one of the best feature for me because I work a lot with Collections and usually with Big Data, we need to filter out them based on some conditions.
+Java Time API
+Collection API improvements
+Concurrency API improvements
+ConcurrentHashMap ( thread safe )
+lambda exp , It helps to iterate, filter and extract data from collection.(argument-list) -> {body}  
+----
+
+You can make HashMap synchronized by wrapping it on Collections.synchornizedMap
+
+
+----
+
+Association is a relationship where all objects have their own lifecycle and there is no owner.
+Let's take an example of Teacher and Student. Multiple students can associate with single teacher and single student can associate with multiple teachers, but there is no ownership between the objects and both have their own lifecycle. Both can be created and deleted independently.
+
+
+Aggregation (has a , Department and teacher) is a specialised form of Association where all objects have their own lifecycle, but there is ownership and child objects can not belong to another parent object.
+Let's take an example of Department and teacher. A single teacher can not belong to multiple departments, but if we delete the department, the teacher object will not be destroyed. We can think about it as a “has-a” relationship.
+
+
+Composition (house and room ) is again specialised form of Aggregation and we can call this as a “death” relationship. It is a strong type of Aggregation. Child object does not have its lifecycle and if parent object is deleted, all child objects will also be deleted.
+
+Let's take again an example of relationship between House and Rooms. House can contain multiple rooms - there is no independent life of room and any room can not belong to two different houses. If we delete the house - room will automatically be deleted
+
+-----
+
+steps for singleton class
+
+
+1. throw an assertionError() inside the private constructor just to guard against reflection attacks
+or someone accidentally instantiating Singleton from within the class. 
+
+
+2. The best way to implement a Serializable Singleton is to use an Enum
+
+
+3.  use below method in case it is serialized , when we try to desialize then same object is returned , this can be checked by comparing hashcode of the object
+    before and after serialization
+
+public Object readResolve() {
+        System.out.println("Executing readResolve");
+        return instance; 
+     } 
+     
+ 
+ 4. override clone method and throw exception from that method
+ 
+ 
+ 5. do not implement serializable and cloneable for singleton class
+------------------     

@@ -1,0 +1,978 @@
+Transactional: Use this strategy for read-mostly data where it is critical to prevent stale data in concurrent transactions, in the rare case of an update. 
+ Read-write: Again use this strategy for read-mostly data where it is critical to prevent stale data in concurrent transactions, in the rare case of an update. 
+ Nonstrict-read-write: This strategy makes no guarantee of consistency between the cache and the database. Use this strategy if data hardly ever changes and a small likelihood of stale data is not of critical concern. 
+ Read-only: A concurrency strategy suitable for data, which never changes. Use it for reference data only. 
+ 
+
+
+The Criteria API provides the org.hibernate.criterion.Projections class, which can be used to get average, maximum, or minimum of the property value
+
+configuration --> sessionfacotry --> session --> transaction
+
+The Configuration object is the first Hibernate object you create in any Hibernate application. It is usually created only once during application initialization. It represents a configuration or properties file required by the Hibernat
+
+there is one sessionfactory per database
+The SessionFactory is a heavyweight object; it is usually created during application start up and kept for later use. You would need one SessionFactory object per databas
+
+A Session is used to get a physical connection with a database
+
+Query Object 
+Query objects use SQL or Hibernate Query Language (HQL) string to retrieve data from the database 
+
+
+
+hibernate.cfg.xml is main xml file which includes other mapping hbm file
+
+<hibernate-mapping>
+<class name="com.att.abs.dataCrawler.bean.DBConnectionInfoBean" table="abs_genie.ABS_SYSTEM_DB_CONNECTION_INFO"    >
+    <property name = "systemId" column = "system_id" type = "string"/>
+----
+
+
+Bag works like a list without index (you don't know what is the order of elements), so it's similar to Set with duplicates
+
+---
+
+@Entity , @Table , @Column @Id and @GeneratedValue 
+----
+
+
+String hql = "SELECT E.firstName FROM Employee E"; 
+Query query = session.createQuery(hql); 
+List results = query.list(); 
+
+named parameter
+
+String hql = "FROM Employee E WHERE E.id = :employee_id"; 
+Query query = session.createQuery(hql); 
+query.setParameter("employee_id",10); 
+List results = query.list();
+-----
+alternate way is to use 
+Restrictions class with Criteria  to create a query
+
+-----
+
+batch processing hibernate
+
+step1 hibernate.jdbc.batch_size as batch size to a number either at 20 or 50
+step 2 
+
+for ( int i=0; i<100000; i++ ) { 
+    Employee employee = new Employee(.....); 
+    session.save(employee); 
+ if( i % 50 == 0 ) { // Same as the JDBC batch size 
+        //flush a batch of inserts and release memory: 
+        session.flush(); 
+        session.clear(); 
+    }
+
+
+----
+
+interceptor in hibernate
+
+implement EmptyInterceptor 
+
+methods/evnt onLoad() , onDelete(), onSave()
+
+-------
+SET 
+
+<Set name ="certificates"  cascade="all"> 
+        <key column="employee_id"/> 
+      
+      <one-to-many class="Certificate" /> 
+      
+      </Set>
+
+   <set name="certificates" cascade="all" sort="MyClass"> 
+         <key column="employee_id"/> 
+         <one-to-many class="Certificate"/> 
+      </set>
+
+   <bag name="certificates" cascade="all"> 
+         <key column="employee_id"/> 
+         <one-to-many class="Certificate"/> 
+      </bag> 
+
+
+    <map name="certificates" cascade="all" sort="MyClass"> 
+         <key column="employee_id"/> 
+         <index column="certificate_type" type="string"/> 
+         <one-to-many class="Certificate"/> 
+      </map>
+
+
+Is SessionFactory a thread-safe object? Yes, SessionFactory is a thread-safe and can be accessed by multiple threads simultaneously. 
+Is Session a thread-safe object? No, Session is not thread-safe. 
+
+
+What is the difference between get and load methods of session object?
+There are following differences between get and load methods. 
+get returns null if no data is present where as load throws ObjectNotFoundException exception in such case.
+
+
+HQL stands for Hibernate Query Language. It takes java objects
+
+--
+
+batch update 
+for ( int i=0; i<100000; i++ ) { 
+    Employee employee = new Employee(.....); 
+    session.save(employee); 
+ if( i % 50 == 0 ) { // Same as the JDBC batch size 
+        //flush a batch of inserts and release memory: 
+        session.flush(); 
+        session.clear(); 
+    } 
+} 
+
+
+-----
+
+struts interceptors 
+class extends AbstractInterceptor 
+public String intercept(ActionInvocation invocation)throws Exception {
+
+}
+
+springs 
+
+
+preHandle(), postHandle() and afterCompletion methods
+
+
+hibernate interceptor
+
+ public void onDelete(Object 
+ public boolean onFlushDir
+ public boolean onLoad
+ onsave
+    public void preFlush
+      public void postFlush
+
+
+The “inverse” keyword is always declare in one-to-many and many-to-many relationship
+
+inverse”, should change to “relationship owner”?
+In Hibernate, only the “relationship owner” should maintain the relationship, and the “inverse” keyword is created to defines which side is the owner to maintain the relationship
+
+
+
+
+
+ 
+Explain save, persist, saveOrUpdate and other object save methods in Hibernate. 
+
+Hibernate provides a handful of methods that store or update the object into the database. They are, 
+save().
+update().
+saveOrUpdate().
+saveOrUpdateCopy().
+merge().
+and persist().
+The purpose of these methods is as follows. 
+save method persists an entity. It assigns an identifier if entity doesn't exist in the database. If exists, save method performs an update. In both cases save method returns the generated ID of the entity.
+Update method updates the existing object using identifier. If the identifier does not exist, it throws an exception. 
+saveOrUpdate method checks if the object is transient (i.e. it has no identifier) and if so it performs save that will make it persistent by generating an identifier and assigning it to session. If the object has an identifier already, it performs update().
+
+Refreshing Entity objects using refresh() Method in Hibernate. 
+
+Sometimes, it is required to re-load an object and its collections at a time when the application database is modified with some external application or database triggers and thus corresponding hibernate entity in your becomes out of sync with its database representation. 
+In this case, one can use session.refresh() method to re-populate the entity with latest data available in database. 
+What is the advantage of using session.lock() in hibernate?
+
+session.lock() method is used to reattach an object which has been detached earlier. 
+Using session.lock() does not check for any data synchronization in database while reattaching the object and hence may lead to lack of synchronization in data. 
+Difference between sorted and ordered collection in hibernate. 
+
+Sorted collection is the way of sorting a collection by leveraging the sorting features provided by the Java collections framework. This sorting uses Java comparator and it takes place in the memory of JVM in which Hibernate is running, once the data being read from database.
+Ordered collection refers to the sorting of a collection by specifying the order-by clause when retrieval.
+Ordered collection is preferred for larger data set whereas if the collection is considerably small, sorted collection is preferred. Smaller the collection lesser impact on the JVM memory.
+How do I map a composite key in Hibernate?
+https://vladmihalcea.com/the-best-way-to-map-a-composite-primary-key-with-jpa-and-hibernate/
+The EmbeddedId and IdClass annotations are used to denote composite primary keys. 
+The following are some of the rules that is applied for composite primary keys.
+The primary key class must be public and must have a public no-arg constructor.
+The primary key class must be serializable.
+The primary key class must define equals and hashCode methods.
+Using EmbeddedId. 
+@Embeddable
+public class EntityKey implements Serializable {
+    protected Integer compositeKey1;
+    protected Integer compositeKey2;
+
+    public EntityKey() {}
+
+    public EntityKey(Integer key1, Integer key2) {
+        this.compositeKey1 = key1;
+        this.compositeKey2 = key2;
+    }
+    // equals, hashCode
+}
+
+@Entity
+public class HibernateEntity implements Serializable {
+    @EmbeddedId
+    private EntityKey primaryKey;
+
+    private String description;
+    
+    //...
+}
+Using IdClass. 
+  public class EntityKey implements Serializable {
+  protected Integer compositeKey1;
+  protected Integer compositeKey2;
+
+  public EntityKey() {}
+
+  public EntityKey(Integer key1, Integer key2) {
+      this.compositeKey1 = key1;
+      this.compositeKey2 = key2;
+  }
+  // equals, hashCode
+}
+
+@Entity
+@IdClass(EntityKey.class)
+public class HibernateEntity implements Serializable {
+	@Id
+	private Integer compositeKey1;
+	@Id
+	private Integer compositeKey2;
+
+  private String description;
+  
+  //...
+}
+
+and in xml it is defined as below
+<composite-id>
+<key-property name="productId" column="pid"  />
+<key-property name="proName" column="pname" length="10" />
+</composite-id>
+
+
+
+List out the design patterns used in Hibernate framework.
+
+Domain Model Pattern - An object model of the domain that incorporates both behavior and data,
+Data Access Object (DAO) Design Pattern,
+Abstract Factory,
+Data Mapper,
+Proxy for lazy loading,
+Object-Relational Mapping (ORM), 
+Query Object for Criterion API,
+and facade.
+Why hibernate is preferred to use than JDBC for database interaction in various Java applications?
+
+Hibernate provides an Object oriented view of the database by mapping the various classes to the database tables. This facilitates Object oriented thinking rather than relational and hence increases productivity.
+What is difference between openSession and getCurrentSession?
+
+Hibernate SessionFactory getCurrentSession() method returns the session bound to the context. Since this session object belongs to the hibernate context, we don't need to close it. Once the session factory is closed, this session object gets closed.To enable this feature, we need to configure it in hibernate configuration file. 
+<property name="hibernate.current_session_context_class">thread</property>
+Hibernate SessionFactory openSession() method always opens a new session. We should close this session object once we are done with all the database operations. We should open a new session for each request in multi-threaded environment.
+Difference between persistence.xml and hibernate.cfg.xml.
+
+JPA leverages metadata from persistence.xml while Hibernate API uses hibernate.cfg.xml. 
+what is the latest version of Hibernate in use?
+
+The latest version of hibernate 5.2 released on August 2016. 
+What are the best practices for defining your Hibernate persistent classes?
+
+The persistent class cannot be final.
+You must have a default no-argument constructor for your persistent classes. 
+getXXX() (getters) and setXXX(mutator/setter) methods for all your persistable instance variables should be available.
+You should implement the equals() and hashCode() methods based on your business key.
+It is recommended to implement the Serializable interface.
+How do I implement Joins in Hibernate?
+
+There are several ways to implement joins in hibernate.
+By using associations such as one-to-one, one-to-many mappings.
+Using JOIN in the HQL query. There is another form 'join fetch' to load associated data simultaneously and it is no lazy loading.
+execute native sql query and use join keyword.
+Explain Component mapping in hibernate.
+
+A Component mapping is a mapping for a class having a reference to another class as a member variable. 
+Hibernate: Can we perform collection mapping with One-to-One and Many-to-One?
+
+No. In Hibernate, collection mapping can only be performed with One-to-Many and Many-to-Many relationship. 
+How do I create an immutable class in hibernate?
+
+Configuring the entity class property mutable to false (mutable="false"), class becomes an immutable class. By default, it is mutable="true".
+Hibernate: Can we switch to different relational database without any code changes?
+
+Yes. In Hibernate we can switch to different database by changing appropriate SQL Dialect configuration. 
+How do I implement JPA for No-SQL database like mongoDB?
+
+Hibernate OGM provides Java Persistence (JPA) support for NoSQL solutions. It reuses Hibernate ORM's engine however it persists entities into a NoSQL datastore like mongoDB rather than a relational database like mySQL, Oracle etc.
+What happens when Hibernate Entity bean has no no-args constructor?
+
+Hibernate will fail to instantiate the entity bean and issues HibernateException.
+Hibernate uses Reflection API Class.newInstance() to create instance of Entity beans that requires requires no-args constructor, usually when you call get() or load() methods. The instance of the entity bean cannot be created when there is no no-arg (default) constructor. 
+How do I lookup application server JNDI DataSource using Hibernate?
+
+For web applications, it is always a good practice to allow servlet container to manage the connection pool. This is the reason we define JNDI resource for DataSource and we look it up in the web application. Hibernate need to used the below property to configure and lookup by JNDI DataSource name.
+<property name="hibernate.connection.datasource">java:comp/env/jdbc/myTestDB</property>
+How do I reattach any detached objects in Hibernate?
+
+Using session.merge() method. Objects that are detached and are no longer associated with any persistent entities can be reattached by calling session.merge() method. 
+Explain attribute oriented programming in Hibernate.
+
+In Attribute oriented programming, one can add Meta data or attributes in the source code to signify the code. For hibernate, attribute oriented programming is enabled by an engine called XDoclet. 
+Does hibernate support polymorphism?
+
+Yes, hibernate provides complete support to polymorphism. Polymorphism queries and associations are supported at all the mapping strategies of hibernate.
+What are derived properties in hibernate?
+
+Derived properties are those which are not mapped to any columns of a database table. Such properties are calculated at runtime by evaluation of any expressions.
+transient annotation is used to denote such properties.
+Use of QBC API in Hibernate.
+
+Hibernate Query By Criteria (QBC) API is used to create queries by manipulation of criteria objects at runtime.
+What do you mean by ORM metadata in hibernate.
+
+All the mapping between entity class and database table, properties and columns, Java types and SQL types etc is referred as ORM metadata. 
+Difference between managed and hibernate associations.
+
+Managed associations corresponds to the container managed persistence and it is bi-directional while hibernate associations are unidirectional. 
+Explain HibernateTemplate.
+
+HibernateTemplate is a helper utility class that provides different methods for querying/retrieving data from the database. It also converts checked Hibernate Exceptions to unchecked DataAccessExceptions. 
+It manages the session and transactions by automatically opening and closing when you execute the code.
+
+List the four ORM levels in hibernate.
+
+Following are the four ORM levels in hibernate.
+Pure Relational.
+Light Object Mapping.
+Medium Object Mapping.
+and Full Object Mapping.
+Explain pure relational ORM. 
+
+The entire application along with the user interface (UI) is designed on the basis of relational model and SQL-based relational operations. 
+Explain light object mapping level of ORM.
+
+The entities are represented as Java classes that are mapped manually to the relational tables. The code is abstracted/hidden from the business logic using specific design patterns. 
+This approach is desirable for applications with less number of entities, or applications with common, metadata-driven data models. 
+What is the use of version property in hibernate?
+
+Version property in hibernate helps to identify whether an object is in transient state or in detached state.
+Explain medium object mapping in hibernate.
+
+The application is built on the basis of an object model. The SQL code is generated at build time. The associations between objects are supported by the persistence mechanism and queries are specified using an object-oriented expression language. 
+This is best suited for medium-sized applications with some complex transactions.
+Hibernate: What is meant by full object mapping?
+
+Full object mapping supports sophisticated object modeling: composition, inheritance, polymorphism and persistence. The persistence layer implements transparent persistence; persistent classes do not inherit any special base class or have to implement a special interface. 
+Efficient fetching strategies and caching strategies are implemented transparently to the application. 
+What do you mean by Extension interfaces in hibernate?
+
+When the built-in functionalities provided by hibernate is not sufficient enough, it provides a way so that user can include other interfaces and implement those interfaces for user desire functionality. These interfaces are referred as Extension interfaces. 
+How do I persist an image/media in oracle using hibernate ? 
+
+Create a database table with column having data type as blob ( or equivalent) and in the HBM configuration file, specify the column type as binary. 
+What is the role of JMX in hibernate?
+
+JMX API, a standard API manages applications and components in hibernate. JMX provides tools for development of efficient and robust distributed, web based solutions. 
+How objects can be identified in Hibernate?
+
+Object identification can be done in hibernate in following 3 ways.
+Using Object Identity: Using == operator.
+Using Object Equality: Using equals() method.
+Using database identity: Relational database objects can be identified if they represent same row.
+
+What is the use of version property in hibernate?
+
+Version property is used in hibernate to determine whether an object is in transient state or in detached state.
+What is a lazy association in hibernate?
+
+Consider a Parent table associated with a Child table. When we load the Parent table, In lazy association, the Child relationship is loaded when it is needed. This is the default configuration in Hibernate. 
+What is the use of SchemaValidator in hibernate?
+
+SchemaValidator tool is used to verify if the mapping configured matches the existing database structure. 
+What are the benefits of detached objects in hibernate?
+
+Detached objects can be passed across layers all the way up to the presentation layer without having to use any DTOs (Data Transfer Objects). You can later on re-attach the detached objects to another session.
+What is CRUD?
+
+A CRUD operation deals with creating, retriving , updating and deleting from the table. 
+What are Scalar queries in Hibernate?
+
+SQL queries that gets a list of scalars (values) is referred as scalar queries. 
+sess.createSQLQuery("SELECT * FROM Emp").list();
+These will return a List of Object arrays (Object[]) with scalar values for each column in the Emp table. 
+What are entity query in hibernate?
+
+Entity query gets entity objects from a native sql query using addEntity(). 
+sess.createSQLQuery("SELECT * FROM Emp").addEntity(Employee.class);
+
+Hibernate: How do you add a criteria to a query?
+
+Session.createCriteria creates a new Criteria instance, for the given entity class, or a superclass of an entity class. 
+Define persistent classes in hibernate.
+
+Java classes objects or instances that will be stored in database tables are called persistent classes in Hibernate. 
+Why do we batch processing in hibernate? 
+
+Batch processing helps performing data load operations involving high volume transactions that minimize the time required and also is memory efficient. 
+Hibernate: Is HQL query case sensitive?
+
+Yes. It is.
+Explain the role of Configurationclass in Hibernate ? 
+
+The org.hibernate.cfg.Configuration is used to build an immutable org.hibernate. SessionFactoryobject . Configuration class object activates hibernate software and configure () is the factory method of hibernate.cfg.Configuration class which reads configuration properties from hibernate.cfg.xml file. builtSessionFactory() method uses hibernate.cfg.xml properties of Configuration object Creates jdbc connection pool.
+How to prevent concurrent update in Hibernate?
+
+Using Automatic Versioning Hibernate can perform automatic optimistic concurrency control. It can automatically detect if a concurrent modification occurred during user think time. 
+Hibernate: disadvantages of using HQL ?
+
+HQL queries cannot perform DDL operations.
+HQL queries cannot insert single record into table.
+An HQL query gives negligible performance degradation because of conversions when compared to SQL.
+HQL queries cannot call PL/SQL program.
+Hibernate:advantages of using HQL.
+
+HQL queries are database independent. 
+HQL queries are object level queries and it returns hibernate pojo class objects as results.
+HQL queries and keywords are very much similar to SQL queries.
+HQL queries support operators, expressions, conditions ,joins, sub queries, aggregate functions etc.
+Explain flush() method in Hibernate.
+
+Flushing the session forces Hibernate to synchronize the in-memory state of the Session with the database (i.e. to write changes to the database). By default, Hibernate will flush changes automatically for you,
+before query executions, 
+when a transaction is committed.
+Hibernate: Difference commit() vs flush().
+
+flush(): Flushing is the process of synchronizing the underlying persistent store with persistable state held in memory.it will update or insert into your tables in the running transaction, but it may not commit those changes. 
+Commit(): Commit will make the database commit.When you have a persisted object and you change a value on it, it becomes dirty and hibernate needs to flush these changes to your persistence layer.So You should commit but it also ends the unit of work. 
+Explain Hibernate named query.
+
+Hibernate named queries lets developer to put all HQL into the XML mapping file or via annotation so that it is easy to maintain and separated from Java code.
+The named query is supported in both HQL or native SQL. 
+The queries can be retrieved using the query names as shown below.
+Query query = session.getNamedQuery("HQL_GET_ALL_EMPLOYEE");
+
+What does <![CDATA[]]> in XML mean? 
+
+CDATA stands for Character Data and it means that the data in between these strings includes data that could be interpreted as XML markup, but should not be.
+Explain SQL Dialect in Hibernate.
+
+Hibernate is database agnostic and it can work with different databases. However, databases have native SQL variations, and its own set of SQL standard implementations. Therefore at some point hibernate has to use database specific SQL. Hibernate uses "dialect" configuration to know which database you are using so that it can switch to the database specific SQL generator code wherever/whenever necessary.
+What is hibernate proxy?
+
+The proxy attribute facilitates the lazy initialization of persistent instances of the class. Hibernate will initially return CGLIB proxies which implement the named interface. The actual persistent object will be loaded when a method of the proxy is invoked.
+Explain hibernate interceptors.
+
+Hibernate interceptor is a powerful feature that allows application to react to certain events that occur inside Hibernate. This allows for the implementation of generic functionality and the extension of Hibernate functionality.
+Explain Hibernate Disjunction.
+
+Hibernate Disjunction adds multiple restrictions/coditions to the HQL query joined by "OR" condition. 
+What is Hibernate Conjunction?
+
+Hibernate Conjunction adds multiple restrictions/coditions to the HQL query joined by "AND" condition. 
+Explain addScalar method in Hibernate.
+
+addScalar method specifies the result of the query to return objects for individual named columns, rather than entities. 
+Query myQuery = new SqlQuery("Select name as nm from employee");
+myQuery.addScalar("nm", String);
+How hibernate session is related to the JDBC connection?
+
+A hibernate Session is similar to establishing a JDBC connection to the database. When a Session is created in Hibernate, it open up a JDBC connection to the database. When the session is clouded, its close the JDBC connection. Similarly, when transaction is started on hibernate session, it actually start a JDBC transaction. 
+What is Hibernate Criteria Transformer?
+
+Hibernate Criteria Transformer is an interface that transforms any result of Hibernate Criteria element.
+Criteria criteria = session.createCriteria(Employee.class);
+criteria.add(Restrictions.eq("name", "Jeff"));
+criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);	
+How to prevent SQL Injection in hibernate?
+
+Use named parameters in queries to avoid sql injection.
+Query query= sessionFactory.getCurrentSession().createQuery("from UserInfo where userName=:userName");
+ query.setParameter("username", userName);
+How do I print a query with parameter values when using Hibernate? 
+
+Enable logging for the categories, org.hibernate.SQL and org.hibernate.type. 
+# logs SQL statements
+log4j.logger.org.hibernate.SQL=debug 
+
+# Logs JDBC parameters passed to a query
+log4j.logger.org.hibernate.type=trace 
+The property 'org.hibernate.SQL' is equivalent to hibernate.show_sql=true, and the second prints the bound parameters.
+How do we minimize the number of DB write action in Hibernate?
+
+Hibernate provides dirty checking feature that reduces database write times. Dirty checking feature updates only those fields which require a change while keeps others unchanged.
+notesQuestions.txt
+Displaying designPatterns.txt.
+
+----
+
+save vs persisit
+
+1. The effect of saving an already persisted instance is 
+the same as with persist. Difference comes when you try to save a detached instance it throws exception
+
+
+2. save returns identifier while persist does not 
+
+
+3. save can be run without trnx
+
+
+4. persist and save both update existing recors also
+
+
+
+----
+
+Update method updates the existing object using identifier. If the identifier does not exist, it throws an exception. 
+ie throw exception with transient object 
+
+SaveOrUpdate same as update but persist transient also and upate detached object also
+
+-------
+commit does not detach object 
+
+---
+Merge
+
+The main intention of the merge method is to update a persistent entity instance with new field values from a detached entity instance.
+-----
+
+Persistent instances may be made transient by calling delete().
+
+
+----
+
+Native SQL Query comes handy when we want to execute database specific queries that are not supported by Hibernate API such as query hints or the CONNECT keyword in Oracle Database. 
+
+Employee emp1 = new Employee();
+emp1.setEmpId(100);
+emp1.setEmpName("Dinesh");
+//create session
+Session session1 = createNewHibernateSession();
+session1.saveOrUpdate(emp1);
+session1.close();
+//emp1 object in detached state now
+
+emp1.setEmpName("Dinesh Rajput");//Updated Name
+//Create session again
+Session session2 = createNewHibernateSession();
+Employee emp2 =(Employee)session2.get(Employee.class, 100);
+//emp2 object in persistent state with id 100
+
+//below we try to make on detached object with id 100 to persistent state by using update method of hibernate
+session2.update(emp1);//It occurs the exception NonUniqueObjectException because emp2 object is having employee with same empid as 100. In order //to avoid this exception we are using merge like given below instead of session.update(emp1);
+
+session2.merge(emp1); //it merge the object state with emp2
+session2.update(emp1); //Now it will work with exception
+----
+String hql = "FROM Employee E WHERE E.id = :employee_id";
+Query query = session.createQuery(hql);
+query.setParameter("employee_id",10);
+List results = query.list();
+--
+Criteria cr = session.createCriteria(Employee.class);
+
+// To get records having salary more than 2000
+cr.add(Restrictions.gt("salary", 2000));
+List results = cr.list();
+
+-----
+
+Criteria cr = session.createCriteria(Employee.class);
+
+Criterion salary = Restrictions.gt("salary", 2000);
+Criterion name = Restrictions.ilike("firstNname","zara%");
+
+// To get records matching with OR conditions
+LogicalExpression orExp = Restrictions.or(salary, name);
+cr.add( orExp );
+----
+
+Criteria cr = session.createCriteria(Employee.class);
+
+// To get total row count.
+cr.setProjection(Projections.rowCount());
+
+// To get average of a property.
+cr.setProjection(Projections.avg("salary"));
+
+// To get distinct count of a property.
+cr.setProjection(Projections.countDistinct("firstName"));
+List results = cr.list()
+https://www.journaldev.com/3633/hibernate-interview-questions-and-answers
+
+https://career.guru99.com/hibernate-interview-questions/
+http://www.java67.com/2016/02/top-20-hibernate-interview-questions.html
+https://www.careerride.com/Hibernate-Interview-Questions.aspx
+https://codingcompiler.com/hibernate-interview-questions-answers/
+
+----
+
+Explain save, persist, saveOrUpdate and other object save methods in Hibernate.
+Hibernate provides a handful of methods that store or update the object into the database. They are,
+
+save().
+update().
+saveOrUpdate().
+saveOrUpdateCopy().
+merge().
+and persist().
+The purpose of these methods is as follows.
+
+save method persists an entity. It assigns an identifier if entity doesn't exist in the database. If exists, save method performs an update. In both cases save method returns the generated ID of the entity.
+
+Update method updates the existing object using identifier. If the identifier does not exist, it throws an exception.
+
+saveOrUpdate method checks if the object is transient (i.e. it has no identifier) and if so it performs save that will make it persistent by generating an identifier and assigning it to session. If the object has an identifier already, it performs update().
+
+saveOrUpdateCopy method is deprecated and no longer in use. Use merge method instead.
+
+merge method is used to update the object to the database in any state of the session.
+
+persist method makes a transient object persistent. However, it doesn't guarantee that the identifier value will be assigned to the persistent instance immediately, thats why the method does not return generated ID.
+
+Refreshing Entity objects using refresh() Method in Hibernate.
+Sometimes, it is required to re-load an object and its collections at a time when the application database is modified with some external application or database triggers and thus corresponding hibernate entity in your becomes out of sync with its database representation.
+
+In this case, one can use session.refresh() method to re-populate the entity with latest data available in database.
+
+What is the advantage of using session.lock() in hibernate?
+session.lock() method is used to reattach an object which has been detached earlier.
+
+Using session.lock() does not check for any data synchronization in database while reattaching the object and hence may lead to lack of synchronization in data.
+
+Difference between sorted and ordered collection in hibernate.
+Sorted collection is the way of sorting a collection by leveraging the sorting features provided by the Java collections framework. This sorting uses Java comparator and it takes place in the memory of JVM in which Hibernate is running, once the data being read from database.
+
+Ordered collection refers to the sorting of a collection by specifying the order-by clause when retrieval.
+
+Ordered collection is preferred for larger data set whereas if the collection is considerably small, sorted collection is preferred. Smaller the collection lesser impact on the JVM memory.
+
+How do I map a composite key in Hibernate?
+The EmbeddedId and IdClass annotations are used to denote composite primary keys.
+
+The following are some of the rules that is applied for composite primary keys.
+
+The primary key class must be public and must have a public no-arg constructor.
+The primary key class must be serializable.
+The primary key class must define equals and hashCode methods.
+Using EmbeddedId.
+
+@Embeddable
+public class EntityKey implements Serializable {
+    protected Integer compositeKey1;
+    protected Integer compositeKey2;
+
+    public EntityKey() {}
+
+    public EntityKey(Integer key1, Integer key2) {
+        this.compositeKey1 = key1;
+        this.compositeKey2 = key2;
+    }
+    // equals, hashCode
+}
+
+@Entity
+public class HibernateEntity implements Serializable {
+    @EmbeddedId
+    private EntityKey primaryKey;
+
+    private String description;
+    
+    //...
+}
+Using IdClass.
+
+  public class EntityKey implements Serializable {
+  protected Integer compositeKey1;
+  protected Integer compositeKey2;
+
+  public EntityKey() {}
+
+  public EntityKey(Integer key1, Integer key2) {
+      this.compositeKey1 = key1;
+      this.compositeKey2 = key2;
+  }
+  // equals, hashCode
+}
+
+@Entity
+@IdClass(EntityKey.class)
+public class HibernateEntity implements Serializable {
+	@Id
+	private Integer compositeKey1;
+	@Id
+	private Integer compositeKey2;
+
+  private String description;
+  
+  //...
+}
+List out the design patterns used in Hibernate framework.
+Domain Model Pattern - An object model of the domain that incorporates both behavior and data,
+Data Access Object (DAO) Design Pattern,
+Abstract Factory,
+Data Mapper,
+Proxy for lazy loading,
+Object-Relational Mapping (ORM),
+Query Object for Criterion API,
+and facade.
+Why hibernate is preferred to use than JDBC for database interaction in various Java applications?
+Hibernate provides an Object oriented view of the database by mapping the various classes to the database tables. This facilitates Object oriented thinking rather than relational and hence increases productivity.
+
+What is difference between openSession and getCurrentSession?
+Hibernate SessionFactory getCurrentSession() method returns the session bound to the context. Since this session object belongs to the hibernate context, we don't need to close it. Once the session factory is closed, this session object gets closed.To enable this feature, we need to configure it in hibernate configuration file.
+
+<property name="hibernate.current_session_context_class">thread</property>
+Hibernate SessionFactory openSession() method always opens a new session. We should close this session object once we are done with all the database operations. We should open a new session for each request in multi-threaded environment.
+
+Difference between persistence.xml and hibernate.cfg.xml.
+JPA leverages metadata from persistence.xml while Hibernate API uses hibernate.cfg.xml.
+
+What is the latest version of Hibernate in use?
+The latest version of hibernate 5.2 released on August 2016.
+
+What are the best practices for defining your Hibernate persistent classes?
+The persistent class cannot be final.
+
+You must have a default no-argument constructor for your persistent classes.
+
+getXXX() (getters) and setXXX(mutator/setter) methods for all your persistable instance variables should be available.
+
+You should implement the equals() and hashCode() methods based on your business key.
+
+It is recommended to implement the Serializable interface.
+
+How do I implement Joins in Hibernate?
+There are several ways to implement joins in hibernate.
+
+By using associations such as one-to-one, one-to-many mappings.
+Using JOIN in the HQL query. There is another form 'join fetch' to load associated data simultaneously and it is no lazy loading.
+execute native sql query and use join keyword.
+Explain Component mapping in hibernate.
+A Component mapping is a mapping for a class having a reference to another class as a member variable.
+
+Hibernate: Can we perform collection mapping with One-to-One and Many-to-One?
+No. In Hibernate, collection mapping can only be performed with One-to-Many and Many-to-Many relationship.
+
+How do I create an immutable class in hibernate?
+Configuring the entity class property mutable to false (mutable="false"), class becomes an immutable class. By default, it is mutable="true".
+
+Hibernate: Can we switch to different relational database without any code changes?
+Yes. In Hibernate we can switch to different database by changing appropriate SQL Dialect configuration.
+
+How do I implement JPA for No-SQL database like mongoDB?
+Hibernate OGM provides Java Persistence (JPA) support for NoSQL solutions. It reuses Hibernate ORM's engine however it persists entities into a NoSQL datastore like mongoDB rather than a relational database like mySQL, Oracle etc.
+
+What happens when Hibernate Entity bean has no no-args constructor?
+Hibernate will fail to instantiate the entity bean and issues HibernateException.
+
+Hibernate uses Reflection API Class.newInstance() to create instance of Entity beans that requires requires no-args constructor, usually when you call get() or load() methods. The instance of the entity bean cannot be created when there is no no-arg (default) constructor.
+
+How do I lookup application server JNDI DataSource using Hibernate?
+For web applications, it is always a good practice to allow servlet container to manage the connection pool. This is the reason we define JNDI resource for DataSource and we look it up in the web application. Hibernate need to used the below property to configure and lookup by JNDI DataSource name.
+
+<property name="hibernate.connection.datasource">java:comp/env/jdbc/myTestDB</property>
+How do I reattach any detached objects in Hibernate?
+Using session.merge() method. Objects that are detached and are no longer associated with any persistent entities can be reattached by calling session.merge() method.
+
+Explain attribute oriented programming in Hibernate.
+In Attribute oriented programming, one can add Meta data or attributes in the source code to signify the code. For hibernate, attribute oriented programming is enabled by an engine called XDoclet.
+
+Does hibernate support polymorphism?
+Yes, hibernate provides complete support to polymorphism. Polymorphism queries and associations are supported at all the mapping strategies of hibernate.
+
+What are derived properties in hibernate?
+Derived properties are those which are not mapped to any columns of a database table. Such properties are calculated at runtime by evaluation of any expressions.
+
+transient annotation is used to denote such properties.
+
+Use of QBC API in Hibernate.
+Hibernate Query By Criteria (QBC) API is used to create queries by manipulation of criteria objects at runtime.
+
+What do you mean by ORM metadata in hibernate.
+All the mapping between entity class and database table, properties and columns, Java types and SQL types etc is referred as ORM metadata.
+
+Difference between managed and hibernate associations.
+Managed associations corresponds to the container managed persistence and it is bi-directional while hibernate associations are unidirectional.
+
+Explain HibernateTemplate.
+HibernateTemplate is a helper utility class that provides different methods for querying/retrieving data from the database. It also converts checked Hibernate Exceptions to unchecked DataAccessExceptions.
+
+It manages the session and transactions by automatically opening and closing when you execute the code.
+
+List the four ORM levels in hibernate.
+Following are the four ORM levels in hibernate.
+
+Pure Relational.
+Light Object Mapping.
+Medium Object Mapping.
+and Full Object Mapping.
+Explain pure relational ORM.
+The entire application along with the user interface (UI) is designed on the basis of relational model and SQL-based relational operations.
+
+Explain light object mapping level of ORM.
+The entities are represented as Java classes that are mapped manually to the relational tables. The code is abstracted/hidden from the business logic using specific design patterns.
+
+This approach is desirable for applications with less number of entities, or applications with common, metadata-driven data models.
+
+What is the use of version property in hibernate?
+Version property in hibernate helps to identify whether an object is in transient state or in detached state.
+
+Explain medium object mapping in hibernate.
+The application is built on the basis of an object model. The SQL code is generated at build time. The associations between objects are supported by the persistence mechanism and queries are specified using an object-oriented expression language.
+
+This is best suited for medium-sized applications with some complex transactions.
+
+Hibernate: What is meant by full object mapping?
+Full object mapping supports sophisticated object modeling: composition, inheritance, polymorphism and persistence. The persistence layer implements transparent persistence; persistent classes do not inherit any special base class or have to implement a special interface.
+
+Efficient fetching strategies and caching strategies are implemented transparently to the application.
+
+What do you mean by Extension interfaces in hibernate?
+When the built-in functionalities provided by hibernate is not sufficient enough, it provides a way so that user can include other interfaces and implement those interfaces for user desire functionality. These interfaces are referred as Extension interfaces.
+
+How do I persist an image/media in oracle using hibernate ?
+Create a database table with column having data type as blob ( or equivalent) and in the HBM configuration file, specify the column type as binary.
+
+What is the role of JMX in hibernate?
+JMX API, a standard API manages applications and components in hibernate. JMX provides tools for development of efficient and robust distributed, web based solutions.
+
+How objects can be identified in Hibernate?
+Object identification can be done in hibernate in following 3 ways.
+
+Using Object Identity: Using == operator.
+Using Object Equality: Using equals() method.
+Using database identity: Relational database objects can be identified if they represent same row.
+What is the use of version property in hibernate?
+Version property is used in hibernate to determine whether an object is in transient state or in detached state.
+
+What is a lazy association in hibernate?
+Consider a Parent table associated with a Child table. When we load the Parent table, In lazy association, the Child relationship is loaded when it is needed. This is the default configuration in Hibernate.
+
+What is the use of SchemaValidator in hibernate?
+SchemaValidator tool is used to verify if the mapping configured matches the existing database structure.
+
+What are the benefits of detached objects in hibernate?
+Detached objects can be passed across layers all the way up to the presentation layer without having to use any DTOs (Data Transfer Objects). You can later on re-attach the detached objects to another session.
+
+What is CRUD?
+A CRUD operation deals with creating, retriving , updating and deleting from the table.
+
+What are Scalar queries in Hibernate?
+SQL queries that gets a list of scalars (values) is referred as scalar queries.
+
+sess.createSQLQuery("SELECT * FROM Emp").list();
+These will return a List of Object arrays (Object[]) with scalar values for each column in the Emp table.
+
+What are entity query in hibernate?
+Entity query gets entity objects from a native sql query using addEntity().
+
+sess.createSQLQuery("SELECT * FROM Emp").addEntity(Employee.class);
+Hibernate: How do you add a criteria to a query?
+Session.createCriteria creates a new Criteria instance, for the given entity class, or a superclass of an entity class.
+
+Define persistent classes in hibernate.
+Java classes objects or instances that will be stored in database tables are called persistent classes in Hibernate.
+
+Why do we batch processing in hibernate?
+Batch processing helps performing data load operations involving high volume transactions that minimize the time required and also is memory efficient.
+
+Hibernate: Is HQL query case sensitive?
+Yes. It is.
+
+Explain the role of Configurationclass in Hibernate ?
+The org.hibernate.cfg.Configuration is used to build an immutable org.hibernate. SessionFactoryobject . Configuration class object activates hibernate software and configure () is the factory method of hibernate.cfg.Configuration class which reads configuration properties from hibernate.cfg.xml file. builtSessionFactory() method uses hibernate.cfg.xml properties of Configuration object Creates jdbc connection pool.
+
+How to prevent concurrent update in Hibernate?
+Using Automatic Versioning Hibernate can perform automatic optimistic concurrency control. It can automatically detect if a concurrent modification occurred during user think time.
+
+Hibernate: disadvantages of using HQL ?
+HQL queries cannot perform DDL operations.
+
+HQL queries cannot insert single record into table.
+
+An HQL query gives negligible performance degradation because of conversions when compared to SQL.
+
+HQL queries cannot call PL/SQL program.
+
+Hibernate:advantages of using HQL.
+HQL queries are database independent.
+
+HQL queries are object level queries and it returns hibernate pojo class objects as results.
+
+HQL queries and keywords are very much similar to SQL queries.
+
+HQL queries support operators, expressions, conditions ,joins, sub queries, aggregate functions etc.
+
+Explain flush() method in Hibernate.
+Flushing the session forces Hibernate to synchronize the in-memory state of the Session with the database (i.e. to write changes to the database). By default, Hibernate will flush changes automatically for you,
+
+before query executions,
+when a transaction is committed.
+Hibernate: Difference commit() vs flush().
+flush(): Flushing is the process of synchronizing the underlying persistent store with persistable state held in memory.it will update or insert into your tables in the running transaction, but it may not commit those changes.
+
+Commit(): Commit will make the database commit.When you have a persisted object and you change a value on it, it becomes dirty and hibernate needs to flush these changes to your persistence layer.So You should commit but it also ends the unit of work.
+
+Explain Hibernate named query.
+Hibernate named queries lets developer to put all HQL into the XML mapping file or via annotation so that it is easy to maintain and separated from Java code.
+
+The named query is supported in both HQL or native SQL.
+
+The queries can be retrieved using the query names as shown below.
+
+Query query = session.getNamedQuery("HQL_GET_ALL_EMPLOYEE");
+What does <![CDATA[]]> in XML mean?
+CDATA stands for Character Data and it means that the data in between these strings includes data that could be interpreted as XML markup, but should not be.
+
+Explain SQL Dialect in Hibernate.
+Hibernate is database agnostic and it can work with different databases. However, databases have native SQL variations, and its own set of SQL standard implementations. Therefore at some point hibernate has to use database specific SQL. Hibernate uses "dialect" configuration to know which database you are using so that it can switch to the database specific SQL generator code wherever/whenever necessary.
+
+What is hibernate proxy?
+The proxy attribute facilitates the lazy initialization of persistent instances of the class. Hibernate will initially return CGLIB proxies which implement the named interface. The actual persistent object will be loaded when a method of the proxy is invoked.
+
+Explain hibernate interceptors.
+Hibernate interceptor is a powerful feature that allows application to react to certain events that occur inside Hibernate. This allows for the implementation of generic functionality and the extension of Hibernate functionality.
+
+Explain Hibernate Disjunction.
+Hibernate Disjunction adds multiple restrictions/coditions to the HQL query joined by "OR" condition.
+
+What is Hibernate Conjunction?
+Hibernate Conjunction adds multiple restrictions/coditions to the HQL query joined by "AND" condition.
+
+Explain addScalar method in Hibernate.
+addScalar method specifies the result of the query to return objects for individual named columns, rather than entities.
+
+Query myQuery = new SqlQuery("Select name as nm from employee");
+myQuery.addScalar("nm", String);
+How hibernate session is related to the JDBC connection?
+A hibernate Session is similar to establishing a JDBC connection to the database. When a Session is created in Hibernate, it open up a JDBC connection to the database. When the session is clouded, its close the JDBC connection. Similarly, when transaction is started on hibernate session, it actually start a JDBC transaction.
+
+What is Hibernate Criteria Transformer?
+Hibernate Criteria Transformer is an interface that transforms any result of Hibernate Criteria element.
+
+Criteria criteria = session.createCriteria(Employee.class);
+	criteria.add(Restrictions.eq("name", "Jeff"));
+	criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);	
+How to prevent SQL Injection in hibernate?
+Use named parameters in queries to avoid sql injection.
+
+Query query= sessionFactory.getCurrentSession().createQuery("from UserInfo where userName=:userName");
+ query.setParameter("username", userName);
+How do I print a query with parameter values when using Hibernate?
+Enable logging for the categories, org.hibernate.SQL and org.hibernate.type.
+
+# logs SQL statements
+log4j.logger.org.hibernate.SQL=debug 
+
+# Logs JDBC parameters passed to a query
+log4j.logger.org.hibernate.type=trace 
+The property 'org.hibernate.SQL' is equivalent to hibernate.show_sql=true, and the second prints the bound parameters.
+
+How do we minimize the number of DB write action in Hibernate?
+Hibernate provides dirty checking feature that reduces database write times. Dirty checking feature updates only those fields which require a change while keeps others unchanged.

@@ -1,0 +1,662 @@
+
+If Object A and B are dependent each other i.e A is depends ob B and vice-versa. Spring throws ObjectCurrentlyInCreationException while creating objects of A and B bcz A object cannot be created until B is created and vice-versa. So spring can resolve circular dependencies through setter-injection. Objects constructed before setter methods invoked.
+
+
+-------------------------
+
+
+ExecutorService instances to start an asynchronous task and then call the returned Future instance to get its value.
+--
+To start a thread as a daemon, you should use the setDaemon() method before calling start():
+
+. Daemon threads are usually used to carry out some supportive or service tasks for other threads, but you should take into account that they may be abandoned at any time.
+---
+
+Executor and ExecutorService are two related interfaces of java.util.concurrent framework. Executor is a very simple interface with a single execute method accepting Runnable instances for execution. In most cases, this is the interface that your task-executing code should depend on.
+
+ExecutorService extends the Executor interface with multiple methods for handling and checking the lifecycle of a concurrent task execution service (termination of tasks in case of shutdown) and methods for more complex asynchronous task handling including Futures.
+
+------
+ BindingResult ] is Spring's object that holds the result of the validation and binding and contains errors that may have occurred. The BindingResult must come right after the model object that is validated or else Spring will fail to validate the object and throw an exception
+
+ the order of parameters is actually important to spring. The BindingResult needs to come right after the Form that is being validated. Likewise, the [optional] Model parameter needs to come after the BindingResult. Example:
+
+public String updateEntryQuantity(@Valid final UpdateQuantityForm form,
+                                  final BindingResult bindingResult,
+                                  @RequestParam("pk") final long pk,
+                                  final Model model) {
+}
+
+------
+
+Command Object as a POJO/JavaBean/etc.. that backs the form in your presentation layer. Once the form is submitted, all the individual attributes are mapped/bound to this object. On the way up to presentation, Command Object properties may be used to pre/populate the form.
+
+spring boots sarter proj
+starter jpa
+starter data rest 
+starter batch 
+starter cache
+starter jdbc 
+
+---
+
+Spring Boot Dependencies defines the default dependency management for all Spring Boot projects. If we would want to use a new version of a specific dependency, we can override the version by specifying a new property in the project pom
+
+---
+
+Validator
+org.springframework.validation.Validator is an interface which has two methods 
+boolean supports(Class<?> clazz) : Checks whether the instance of class passed as argument can be validated or not. 
+void validate(Object target, Errors errors) : If supports() method returns true, then the target object is validated. Errors.rejectValue() method registers the error message with a field name. 
+
+To create our Validator class, we need to implement spring Validator interface and define the validations as required.
+
+
+----
+transaction in spring-hibernate integration
+
+  <bean id="transactionManager"
+    class="org.springframework.orm.hibernate4.HibernateTransactionManager" 
+    p:sessionFactory-ref="sessionFactory">
+  </bean>
+  
+  -----
+  
+  spring mvc without the embedded tomcat server
+  Just exclude it from the dependency:
+  
+  <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-starter-tomcat</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+  
+  
+  spring-boot-starter-web = spring-boot-starter-tomcat + spring-boot-starter-mvc
+  ------
+  
+  
+  Interceptors can be configured using the interceptors property, which is present on all HandlerMapping classes extending from AbstractHandlerMapping. This is shown in the example below
+  
+  <beans>
+      <bean id="handlerMapping"
+            
+    class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+          <property name="interceptors">
+              <list>
+                  <ref bean="officeHoursInterceptor"/>
+              </list>
+          </property>
+      </bean>
+      <bean id="officeHoursInterceptor"
+              class="samples.TimeBasedAccessInterceptor">
+          <property name="openingTime" value="9"/>
+          <property name="closingTime" value="18"/>
+      </bean>
+  <beans>
+  
+  
+  using annotation
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+      registry.addInterceptor(new LoggingInterceptor());
+      registry.addInterceptor(new TransactionInterceptor()).addPathPatterns("/person/save/*");
+  } 
+  
+  
+  ------
+  
+  spring insert  :-
+  String query="insert into employee values(  
+      '"+e.getId()+"','"+e.getName()+"','"+e.getSalary()+"')";  
+      return jdbcTemplate.update(query);  
+  
+  hibernate insert
+  -----
+  
+  
+  Spring provides another way to insert data by named parameter. In such way, we use names instead of ?(question mark). So it is better to remember the data for the column
+  String query="insert into employee values (:id,:name,:salary)";  
+    
+  Map<String,Object> map=new HashMap<String,Object>();  
+  map.put("id",e.getId());  
+  map.put("name",e.getName());  
+  map.put("salary",e.getSalary());  
+    
+  template.execute(query,map,new PreparedStatementCallback() {  
+      @Override  
+      public Object doInPreparedStatement(PreparedStatement ps)  
+              throws SQLException, DataAccessException {  
+          return ps.executeUpdate();  
+      }  
+  });
+  
+  
+  --
+  
+  RowMapper interface allows to map a row of the relations with the instance of user-defined class. It iterates the ResultSet internally and adds it into the collection. So we don't need to write a lot of code to fetch the records as ResultSetExtractor
+  RowMapper saves a lot of code becuase it internally adds the data of ResultSet into the collection.
+  -----
+  to start a spring app :-
+  spring-boot-starter-parent
+  spring-boot-starter-web adds Tomcat and Spring MVC
+  -------
+  Core – a key module that provides fundamental parts of the framework, like IoC or DI
+  •JDBC – this module enables a JDBC-abstraction layer that removes the need to do JDBC coding for specific vendor databases
+  •ORM integration – provides integration layers for popular object-relational mapping APIs, such as JPA, JDO, and Hibernate
+  •Web – a web-oriented integration module, providing multipart file upload, Servlet listeners, and web-oriented application context functionalities
+  •MVC framework – a web module implementing the Model View Controller design pattern
+  •AOP module – aspect-oriented programming implementation allowing the definition of clean method-interceptors and pointcuts
+  
+  -----
+  <beans:bean
+  		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+  		<beans:property name="prefix" value="/WEB-INF/views/" />
+  		<beans:property name="suffix" value=".jsp" />
+  	</beans:bean>
+  
+  
+  resolves views from /WEB-INF/views/ , ie if return "person" , it will check for person.jsp in /WEB-INF/views/
+  
+  -----------
+  ModelAndView is an old way and the Model with a String returned is a new way in Spring
+  
+  ---
+  
+  
+  The SpringApplication Class
+  
+  The SpringApplication, inside the main is a Spring Boot class. It is used to bootstrap our application. It calls static method run() which takes two arguments, one is class type and second is string array. It starts auto-configured tomcat web server when Spring application is started.
+  
+  ----
+  
+  Spring Boot Starter Parent specifies the default configuration for a host of plugins including maven-failsafe-plugin, maven-jar-plugin and maven-surefire-plugin.
+  
+  Spring Boot provides actuator to monitor and manage our application. Actuator is a tool which has HTTP endpoints. when application is pushed to production, you can choose to manage and monitor your application using HTTP endpoints
+  
+  If your other packages hierarchies are below your main app with the @SpringBootApplication annotation, you’re covered by implicit components scan.
+  If there are beans/components in other packages which are not sub packages of the main package, you should manually add them as @ComponentScan
+  ------
+  
+  
+  ApplicationContextAware , ApplicationContext , SpringApplication , ServletContextInitializer
+   BeanFactoryAware 
+  
+  A closed context reaches its end of life; it cannot be refreshed or restarted.
+  
+  
+  ApplicationContextAware  to inject ApplicationContext object, example usage is to get the array of bean definition names.
+  BeanFactoryAware  to inject BeanFactory object, example usage is to check scope of a bean.
+  BeanNameAware  to know the bean name defined in the configuration file.
+  ResourceLoaderAware  to inject ResourceLoader object, example usage is to get the input stream for a file in the classpath.
+  ServletContextAware  to inject ServletContext object in MVC application, example usage is to read context parameters and attributes.
+  ServletConfigAware  to inject ServletConfig object in MVC application, example usage is to get servlet config parameters.
+  
+  Containers :-
+  
+  1.Spring BeanFactory Container 
+  This is the simplest container providing the basic support for DI and is defined by the org.springframework.beans.factory.BeanFactory interface. The BeanFactory and related interfaces, such as BeanFactoryAware, InitializingBean, DisposableBean, are still present in Spring for the purpose of backward compatibility with a large number of third-party frameworks that integrate with Spring.
+   
+  2 Spring ApplicationContext Container 
+  This container adds more enterprise-specific functionality such as the ability to resolve textual messages from a properties file and the ability to publish application events to interested event listeners. This container is defined by the org.springframework.context.ApplicationContext interface.
+   
+  
+  spring life cycle
+  1. properties are set
+       if any bean implementing BeanPostProcessor then postProcessBeforeInitialization is callled 
+  2.init method called 
+        if any bean implementing BeanPostProcessor then postProcessAfterInitialization is callled 
+  3. destroy method called
+  
+  
+  abstract bean can be defined as abstract = "true">
+  
+  
+  injecting collection
+  
+  <property name = "addressList">
+           <list>
+              <value>INDIA</value>
+              <value>Pakistan</value>
+              <value>USA</value>
+              <value>USA</value>
+           </list>
+        </property>
+  
+        <!-- results in a setAddressSet(java.util.Set) call -->
+        <property name = "addressSet">
+           <set>
+              <value>INDIA</value>
+              <value>Pakistan</value>
+              <value>USA</value>
+              <value>USA</value>
+           </set>
+        </property>
+  
+  
+  
+  @Configuration indicates that the class can be used by the Spring IoC container as a source of bean definitions
+  
+  ------
+  
+  
+  
+  1. reads from application.properties 
+  
+   @Value("${spring.datasource.url}")
+      private String userBucketPath;
+  ------------
+  application context ?
+  
+  
+  -------
+  registerShutdownHook ?
+   SpringApplication registers a shutdown hook with the JVM to ensure that the ApplicationContext closes gracefully on exit
+  ----------
+  
+  ApplicationContextAware :-
+  if we implement this , we get applicationContext
+  which is used to access beans , resource bundles , publish event etc
+  ----------------------------
+  
+  ApplicationContext 
+     ApplicationContext appContext; 
+          appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+  
+  ------------------------------------
+  parent pom ?
+  
+  Parent Poms allow you to manage the following things for multiple child projects and modules:
+  Configuration - Java Version and Other Properties
+  Depedency Management - Version of dependencies
+  Default Plugin Configuration
+  
+  
+  -----
+  The @SpringBootApplication annotation is equivalent to using @Configuration, @EnableAutoConfiguration and @ComponentScan with their default attributes
+  
+  Each Spring Boot web application includes an embedded web server
+  
+  ---
+  
+  Developer tools are automatically disabled when running a fully packaged application
+  
+  spring-devtools.properties 
+  
+  -----
+  
+  
+  The banner that is printed on start up can be changed by adding a banner.txt file to your classpath 
+  
+  ----
+  
+  SpringApplicationBuilder vs SpringApplication object ?
+  
+  ------
+  to create bean
+  
+  just use @Bean over a method that returns a object of class , bean will be created of that class 
+  if we use @Autowire anywhere , it will be autowired to that bean
+  sample from xyz.java
+  
+      @Bean
+      public DBConnectionInfoBean apiService() {
+          return new DBConnectionInfoBean();
+      }
+      
+      @Autowired
+      private DBConnectionInfoBean dbConnectionInfoBean;
+  
+  Spring container looks at the properties of the beans on which autowire attribute is set to byType
+  ---------------------------
+  
+  how to get hibernate session factory in spring ?
+  
+  using The org.springframework.orm.hibernate4.LocalSessionFactoryBean   , it creates a SessionFactory
+  HibernateTemplate  :- create bean in xml , paas LocalSessionFactoryBean object to get session object , hibernate template has methods to persist , delete etc
+  --------------------------------------------------------------------------------------------------
+   Application Events
+  
+  ApplicationStartingEvent start of a run but before any processing 
+  ApplicationPreparedEvent   after bean definitions have been loaded.
+  ApplicationReadyEvent    and any related callbacks have been processed,
+  ApplicationFailedEvent 
+  
+   
+  
+  ApplicationContext will fire various framework events.  
+  ContextRefreshedEvent 
+  ContextStartedEvent
+  ContextStoppedEvent
+  RequestHandledEvent 
+  
+  implements ApplicationListener<ContextStartedEvent> for which 
+  onApplicationEvent() method is invoked 
+  -----
+  
+  
+  custom events in springs  
+  
+  create custom event class     ApplicationEvent
+  create event publisher class  ApplicationEventPublisherAware 
+  create event handler class which will invoke the event when publisher publish the event   ApplicationListener<CustomEvent>
+  
+  -------------------------
+  
+  
+  Inversion of Control (IoC) [1]principle. IoC is also known as dependency injection (DI). 
+  
+  ApplicationContext represents the Spring IoC container and is responsible 
+  for instantiating, configuring, and assembling the aforementioned beans
+  ------------------------------------
+  servlet context aware to access context object
+  
+  -----------
+  
+  to read from specific proeprty file use @PropertySource at class level
+  
+  
+  ----
+  
+  
+   @ConfigurationProperties   
+  
+  @ConfigurationProperties(prefix="person")
+  public class OwnerProperties {
+   private String firstName;
+   }
+  person.firstName in properties file will be mapped to firstName  object in the class 
+  
+  -----
+  
+  HttpMessageConverters ?
+  
+  
+  
+  ---------------
+   
+  
+  80 pages done
+  
+  ---
+  
+  @Configuration is an analog for xml file. Such classes are sources of bean definitions by defining methods with the @Bean annotation
+  
+  
+  ------
+  Global Exception Handling With @ControllerAdvice 
+  
+  Centralize your error handling logic in spring by using the @ControllerAdvice annotation.
+  
+  
+  exception handling ways :-
+  1. using controller @exceptionHandler ( @ExceptionHandler(Exception.class)  use this on method level
+  2. using global @ControllerAdvice
+  3. using SimpleMappingExceptionResolver in applicationcontext.xml we define bean as SimpleMappingExceptionResolver and default error view as error page 
+  
+  if we add Exception object to method parameter , it will be accesbile like httpserverlet requst obj
+  
+  
+  
+  @ControllerAdvice
+  public class ExceptionControllerAdvice {
+  
+  	@ExceptionHandler(Exception.class)
+  	public String exception(Exception e) {
+  
+  		return "error";
+  	}
+  }
+  
+  ---
+  
+  MultipartResolver  used to upload file 
+  -------------------
+  
+  to perform servlet context initialization in a Spring Boot application, you should register a bean that implements the org.springframework.boot.web.servlet.ServletContextInitialize
+  ------
+  
+  spring security ?
+  
+  ----
+  datasource 
+  
+  oracle.jdbc.pool.OracleDataSource is pooled with driver manager datasource is unpooled
+  
+  datasource configured in application.properties using property names  spring.datasource.*. 
+  
+  ---------------------------
+  
+  create two datasources 
+  
+  #first db
+  spring.datasource.url = [url]
+  spring.datasource.username = [username]
+  spring.datasource.password = [password]
+  spring.datasource.driverClassName = oracle.jdbc.OracleDriver
+  
+  #second db ...
+  spring.secondDatasource.url = [url]
+  spring.secondDatasource.username = [username]
+  spring.secondDatasource.password = [password]
+  spring.secondDatasource.driverClassName = oracle.jdbc.OracleDriver
+  
+  
+  @Bean
+  @Primary
+  @ConfigurationProperties(prefix="spring.datasource")
+  public DataSource primaryDataSource() {
+      return DataSourceBuilder.create().build();
+  }
+  
+  @Bean
+  @ConfigurationProperties(prefix="spring.secondDatasource")
+  public DataSource secondaryDataSource() {
+      return DataSourceBuilder.create().build();
+  }
+  
+  
+  
+  custom datasource 
+   define any property as below and create a bean using @ConfigurationProperties
+  
+  app.datasource.url=jdbc:mysql://localhost/test
+  app.datasource.username=dbuser
+  app.datasource.password=dbpass
+  app.datasource.pool-size=30
+  
+  
+  @Bean
+  @ConfigurationProperties("app.datasource")
+  public DataSource dataSource() {
+   return DataSourceBuilder.create().build();
+  }
+  
+  ---------
+  
+  SPRING DATA access 
+  
+  1. spring jdbc  using jdbcTemplate 
+  2. Spring-DAO JdbcDaoSupport  , HibernateDaoSupport  ( our dao extends this class, no need to initialize jdbctemplate , only need to provided datasource in our dao bean as property , jdbc template is automatically initalized internally by JdbcDaoSupport  )
+  3. Spring ORM ?
+  
+  -----------------------------
+  caching 
+  
+  @EnableCaching @cacheevict , @Cacheable
+  
+  
+  ----
+  
+  Write an XML REST Service
+  using jackson api
+  -----
+  
+  A ViewResolver is a core component of Spring MVC, translating view names in @Controller to actual View implementations
+  
+  two type
+  defaultViewResolver’
+  BeanNameViewResolver 
+  
+  ----------------------------
+   EntityManagers ?
+  
+  
+  ----
+  
+  Initialize a Database Using Hibernate can be done using spring.jpa.hibernate.ddl-auto 
+  
+  
+  
+  -----
+  Spring Batch  ?
+  
+  ----
+  
+  flyway can be used to execute db script at location spring.flyway.locations
+   
+  In a non Spring Boot Project, we would typically define the component scan explicitly in an XML application context or a Java Application Context.
+  
+  @ComponentScan(“com.in28minutes)
+  @Configuration
+  public class SpringConfiguration {
+  
+  or
+  
+  context:component-scan base-package="com.in28minutes" />
+  
+  ------
+  
+  Normally you would add @EnableWebMvc for a Spring MVC app, but Spring Boot adds it automatically
+  
+   
+  in boots there wasn’t a single line of XML? No web.xml file either
+  
+  ----
+  
+  Parent Poms allow you to manage the following things for multiple child projects and modules:
+  
+  Configuration - Java Version and Other Properties
+  Depedency Management - Version of dependencies
+  Default Plugin Configuration  maven-jar-plugin
+  
+  ----
+  
+  application.properties
+  
+  banner
+  logging
+  debug
+  # QUARTZ SCHEDULER (QuartzProperties)
+  EMBEDDED SERVER CONFIGURATION
+  DATASOURCE 
+  JPA 
+  MQ
+  DEVTOOLS
+  ----
+  
+  Spring boot’s CommandLineRunner interface is used to run a code block only once in application’s lifetime – after application is initialized.
+  override public void run (String ... args)
+  
+  --
+  
+  Spring @Profile allow developers to register beans by condition. For example, register beans based on what operating system (Windows, *nix) your application is running, or load a database properties file based on the application running in development, test, staging or production environment
+  
+  
+  ------
+  
+  A key difference between a traditional MVC controller and the RESTful web service controller 
+  above is the way that the HTTP response body is created. Rather than relying on a view
+   technology to perform server-side rendering of the greeting data to HTML, this RESTful web service
+   controller simply populates and returns a Greeting object. The object data will be written directly to the HTTP response as JSON.
+  
+  
+  @RestController =  @Controller + @ResponseBody
+  
+  ----
+  @repository 
+  A class thus annotated is eligible for Spring DataAccessException
+   indicates that SQLExceptions thrown from the component's methods should be translated into Spring DataAccessExceptions.
+  -----
+  
+  session attribute and model attribute
+  
+  https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-model-attribute-with-session.html
+  
+  sessionStatus.setComplete() removes session attribute
+  
+  ---
+  
+  OLD WAY = commandName
+  NEW WAY = modelAttribute
+      <form:form action="${action}" modelAttribute="employee">
+  
+  ------------------------------------
+  
+   Spring Boot annotations:
+  
+  @Bean - indicates that a method produces a bean to be managed by Spring.
+  @Service - indicates that an annotated class is a service class.
+  @Repository - indicates that an annotated class is a repository, which is an abstraction of data access and storage.
+  @Configuration - indicates that a class is a configuration class that may contain bean definitions.
+  @Controller - marks the class as web controller, capable of handling the requests.
+  @RequestMapping - maps HTTP request with a path to a controller method.
+  @Autowired - marks a constructor, field, or setter method to be autowired by Spring dependency injection.
+  @SpringBootApplication - enables Spring Boot autoconfiguration and component scanning.
+  
+  ------
+  returns json 
+  
+  @RequestMapping(value = "/getString", method = RequestMethod.GET, produces = "application/json")
+  
+  
+  ---
+  
+  SimpleJdbcCall 
+  SimpleJdbcTemplate
+  NamedParameterJdbcTemplate
+  ----
+  
+  spring hibernate integration ie define LocalSessionFactoryBean as 
+  
+  <!-- Hibernate 3 XML SessionFactory Bean definition-->
+  <!-- 	<bean id="hibernate3SessionFactory"
+  		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+  		<property name="dataSource" ref="dataSource" />
+  		<property name="mappingResources">
+  			<list>
+  				<value>person.hbm.xml</value>
+  			</list>
+  		</property>
+  		<property name="hibernateProperties">
+  			<value>
+  				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+  			</value>
+  		</property>
+  	</bean> -->
+  
+  ------
+  The CrudRepository interface provides methods for CRUD operations, so it allows you to create, read, update and delete records without having to define your own methods.
+  
+   
+  
+  
+  
+  
+  On Fri, May 25, 2018 at 12:38 PM, sumit garg <sumitgarg79@gmail.com> wrote:
+  https://intellipaat.com/interview-question/spring-interview-questions/
+  
+  http://www.baeldung.com/spring-interview-questions
+  
+  https://www.javatpoint.com/spring-interview-questions
+  
+  https://www.edureka.co/blog/interview-questions/spring-interview-questions/
+  
+  https://java2blog.com/spring-interview-questions-and-answers/
+  
+  https://github.com/in28minutes/spring-interview-guide
