@@ -132,4 +132,13 @@ if need to pull either commit or reset to sync with local respository, if local 
 PULL WILL ONLY BE ABORTED WHEN WE HAVE DONE SOME CHANGES LOCALLY AND SAME FILE IN REMOTE REPO ALSO UPDATED BY SOMEONE 
 --------------------------------
 
- 
+git checkout gitTutorials.txt will undo local changes
+
+
+----------------------
+
+ git push origin master will only push commited changes
+ -----------
+ below would add multiple files at a time
+ git add a1.txt a2.txt 
+---------------------------
