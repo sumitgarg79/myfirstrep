@@ -1,4 +1,4 @@
-sourceTree for bit, sqlyog,windows powershell
+sourceTree for bit, sqlyog,windows powershell , agent Ransack for searching in windows
 
 
 Jackson API :- 
