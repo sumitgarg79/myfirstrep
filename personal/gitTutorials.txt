@@ -194,5 +194,10 @@ git merge is used to merge branchessssss
 1.git checkout testMaster ( branch into which code needs to be merged )
 2.git merge master ( branch from which merge needs to be done)
 3.git push origin testMaster  ( pushed changes into remote repository)
+------------------------------------------
+remove a file from repository
 
+git rm  BookingWebservice.war
+git commit -m "remove "
+git push origin master
 
