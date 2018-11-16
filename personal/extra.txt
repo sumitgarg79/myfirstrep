@@ -238,3 +238,99 @@ FROM   information_schema.tables
  
 ----------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------- 
+
+command to search txt in current dir 
+
+ grep -inr 'McCC' .
+  perl -pi.back -e 's/{THE-REPOPATH-1}/\/space\/JavaCAPS6\/repository\//g;' geekfile.txt
+WORKING FINE TO RECURSIVELY UPDATE
+perl -pi.back1  -e 's/\#INSTALL_HOME\#/\/space\/JavaCAPS6\/appserver/g;' `grep -ril "#INSTALL_HOME#" *`
+
+ 
+-----------------------------------------------------
+jmap and jhat are for creating heap dump and analyzing it
+
+F:\>"C:\Program Files\Java\jdk1.8.0_144\bin\jmap" -dump:format=b,file=test.hprof 22492
+Dumping heap to F:\test.hprof ...
+Heap dump file created
+
+F:\>"C:\Program Files\Java\jdk1.8.0_144\bin\jhat" test.hprof
+Reading from test.hprof...
+Dump file created Fri Jul 20 15:01:07 IST 2018
+
+
+
+
+
+jstack is used for anlyzing thread dump
+jstack -l  <process id>
+
+jstack -l  21240 
+
+
+-----------------------------------
+
+NET START/STOP/FIND 
+
+to find windows service 
+
+net start | find "TestService27"
+
+stop :- 
+net stop TestService27
+
+start :- 
+net start TestService27
+
+
+TO CHECK WINDOWS SERVICES LOG
+
+ENTER EVENT VIEWER IN TASK SEARCHBAR
+-------------------------------------------------------
+
+NSSM 
+
+TO INSTALL A WINDOWS SERVICE 
+
+nssm install TestService27  "C:\Users\sumit.garg\eclipse-workspace_photon\TestJava9\Java9RunnableModule\bin\java.exe"    "-jar C:\procrun\someService.jar start"
+
+nssm -help would give all nssm options
+
+
+-----------------------------------------------------------------------------
+
+RUN JAVA FROM DOS COMMAND PROMT 
+
+
+1. Testjava9.jar is in TestJava9 dir 
+2. .; represents current directy
+3.  ../ denotes one dir back
+4. when multiple jars to be included , do not use *.jar , use * only
+5. classpath ( cp) should come prior to java class
+
+CORRECT :- 
+C:\Users\sumit.garg\eclipse-workspace_photon\TestJava9\bin>java     -cp  .;../Testjava9.jar   com.start.StartJava
+
+C:\Users\sumit.garg\eclipse-workspace_photon\TestJava9\bin>java     -cp  C:/Users/sumit.garg/eclipse-workspace_photon/TestJava9/Testjava9.jar   com.start.StartJava
+
+C:\Users\sumit.garg\eclipse-workspace_photon\TestJava9\bin>java     -cp  C:\Users\sumit.garg\eclipse-workspace_photon\TestJava9\Testjava9.jar   com.start.StartJava
+
+java     -cp  C:\Users\sumit.garg\eclipse-workspace_photon\TestJava9\*   com.start.StartJava
+
+USE BELOW IF U WANT TO GIVE CLASS FILES com dir is in classes dir , no need to give * if want to include class files , in below there are many class files in classes dir
+java   -cp  C:\Users\sumit.garg\eclipse-workspace_photon_java9.11\TestWebService\build\classes\  com.TestJava
+
+
+INCORRECT :- 
+
+C:\Users\sumit.garg\eclipse-workspace_photon\TestJava9\bin>java   com.start.StartJava   -cp  .;../Testjava9.jar  
+
+java     -cp  C:\Users\sumit.garg\eclipse-workspace_photon\TestJava9\*.jar   com.start.StartJava
+
+----------------------------------------------------
+
+to update jar in windows manually :- 
+open jar in winrar/zip (do not extract into folder ) and drag-drop the file needs to be added.
+if extracted into folder and zipped , it will give issue
+DO NOT EXTRACT JAR IF DOING MANUALLY , ELSE USE JAR -CVF COMMAND
+------
