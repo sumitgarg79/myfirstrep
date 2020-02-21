@@ -1,3 +1,6 @@
+to connect to git sumitgarg79
+git clone  https://github.com/sumitgarg79/myfirstrep.git 
+
 git clone will create local repository
 ------------------------------------------------
 git commit -m " test" gitTutorials.txt
