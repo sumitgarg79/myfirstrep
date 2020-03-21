@@ -2,6 +2,10 @@ to connect to git sumitgarg79
 git clone  https://github.com/sumitgarg79/myfirstrep.git 
 
 git clone will create local repository
+
+---------
+disable the SSL verification completely 
+ git config --global http.sslVerify false
 ------------------------------------------------
 git commit -m " test" gitTutorials.txt
 
@@ -203,4 +207,43 @@ remove a file from repository
 git rm  BookingWebservice.war
 git commit -m "remove "
 git push origin master
+------------------------------
+
+STEPS TO pull , merge and commit code ( change REWRITE-INTEGRATION to the brnach from which code needs to be fetched)
+
+step 1 :
+before.bat ( get the code to some location other than eclipse workspace  ./before.bat <ur branch name>) 
+
+ @echo off
+
+if not "%1"=="" (
+ 
+echo "branch name=" %1
+git pull origin REWRITE-INTEGRATION
+git branch %1
+git push origin %1
+echo "branch" %1  "Created"
+git checkout %1
+
+) else (
+    echo branch name is empty
+)
+
+step 2 :- merge code from local workspace into the new branch 
+
+step 3:- commit code by running ( ./After.bat <ur branch name>) 
+After.bat :- 
+@echo off
+
+if not "%1"=="" (
+
+ 
+git add .
+git commit -m "%1"
+git push origin %1
+
+) else (
+    echo branch name is empty
+)
+
 
