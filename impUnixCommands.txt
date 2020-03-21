@@ -1,0 +1,48 @@
+Print the matched line, along with the 3 lines after it.
+grep -A 3 -i "example" demo_text
+
+
+Search for a given string in all files recursively
+grep -r "ramesh" *
+
+Find files using file-name
+find -iname "MyCProgram.c"
+
+Login to remote host
+ssh -l jsmith remotehost.example.com
+
+To uncompress a *.gz file:
+gzip -d test.txt.gz
+
+To extract a *.zip compressed file:
+unzip test.zip
+
+To connect to a remote server and download multiple files, do the following.
+ ftp IP/hostname
+ftp> mget *.html
+
+free, used, swap memory (RAM )available in the system.
+free
+
+top command displays the top processes in the system ( by default sorted by cpu usage ).
+top
+
+displays only the processes that belong to a particular user use -u option. 
+top -u oracle
+
+df -h displays output in human readable form
+
+Uname command displays important information about the system such as — Kernel name, Host name, Kernel release number,
+uname -a
+---------------------------------
+shift+g
+?searchKeyword
+
+vi fileName
+
+n to go up the selection
+
+N to go down the selection
+
+:q! // come out of editor
+-----------------------------------

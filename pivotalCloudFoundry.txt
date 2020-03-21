@@ -1,0 +1,32 @@
+https://docs.pivotal.io/pcf-dev/install-windows.html
+https://www.javainuse.com/pcf/pcf-setup
+
+To verify your installation, open a terminal window and enter cf. If your installation was successful, the cf CLI help listing appears.
+spaces :- are enviroments ie dev , stage , prod 
+org :- are business units ie applications ie EDD , AMPS 
+An Org can have multiple spaces
+each application can be accessed by a route  , there can be multiple routes to a single application
+Menifest files are configuration files
+droplet is self contained unit ie source code + run time configuration ie db connection +java
+IMP commands :- 
+cf apps ( to check all apps deployed )
+cf routes ( using routes we can access a application ) 
+cf map-route hello-world cfapp.io  --hostname hello-world-rest-api  (cfapp.io is domain , URL would be http://hello-world-rest-api.cfapp.io/hello-world) 
+cf orgs  ( list of orgs)
+cf stop hello-world  ( would stop the application ) 
+cf start  hello-world  ( would start the application ) 
+cf restart  hello-world  ( would restart the application ) 
+cf push hello-world -p target/hello-world.jar ( to deploy application on cloud foundry , hello-world.jar from local system will be deployed as hello-world)
+cf create-app-menifest hello-world ( to create menifest file , menifest file is configuration file to manage a application )
+cf push ( it will push or deploy app from menifest.yml configuration file ) 
+
+
+-----
+
+cf push command deploy , below are the steps it executes
+1. upload the jar file ie source code 
+2. staging , create a droplet (  source code +  java or db configuration or spring configuration ie run time env )
+3. deploy of droplet into cell ( cell is similar to virtual instance of a server) 
+
+when cloud foundry do the staging ie step 2 , it checks the jar file if java , or python or any other programming language used
+then it downloads java in step 2 and include it in droplet a normal hello world java application droplet would have hello world jar + java to run it.

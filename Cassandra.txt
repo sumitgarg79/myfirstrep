@@ -1,0 +1,23 @@
+https://docs.datastax.com/en/cql-oss/3.x/cql/cql_reference/cqlListPermissions.html
+https://www.tutorialspoint.com/cassandra/index.htm
+https://www.datastax.com/blog/2014/12/allow-filtering-explained
+
+list all permission
+LIST ALL ON madhu.employee
+ 
+in payments_test ( payments_test is keyspace , auth_recycle_rules is table )
+
+select * from payments_test.auth_recycle_rules
+
+SELECT * FROM system_schema.keyspaces where keyspace_name='payments_test'
+
+
+select * from payments_test.auth_recycle_rules  LIMIT 2  ( like rownum , returns only 2 rows)
+
+SELECT dateof(now()) FROM system.local ; ( returns current date)
+
+
+select * from payments_test.process_payments_async
+
+select * from mid_lookup; payments_01
+ 
