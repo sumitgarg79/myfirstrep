@@ -2,22 +2,111 @@ https://docs.datastax.com/en/cql-oss/3.x/cql/cql_reference/cqlListPermissions.ht
 https://www.tutorialspoint.com/cassandra/index.htm
 https://www.datastax.com/blog/2014/12/allow-filtering-explained
 
-list all permission
-LIST ALL ON madhu.employee
- 
-in payments_test ( payments_test is keyspace , auth_recycle_rules is table )
-
-select * from payments_test.auth_recycle_rules
-
-SELECT * FROM system_schema.keyspaces where keyspace_name='payments_test'
-
-
+SELECT * FROM system.peers; ( Display the IP address of peer nodes, datacenter (cluster) and rack names, ports, token values, versions, and other information.)
+SELECT * FROM system_schema.columns where table_name = 'memo_logs' ( to get all metadata info of the table )
+describe tables;
+LIST ALL ON madhu.employee ( list all permission ) 
 select * from payments_test.auth_recycle_rules  LIMIT 2  ( like rownum , returns only 2 rows)
-
 SELECT dateof(now()) FROM system.local ; ( returns current date)
-
-
-select * from payments_test.process_payments_async
-
-select * from mid_lookup; payments_01
+SELECT uuid() FROM system.local ;  (  returns random number )
  
+RDBMS  				 CASSANDRA
+Database server 	  cluster 
+database 			  keyspace 
+table				  column family
+
+----------
+
+There are no joins in cassandra , no SP, no triggers , no union, no subqueries, no functions , no commit /rollback
+Each cluster can have multiple nodes, data from one table can be stored on multiple nodes
+cluster is a container of key spaces
+in a table , a row can have 5 columns while other row can have 10 columns 
+we can add any number of nodes to scale it.
+----
+Replication factor can be configured at keyspace level and all tables( column families ) will follow same replication factor
+The total number of replicas for a keyspace across a Cassandra cluster is referred to as the keyspace's replication factor. A replication factor of one means that there is only one copy of each row in the Cassandra cluster.
+---------
+Expiring columns :- we give expiry date of the column and after that date , the column will be deleted
+for ex to store promo code we can use expiring columns
+----
+Counter columns :- maintains counter 
+super columns ?
+------
+
+The partition key is responsible for distributing data among nodes. 
+A partition key is the same as the primary key when the primary key 
+consists of a single column. Partition keys belong to a node. 
+Cassandra is organized into a cluster of nodes, 
+with each node having an equal part of the partition key
+
+if partition key is same then those records are on same node same node data is accessible faster
+only the first or first few columns are partition key , there can be single column or multiple columns in a partition key
+in CASSANDRA DATA SHOULD BE FETCHED BASED ON PARTITION KEY , PRIMARY KEY IS FOR RETRUNING DATA
+
+first element in primary key is partition key 
+-----------------
+to know the node for perticular   record use "nodetool getendpoints"
+
+------
+each node has set of tokens that can be stored in it
+----
+there is no normalization in cassandra
+
+-----------
+There are two parts to a PRIMARY KEY in Cassandra:
+
+partition key(s)
+clustering key(s) :- defines how data is sorted in nodes 
+
+in ORDER BY  we can only specify the columns defined in your CLUSTERING ORDER BY clause at table creation time. 
+So you cannot pick arbitrary columns to order your result set at query-time.
+
+EXAMPLE ( PARTITION KEY IS dept , CLUSTERING KEY IS EMPNO) 
+
+CREATE TABLE emp_by_dept (
+  empno text,
+  dept text,
+  name text,
+  PRIMARY KEY (dept,empno)
+) WITH CLUSTERING ORDER BY (empno ASC);
+ 
+ SO BELOW QUERY WOULD RETURN RECORDS SORTED ON EMPNO . NOTE:-  WHERE CLAUSE SHOULD HAVE PARTITION KEY
+SELECT * FROM emp_by_dept WHERE dept='IT';
+
+
+When we define a PK (partition-key+clustering-key), 
+then the results will always be order by Clustering columns within any fixed partition key (we must restrict to one partition-key value), that means there is no need of ORDER BY clause, since it cannot ever change the order of rows (the order in which rows are actually stored), i.e. Order By is useless.
+
+ORDER BY IS USELESS IN CASSANDRA, ITS ONLY REAL USE IS TO SWITCH YOUR SORT DIRECTION BETWEEN ASC AND DESC.
+
+BELOW would be a valid query if activity_id is partition-key and  dps_payment_id is clustering-key
+SELECT * FROM payments_01.memo_logs WHERE activity_id = b0a90b10-0b02-11ea-b367-7de7ce25a37e order by dps_payment_id
+
+--------------
+
+IF A INDEX IS CREATED ON A COLUMN AND WE USE THAT COLUMN IN WHERE CLAUSE OF QUERY , NO NEED TO USE ALLOW FILTERING
+ 
+for example if birth_year is a index
+SELECT * FROM users WHERE birth_year = 1981  ( no need to give ALLOW FILTERING ) 
+SELECT * FROM users WHERE birth_year = 1981 AND country = 'FR'; ( since country is not index, we have to use ALLOW FILTERING )
+SELECT * FROM users WHERE   country = 'FR'; ( since country is not index, we have to use ALLOW FILTERING )
+
+---------------
+ PARTITIONERS. 
+A partitioner determines how data is distributed across the nodes in the cluster.
+The partitioner configuration is a global configuration for the entire cluster.
+The Murmur3Partitioner is the default partitioning strategy for new Cassandra clusters and the right choice for new clusters  
+
+cassandra partitioners creates token using partition key. on each node, rows are sorted by the token generated  
+(and each partition have data sorted by the cluster key). Different partitioners perform different types of calculations.
+partitioners :- Murmur3Partitioner , ByteOrderedPartitioner & Murmur3Partitioner
+While the Murmur3Partitioner calculates the MurmurHash of the partion key, the ByteOrderedPartitioner uses the raw data bytes of the partition key itself: when you use the Murmur3Partitioner, your rows are sorted by their hashes, while when you use the ByteOrderedPartitioner, your rows are sorted directly by their raw values.
+---------------
+
+Insert data into the table cycling.calendar and use the USING TTL clause to set the expiration period to 86400 seconds.
+INSERT INTO cycling.calendar (race_id, race_name, race_start_date, race_end_date) VALUES (200, 'placeholder','2015-05-27', '2015-05-27') USING TTL 86400;
+
+after 86400 seconds this record will be removed and it will be updated with null value 
+-----
+writetime function will give the time when column was last updated
+-----
