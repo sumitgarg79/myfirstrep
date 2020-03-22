@@ -1,8 +1,53 @@
+git installed locally uses private key to make a connection with guthub, to make a secure connection
+
+STEP 1:- 
+create keys using putty keygen or git bash, private and public key will be generated , copy whole content of .pub ( public key)
+in git bash ssk keys setting 
+
+gitbash commnand to create ssh keys ( private and public .pub)
+ ssh-keygen -t rsa -C "Sumit.Garg26@T-mobile.com" ( change email address)
+ 
+ add below Git global setup
+git config --global user.name "Sumit Garg"
+git config --global user.email "sumit.garg26@t-mobile.com"
+
+STEP 2:- 
+to add multiple ssh keys 
+
+approach 1 :-  Registering the new SSH Keys with the ssh-agent as below but once the session is ended , below steps needs to be done again
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa    		( private key for github account) 
+ssh-add ~/.ssh/id_rsa_work_user1  ( private key for bitbucket account , id_rsa_work_user1 is the file in which private key is generated) 
+
+approach 2 :-
+create a config file 
+
+cd ~/.ssh/
+$ touch config and add different private keys as below
+#activehacker account
+Host github.com-activehacker
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/id_rsa_activehacker
+
+#jexchan account
+Host github.com-jexchan
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/id_rsa_jexchan
+	
+STEP 3:- 
+do a git clone and test if success
+----------------
 to connect to git sumitgarg79
 git clone  https://github.com/sumitgarg79/myfirstrep.git 
-
-git clone will create local repository
-
+-----------
+ALL BELOW ARE SAME
+git push origin  master
+OR 
+git push -u "url" master
+OR 
+git push -u https://github.com/sumitgarg79/myfirstrep.git  master
 ---------
 disable the SSL verification completely 
  git config --global http.sslVerify false
