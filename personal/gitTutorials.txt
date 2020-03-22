@@ -1,5 +1,4 @@
-git installed locally uses private key to make a connection with guthub, to make a secure connection
-
+git installed locally uses private key to make a connection with guthub, to make a secure connection follow below steps :-
 STEP 1:- 
 create keys using putty keygen or git bash, private and public key will be generated , copy whole content of .pub ( public key)
 in git bash ssk keys setting 
