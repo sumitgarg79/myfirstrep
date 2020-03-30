@@ -1,0 +1,64 @@
+BootstrapCDN is a public content delivery network. It enables users to load CSS, JavaScript and images remotely from its servers
+
+https://www.youtube.com/watch?v=CMk8xB90RpU&t=2478s
+https://www.tutorialspoint.com/bootstrap/index.htm
+https://www.softwaretestinghelp.com/bootstrap-interview-questions/
+https://hackr.io/blog/bootstrap-interview-questions
+https://career.guru99.com/top-25-bootstrap-interview-questions/
+https://getbootstrap.com/
+-----------------------------
+row should be placed in a container for proper padding and alignment and col (column)  should be inside row as below
+
+ <div class="container">
+  
+  <div class="row">
+  <div class="col-md-2">left side bar</div>
+  <div class="col-md-8">middle side bar</div>
+  <div class="col-mid-2">right side bar</div>
+  </div>
+  </div>
+</div>
+
+----
+
+col-md-2 is width of 2 , sum of all rows should be 12 as above col-md-2 + col-md-8 + col-mid-2
+if sum > 12 then last column will me moved below instead of 1 row
+
+---------
+
+The difference between span and div is that a span element is in-line and usually used for a small chunk of HTML inside a line (such as inside a paragraph) whereas a div (division) element is block-line (which is basically equivalent to having a line-break before and after it) and used to group larger chunks of code
+
+-----
+both border-color & border-style should be used if one of these used then it wont show border
+
+--------------------------
+https://www.youtube.com/playlist?list=PL6n9fhu94yhXd4xnk-j5FGhHjUv1LsF0V
+
+BootstrapCDN is a public content delivery network. It enables users to load CSS, JavaScript and images remotely from its servers
+https://www.youtube.com/watch?v=7GjHjZuYuAo (sublime autocomplete)
+
+https://www.youtube.com/watch?v=CMk8xB90RpU&t=2478s
+https://www.tutorialspoint.com/bootstrap/index.htm
+https://www.softwaretestinghelp.com/bootstrap-interview-questions/
+https://hackr.io/blog/bootstrap-interview-questions
+https://career.guru99.com/top-25-bootstrap-interview-questions/
+https://getbootstrap.com/
+https://www.w3schools.com/css/css_padding.asp
+https://www.w3schools.com/css/css_boxmodel.asp
+https://www.w3schools.com/css/css_outline.asp
+https://www.w3schools.com/bootstrap/bootstrap_navbar.asp
+https://www.w3schools.com/bootstrap/bootstrap_button_groups.asp
+https://www.w3schools.com/bootstrap/bootstrap_progressbars.asp
+https://www.w3schools.com/bootstrap/bootstrap_pagination.asp
+https://www.w3schools.com/bootstrap/bootstrap_list_groups.asp
+https://www.w3schools.com/bootstrap/bootstrap_dropdowns.asp
+https://www.w3schools.com/bootstrap/bootstrap_collapse.asp
+https://www.w3schools.com/bootstrap/bootstrap_tabs_pills.asp
+https://www.w3schools.com/bootstrap/bootstrap_forms_inputs2.asp
+https://www.w3schools.com/bootstrap/bootstrap_forms_inputs2.asp
+https://www.w3schools.com/bootstrap/bootstrap_carousel.asp
+https://www.w3schools.com/bootstrap/bootstrap_modal.asp
+https://www.w3schools.com/bootstrap/bootstrap_popover.asp
+https://www.w3schools.com/bootstrap/bootstrap_scrollspy.asp
+https://www.way2tutorial.com/html/tag/index.php
+https://www.way2tutorial.com/jquery/tutorial.php

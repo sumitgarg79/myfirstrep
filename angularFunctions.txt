@@ -1,0 +1,45 @@
+hardcode api ( save json file locally and return response 
+    var configURL = './assets/api/RuleTemplateDefination.json';
+    return this.http.get(configURL);
+	
+	
+	var text = '{ "name":"John", "birth":"1986-12-14", "city":"New York"}';
+var obj = JSON.parse(text, function (key, value) {
+  if (key == "birth") {
+    return new Date(value);
+  } else {
+    return value;
+  }
+});
+
+
+iterate over json :- 
+function inside(json)
+  {
+    for (i in json) {
+      if (typeof json[i] === 'object')
+        inside(json[i]);
+      else
+     if (json[i] == '$ref') { 
+	 
+	 }
+    }
+  }
+  inside(json);
+
+-----------
+http call to static file and returning data :- 
+var configURL = './assets/Payments-v2.json';
+    return this.http.get(configURL);
+---------------------------------------
+
+convert http response to json :- 		
+	 makeRequest(): void {
+    this.loading = true;
+    this.http.request('http://jsonplaceholder.typicode.com/posts/1')
+    .subscribe((res: Response) => {
+      this.data = res.json();
+      this.loading = false;
+    });
+  }
+  ---------

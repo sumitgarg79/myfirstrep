@@ -46,3 +46,9 @@ N to go down the selection
 
 :q! // come out of editor
 -----------------------------------
+command to search txt in current dir 
+
+ grep -inr 'McCC' .
+  perl -pi.back -e 's/{THE-REPOPATH-1}/\/space\/JavaCAPS6\/repository\//g;' geekfile.txt
+WORKING FINE TO RECURSIVELY UPDATE
+perl -pi.back1  -e 's/\#INSTALL_HOME\#/\/space\/JavaCAPS6\/appserver/g;' `grep -ril "#INSTALL_HOME#" *`

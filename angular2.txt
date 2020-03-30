@@ -1,0 +1,97 @@
+
+
+TWO WAY BINDING :- 
+1.
+add [(ngModel)]="model.name" as below ( model is object name , name is its property )
+ <input type="text" class="form-control" id="name" required  [(ngModel)]="model.name" name="name">
+
+2. ( add below in class in .ts file )
+model = new Hero(18, 'Dr IQ', this.powers[0], 'Chuck Overstreet');
+
+3. below is the class of which object model is created .
+export class Hero {
+
+    constructor(
+      public id: number,
+      public name: string,
+      public power: string,
+      public alterEgo?: string
+    ) {  }
+  
+  }
+
+   [(ngModel)]="model.power"  in form element would bind to power variable 
+
+Using ngModel in a form gives you more than just two-way data binding. It also tells you if the user touched the control, if the value changed, or if the value became invalid.
+---------------------------------
+
+HOW TO DEBUG A ANGULAR APPLICATION :- 
+
+1. INSTALL DEBUGGER FOR CROME
+2. INSTALL MONO DEBUG ( VISUAL STUDIO CODE DEBUGGER)
+3. WHILE ADDING PROJECT INTO VISUAL STUDIO , OPEN FOLDER WIHCH IS ROOT PROJECT IE 
+   IF NEW PROJECT ng new testproj is created , then open testproj folder only not src or app folder from visual studio
+4. open launch.json and change 8080 port to 4200 in chrome configuration 
+-------------------------------------
+ngForm :- 
+using below instead of <form> as below,  #heroForm can be any any variable while ngForm is constant
+<form #heroForm="ngForm" (ngSubmit)="register(myform)" >
+ngForm can be passed to register method and we can access many useful properties of ngForm either in your template or in your component:
+myform.value , myform.valid, myform.touched:
+
+example of ngForm
+https://www.techiediaries.com/angular-ngform-ngnoform-template-reference-variable/
+
+---------------------------------
+angular forms
+https://www.tutorialspoint.com/angular7/angular7_forms.htm
+
+-------------------------
+  model driven  can be used in situations like :- 
+
+	Complex forms with more number of fields.
+	Multiple complex validation are there. Custom validations are required
+	Require JSON structure to be send with the values in the form.
+
+formGroup : binds the <form> element to our top-level
+formControlName :- directive  maps each form control in the template with a named form control in the model,
+--------------
+template driven form:-
+just by adding FormsModule to our NgModule imports, our template form is already associated with an instance of the NgForm directive. ie <form #f="ngForm"> ... </form>
+
+------------
+
+Reactive form in model driven form
+
+step 0 import ReactiveFormsModule in module.ts
+step1 :- 
+<form [formGroup] = "formdata" ...<form> 
+step2 : -create a formdata element of type FormGroup in component 
+step 3: {{formdata.value | json}}  
+
+----------------
+two way data binding can be done in template driven and model driven using [(ngModel)]
+
+---------------------------------
+https://angular.io/guide/cheatsheet
+
+----
+Model driven form are reactive form. , we can combine model driven form and template driven form in same form
+
+----------------------
+to access variable defined in enviroment.prod.ts or enviroment.ts in component
+tempvariable = enviroment.variablename;  (variablename is variable defined  )
+----
+to run angular compiler 
+node_modules/.bin/ngc
+------
+to build in prod mode
+ng build --prod  ( it will load enviroment.prod.ts )
+
+-------
+scripts section in package.json is used to add commands that can be run via angular cli
+--
+command to install webpack , webpack-cli , webpack dev server
+npm install --save-dev webpack  webpack-cli webpack-dev-server
+-----------------
+

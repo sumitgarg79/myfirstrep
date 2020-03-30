@@ -1,0 +1,25 @@
+https://www.journaldev.com/3963/mongodb-java-crud-example-tutorial
+https://www.tutorialspoint.com/mongodb/index.htm
+https://docs.mongodb.com/manual/tutorial/query-documents/
+https://www.guru99.com/mongodb-interview-questions.html
+https://intellipaat.com/blog/interview-question/mongodb-interview-questions/
+MongoClient is the interface between our java program and MongoDB server. MongoClient is used to create connection, connect to database, retrieve collection names and create/read/update/delete database, collections, document etc
+
+com.mongodb	Main package with core files.
+
+db.createCollection(name, options) to create table
+
+In MongoDB, you don't need to create collection. MongoDB creates collection automatically, when you insert some document
+		
+
+RDBMS		MongoDB
+Database	Database
+Table		Collection
+Tuple/Row	Document
+column		Field
+Table Join	Embedded Documents
+Primary Key	Primary Key (Default key _id provided by mongodb itself)
+
+Object ID - This datatype is used to store the document’s ID.
+_id is primary key, if we don't specify the _id parameter, then MongoDB assigns a unique ObjectId for this document.
+
