@@ -1,0 +1,148 @@
+MAVEN
+https://www.youtube.com/watch?v=x8sMN4tossY&t=690s
+
+fix eclipse project error when maven build is success
+
+mvn eclipse:eclipse
+
+-------------------
+
+below can be run from eclipse run configurations :- 
+
+clean package install -Dmaven.test.skip=true  
+spring-boot:run
+if running from command prompt ( same folder that contains pom.xml):- 
+
+mvn clean package install -Dmaven.test.skip=true 
+mvn spring-boot:run
+----------
+to start execution from where the maven build failed
+C:\Sumit\CODE\T-mobile\digitalpaymentsruleengine>mvn clean install -rf :rule-engine-service
+-------
+.m2 dir contains jars and pom file also which either contains transitive dependencies or no dependency
+if transitive dependency is present , maven will download those jars also, if not no dependent jars will be downloaded
+while running build maven looks for .pom file but sometimes .pomlastUpdated file is present , if there is no dependency this 
+file can be renamed to .pom . or to download again remove the files in whole folder and run maven again
+there is a maven command to remove all previously downloaded jars and do a fresh download
+we can also manually remove all files from repository folder and when we run mvn clean install , alll dependencies 
+will be downloaded again 
+-------------
+if we change maven repository , maven might downloads from old repository to fix this
+1. delete all files from .m2/repository
+2. run command to clear maven repository cache
+-----------------
+to configure maven in IDE give maven home path and also settings.xml path
+--------------
+maven phase represents stage in maven build lifecycle
+package will combine source into jar/war etc, install phase installs to local repository, deploy phase jar/war is copied to remote repository
+------
+phases are executed in specific order
+each maven goal are bound to phase
+mvn compiler:compile  ( compiler:compile is goal, compiler is plugin and compile is phase ) , this compile goal is bound to compile phase 
+mvn jar:jar is bound to package phase. check phases for each goal maven on google.
+a phase is mapped to multiple goals
+------------------
+maven plugin is a group of goals, plugin is mapped to goals
+goals are executed by plugin, <plugin> declaration modifies plugin
+ 
+compiler plugin has 2 goals 1) compile and 2) test-compile
+
+
+resources:resources  goal would only copy resources 
+
+in maven build goal , we can give life cycle phases
+A maven plugin can only be executed if it's bound a life-cycle phase in Maven.
+-------------
+
+BELOW plugin would copy to target locatoion
+ 
+                <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>F:/testMaven/Java9ModuleOut</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>C:/Users/sumit.garg/eclipse-workspace_photon/DemoJava9/Java9ModuleOut</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+      
+      
+-----
+
+ <resource> default resources tag are src/main/java and src/main/test 
+ if need to give additional src dir , can be given using resource as below 
+ 
+<resource>
+<directory>C:/Users/sumit.garg/eclipse-workspace_photon/DemoJava9/Java9ModuleOut</directory>
+	<targetPath>F:/testMaven/</targetPath>
+<filtering>true</filtering>
+</resource>
+
+
+-------
+
+execute a goal
+mvn groupId:artifactId:version:goal
+---
+ 
+maven compile will only compile if class files are not upto date , if we add jar in class path using eclipse and not in maven dependecncy
+then project will be compiled and when mave compile runs it will run without any issue since eclipse classpth jars already helped compiling classes
+maven can only compile classes using jars in its dependency
+
+------
+
+backup from 
+<descriptorRefs>
+  <descriptorRef>jar-with-dependencies</descriptorRef>
+</descriptorRefs>
+ 
+ to
+ 
+<descriptor>src/bin/bin.xml</descriptor>
+<descriptor>src/bin/bin1.xml</descriptor>
+ </descriptors>
+
+----------------
+
+we can give jars in local machine as mave dependecy ie not need to be at maven repository as example below using <systemPath>
+
+<dependency>
+          <groupId>com.sun</groupId>
+          <artifactId>tools</artifactId>
+          <scope>system</scope>
+          <version>1.6</version>
+         <systemPath>${java.home}/../Classes/classes.jar</systemPath>
+       </dependency>
+-----------------
+
+we can use mirror to override other repositories defined , for example in below settings.xml , mirror repository 
+will be used , since it is  <mirrorOf>*</mirrorOf> , it will overide all other repositories 
+
+https://stackoverflow.com/questions/36757902/what-is-mirror-in-maven-settings-xml-file
+  <mirrors>
+    <mirror>
+      <mirrorOf>*</mirrorOf>
+      <name>snapshot-internal-repositories</name>
+      <url>https://artifactory.service.edp.t-mobile.com/artifactory/snapshot-internal-repositories</url>
+      <id>snapshot-internal-repositories</id>
+    </mirror>
+  </mirrors> 
+  <profiles>
+     
+  </profiles>
+   
+ -----------------------------------

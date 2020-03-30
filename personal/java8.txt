@@ -1,0 +1,80 @@
+int[] intArray = {1, 2, 3, 4, 5, 6};
+Stream<int []> arrayStream= Stream.of(intArray);
+String[][] data = new String[][]{{"a", "b"}, {"c", "d"}, {"e", "f"}};
+---
+String[][] data = new String[][]{{"a", "b"}, {"c", "d"}, {"e", "f"}};
+Stream<String[]> temp1 = Arrays.stream(data);
+Stream<String> stringStream = temp1.flatMap(x -> Arrays.stream(x));
+
+--------------------------
+int[][] aaa = {{1,2} ,{3,4}};
+use flatMapToInt to flatten it
+
+String[][] data1 = new String[][]{{"aaa", "dfdb"}, {"casd", "asdasd"}, {"sumitgarg", "fss"}};
+System.out.println("largest word = " +  dataStream.flatMap( a -> Arrays.stream(a) ).reduce(  (word1,word2) -> word1.length() > word2.length()?word1 :word2  ).get());
+
+int[][]aaa1 = {{1,2} ,{3,4} , {55,33}};  
+( even number )
+Arrays.stream(aaa1).flatMapToInt(z -> Arrays.stream(z)).sorted().filter(z -> z%2==0).forEach(System.out::println);
+( odd number )
+Arrays.stream(aaa1).flatMapToInt(z -> Arrays.stream(z)).sorted().filter(z -> z%2!=0).forEach(System.out::println);
+
+Map to List :-
+Map<Integer, String> map11 = new HashMap<>();
+ List<String >result  = map11.entrySet().stream().map(x->x.getValue()).collect(Collectors.joining(","));
+   
+filter map :-
+Map<Integer, String> collect = map.entrySet().stream()
+.filter(x -> x.getKey() == 2)
+.collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));            
+               
+---
+
+reduce , sum , max , min returns only 1 element
+
+map performs operation on each element
+--------------
+http://javabypatel.blogspot.com/2018/06/java-8-stream-practice-problems.html
+https://howtodoinjava.com/java8/java-streams-by-examples/
+https://www.geeksforgeeks.org/stream-reduce-java-examples/
+https://mkyong.com/java8/java-8-filter-a-map-examples/
+https://www.mkyong.com/java8/java-8-streams-filter-examples/
+https://javarevisited.blogspot.com/2017/07/top-50-java-programs-from-coding-Interviews.html 
+
+List to Array :-
+   ArrayList list = new ArrayList();
+   list.toArray()
+   
+ArrayToList:-
+int elements[] = {1,2,3,4,5,44,3,55,6};
+List ssds =  Arrays.asList(elements);
+
+String to array
+String ss = "temp" ;
+        ss.toCharArray();
+ 
+  Intermediate Operations
+
+filter()
+map()
+flatMap()
+distinct()
+sorted()
+peek()
+limit()
+skip()
+
+Terminal Operations
+forEach()
+forEachOrdered()
+toArray()
+reduce()
+collect()
+min()
+max()
+count()
+anyMatch()
+allMatch()
+noneMatch()
+findFirst()
+findAny()
