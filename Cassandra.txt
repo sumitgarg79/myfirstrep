@@ -1,4 +1,4 @@
-https://docs.datastax.com/en/cql-oss/3.x/cql/cql_reference/cqlListPermissions.html
+https://docs.datastax.com/en/cql-oss/3.x/cql/cql_reference/cqlListPermissions.html .
 https://www.tutorialspoint.com/cassandra/index.htm
 https://www.datastax.com/blog/2014/12/allow-filtering-explained
 
