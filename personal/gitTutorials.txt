@@ -1,7 +1,9 @@
-git installed locally uses private key to make a connection with guthub, to make a secure connection
+git installed locally uses private key to make a connection with guthub, 
+to make a secure connection
 
 STEP 1:- 
-create keys using putty keygen or git bash, private and public key will be generated , copy whole content of .pub ( public key)
+create keys using putty keygen or git bash,
+ private and public key will be generated , copy whole content of .pub ( public key)
 in git bash ssk keys setting 
 
 gitbash commnand to create ssh keys ( private and public .pub)
@@ -41,6 +43,7 @@ do a git clone and test if success
 ----------------
 to connect to git sumitgarg79
 git clone  https://github.com/sumitgarg79/myfirstrep.git 
+git clone -b feature/ObjectReference git@gitlab.com:tmobile/eps/mustangs/digitalpaymentruleenginestudio.git
 -----------
 ALL BELOW ARE SAME
 git push origin  master

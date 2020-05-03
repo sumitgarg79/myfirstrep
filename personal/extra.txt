@@ -1,15 +1,27 @@
+INtellij 
+CONFIGURE PROJECT FROM ONE IDE instance into another :- 
+when we create a project in intellij , .idea file is created along with application related java project.
+we can archive this whole folder including .idea file and extract somewhere else and go to intellij and click on open 
+a pop up will open asking for folder name , go the folder and the project will be opened and no need to configure again.
+
+also we can export the settings , settings.zip will be created, import that setting in another intellij IDE 
+NOTE  :- we click file -> open and give the path where .idea file is present , then the project will be imported 
+-------------------------------------
+single project  having <module> is a multi module project if no module defined in pom.xml then all modules are independent
+and pluginmanagement and dependdencymanagement wont work 
+-----------------
+to view certificates in chrome
+ Settings → Advanced → Manage Certificates... → Authorities
+ ---------------------------
 sourceTree for bit, sqlyog,windows powershell , agent Ransack for searching in windows
-
-
 Jackson API :- 
-Jackson is a high-performance JSON processor for Java. Its developers extol the combination of fast, correct, lightweight, and ergonomic attributes
-
-com.fasterxml.jackson.databind.ObjectMapper
-
-ObjectMapper provides functionality for reading and writing JSON, either to and from basic POJOs (Plain Old Java Objects), or to and from a general-purpose JSON Tree Model 
-
---------------------------------------------------------------------------------------------- 
-
+Jackson is a high-performance JSON processor for Java. 
+Gson is different java-json parser library .
+java to json :- 
+List contactList = new ArrayList<>("test1" , "test2");	 == { "contactList":["test1","test2"]  }
+int[] intArray = new int[]{ 1,2,3   };  		 		 ==  { "intArray":[1,2,3]  		}
+String[] stringArray = new String[]{ "1","2"   }; 		 ==  { "stringArray":["1","2"]   }
+private Map<String,Object> payload; 					 === {  "payload":["1","2"]   } 
 -----------------------------------------------------
 jmap and jhat are for creating heap dump and analyzing it
 
@@ -99,3 +111,51 @@ DO NOT EXTRACT JAR IF DOING MANUALLY , ELSE USE JAR -CVF COMMAND
 ------
 command to get process running on a port
 netstat -ano | findstr 8080
+
+----------------Drool rule engine START -----------------------
+ 
+The WorkingMemory is a super-interface for all StatefulKnowledgeSessions. Although, users are encouraged to use StatefulKnowledgeSession or KnowledgeRuntime interface instead of WorkingMemory interface, specially because of the dispose() method that is only available in the StatefulKnowledgeSession interface
+
+https://stackoverflow.com/questions/17175037/droolsstateless-vs-stateful-knowledge-session
+
+Facts
+Facts are the data on which the rules will act upon. From Java perspective, Facts are the POJO (Plain Old Java Object).
+A dialect specifies the syntax used in any code expression that is in a condition or in a consequence. It includes return values, evals, inline evals, predicates, salience expressions, consequences, and so on. The default value is Java
+Salience, Salience is a keyword in the . drl file and we can assign a positive or negative number to salience. This number denotes the priority, Higher number means higher priority, Rule with higher salience number will be executed first by Drools engine
+
+example 
+rule "Offer for User"  salience 2
+     when
+     productObject: Product(user=="sumit")
+     then
+     productObject.setDiscount(100);
+     end
+
+A variable name in Drools starts with a Dollar($) symbol.
+Rule Consequence Keywords are the keywords used in the “then” part of the rule.
+Modify - The attributes of the fact can be modified in the then part of the Rule.
+Insert - Based on some condition, if true, one can insert a new fact into the current session of the Rule Engine.
+Retract - If a particular condition is true in a Rule and you don’t want to act anything else on that fact, you can retract the particular fact from the Rule Engine.
+
+https://docs.jboss.org/drools/release/6.0.1.Final/drools-docs/html_single/index.html#d0e13220
+imp points and debugging drool
+https://www.tutorialspoint.com/drools/drools_quick_guide.htm
+https://examples.javacodegeeks.com/enterprise-java/jboss-drools/drools-rule-engine-tutorial/
+
+----------------Drool rule engine END -----------------------
+JNIT 
+
+@SpringJUnit4ClassRunner and @SpringRunner :- there is no difference between these , both are same
+----
+@RunWith(MockitoJUnitRunner.class) is kind of good for all the standard cases while @RunWith(PowerMockRunner.class) 
+is needed for the harder cases. That includes for example mocking static and private methods
+---
+The SpringRunner provides support for loading a Spring ApplicationContext and having beans @Autowired into your test instance. It actually does a whole lot more than that (covered in the Spring Reference Manual), but that's the basic idea.
+Whereas, the MockitoJUnitRunner provides support for creating mocks and spies with Mockito.
+However, with JUnit 4, you can only use one Runner at a time.
+Thus, if you want to use support from Spring and Mockito simultaneously, you can only pick one of those runners.
+
+-----------------
+Mockito is simple and always used , in case to mock static or private methods then only use powerMock
+If you dont need to mock static or private functions than you dont need to use PowerMock. PowerMock is a wrapper around other mocking frameworks.
+--------------
