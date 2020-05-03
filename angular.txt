@@ -1,7 +1,6 @@
 working
 C:\notes\angular\my-first-project     ( general project)
 C:\notes\angular\routingProject\routingProj   ( routing project)
-
 https://www.tutorialspoint.com/angular7/index.htm
 https://angular.io/start ( official url)
 https://www.geeksforgeeks.org/angular-7-directives/
@@ -19,8 +18,22 @@ https://hackr.io/blog/angular-interview-questions
 https://angular.io/guide/component-interaction
 https://angular.io/guide/template-syntax#inputs-outputs
 https://www.youtube.com/watch?v=k5E2AVpwsko  1:27 22.22 , 52
+https://dzone.com/articles/understanding-output-and-eventemitter-in-angular
+https://medium.com/angular-in-depth/debug-angular-apps-in-production-without-revealing-source-maps-ab4a235edd85
+---------------
+package-lock.json is automatically generated for any operations where npm modifies either the node_modules tree, or package.json
+when ever there is error like An accessor cannot be declared in ambient-context then use --skipLibCheck	 = true in compiler options
 
+------
+for reactive http://reactivex.io/documentation/observable.html
 
+using search text filter if we type something in textbox or any other places , it will filter the list/table
+ to which this search text filter is used
+--------------
+converts xls to json using xlsx library 
+DomSanitizer is used for preventing Cross Site Scripting Security bugs (XSS) ie for security purpose
+-----
+file-saver library can be used to save files
 ------
 
 npm global or local packages
@@ -184,6 +197,7 @@ C:\Users\SumitG\AppData\Roaming\npm-cache\_logs\2019-08-27T08_21_57_498Z-debug.l
 ---------------------------------------------
 COMMANDS
 
+npm uninstall @angular-devkit/build-angular  ( to uninstall ) 
 node --version
 npm --version
 npm install -g @angular/cli  ( to install angular CLI)
@@ -210,10 +224,12 @@ npm config set http-proxy  http://inetgw.aa.com:4713/files/proxy91.pac
 ng generate class CarModel ( generate class type, run command from app folder , it will create 2 files )
 ng generate module [name]  ( generate module )
 npm install --save-dev @angular-devkit/build-angular  
-npm ls @angular/compiler-cli
+npm ls @angular/compiler-cli  ( to check the version of the module)
+npm update node-sass  ( to update to a latest version ) 
 npm install  @angular-devkit/build-angular
 npm ls @angular-devkit/build-angular  
-npm install -g @angular/compiler-cli
+npm install -g @angular/compiler-cli  ( install globally )
+npm install    @angular/compiler-cli@latest   ( install latest version locally)
 ng generate service hero  ( to create new service)
 npm install --save-dev  @angular/compiler-cli
 
@@ -339,14 +355,8 @@ Local Scope - Local variables, as the name suggests, are declared within the con
  typeof
  
  ----------------
- 
- how to debug ?
- 
- json object from class 1 imported into class 2 not accessible ?
- 
-  create a new module and import it ?
- 
-   RouterModule.forRoot(  
+
+    RouterModule.forRoot(  
         appRoutes,
         { enableTracing: true } // <-- debugging purposes only
     )

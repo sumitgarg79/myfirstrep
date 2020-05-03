@@ -19,7 +19,48 @@ Tuple/Row	Document
 column		Field
 Table Join	Embedded Documents
 Primary Key	Primary Key (Default key _id provided by mongodb itself)
-
+-------------
 Object ID - This datatype is used to store the document’s ID.
 _id is primary key, if we don't specify the _id parameter, then MongoDB assigns a unique ObjectId for this document.
+
+---------
+all relations are maintained in single table ie collection , no two collection maintains any relation .
+-----------
+TO GET FIELD TYPE ( CAPABILITY IS FIELD ) 
+
+ typeof db.getCollection('dpr_capability').findOne().capability
+------
+OR  
+ db.getCollection('dpr_capability').find({$or:[{"capability":"Chargeback"},{"capability": "PaymentValidation"}]}).pretty()
+-----
+AND
+db.getCollection('dpr_capability').find({$and:[{"capability":"Chargeback"},{"capability": "PaymentValidation"}]}).pretty()
+---------
+'where likes>10 AND (by = 'tutorials point' OR title = 'MongoDB Overview')'
+b.mycol.find({"likes": {$gt:10}, $or: [{"by": "tutorials point"},{"title": "MongoDB Overview"}]}).pretty()
+-------  --------- 
+UPDATE 
+db.mycol.update({'title':'MongoDB Overview'},{$set:{'title':'New MongoDB Tutorial'}})
+update on multiple condition
+db.getCollection('dpr_rules_test').update({'capability':'test123456' ,  "templateName" : "test1234rule1" },{$set:{'processType':'Prevalidation1'}},{multi:true})
+
+---------
+SORT ( To specify sorting order 1 and -1 are used. 1 is used for ascending order while -1 is used for descending order.) 
+db.COLLECTION_NAME.find().sort({"title":-1})  
+
+----------------
+using like  "fraud%'  :- 
+db.getCollection('dpr_rules').find( { "ruleName" : /^fraud/ }).pretty()
+--------
+using like  "%fraud%'  :- 
+db.getCollection('dpr_rules').find( { "ruleName" : /fraud/ }).pretty()
+
+--------------------
+distinct for a given key
+db.getCollection('dpr_rule_template').distinct( "ruleTemplateName") 
+https://www.w3resource.com/mongodb/shell-methods/collection/db-collection-distinct.php
+
+---------
+total count 
+db.getCollection('dpr_rules').count()
 

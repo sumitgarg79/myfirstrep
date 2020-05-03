@@ -87,7 +87,11 @@ https://www.youtube.com/watch?v=z90Dcid2py4
 zuul api gate way uses ribben to load balance 
 
 
-traditional Server side load balancing is involved in monolithic applications where we have limited number of application instances behind the load load balancer. We deploy our war/ear files into multiple server instances which are basically a pool of server having the same application deployed and we put a load balancer in front of it.
+traditional Server side load balancing is involved in monolithic applications where
+ we have limited number of application instances behind the load load balancer. 
+ We deploy our war/ear files into multiple server instances which are basically a
+ pool of server having the same application deployed and we put a load balancer
+ in front of it.
 To overcome the problems of traditional load balancing, client side load balancing came into picture. They reside in the application as inbuilt component and bundled along with the application, so we don’t have to deploy them in separate servers.
  
  
@@ -96,17 +100,21 @@ To overcome the problems of traditional load balancing, client side load balanci
   if one microservice wants to communicate with another microservice :- 
  1. it generally looks up the service registry using discovery client 
  2. Eureka server returns all the instances of that target microservice to the caller service.
- 3.  Then it is the responsibility of the caller service to choose which instance to send request.using using @LoadBalanced annotation
+ 3.  Then it is the responsibility of the caller service to choose which instance to 
+ send request.using using @LoadBalanced annotation
  
  
  Spring client side load balancing :- 
  Spring Netflix Eureka has a built-in client side load balancer called Ribbon.
- Ribbon can automatically be configured by registering RestTemplate as a bean and annotating it with @LoadBalanced.
- In this example we will focus on how to access a microservice instance transparently using RestTemplate and @LoadBalance.
+ Ribbon can automatically be configured by registering RestTemplate as a bean and 
+ annotating it with @LoadBalanced.
+ In this example we will focus on how to access a microservice instance transparently
+ using RestTemplate and @LoadBalance.
  
  
  @EnableHystrixDashBoard – To give dashboard view of Hystrix stream.
  @HystrixCommand(fallbackMethod = "fallbackMethod")
+ https://www.tutorialspoint.com/spring_boot/spring_boot_hystrix.htm
  
  HOW TO ENABLE HYSTRIX DASHBOARD
  1.  @EnableHystrixDashBoard ADD THIS TO APPLICATION JAVA FILE

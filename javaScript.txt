@@ -1,0 +1,159 @@
+NOTE :- Object.keys returns an array of the given object’s property names
+        in case if object is json object it returns and array of all keys 
+		in case object is array object it returns array of index ie 01,2,3,4...
+		NOTE :- it does not display recursive data , for that need to write function
+---------
+var x = function (a, b) {return a * b};
+var z = x(4, 3);
+
+https://babeljs.io/repl/  ( converts ES 6 to ES 5 )
+http://jshint.com/ or http://www.jslint.com/ 
+-----------------------------------------------
+annomous function can be written as below 
+(to remember the difference replace  "function"  with => and move it to right of () ) 
+var anon = function (a, b) { return a + b }; 
+OR 
+var anon = (a, b) => { return a + b };
+
+--------------------
+
+creating object in JS
+
+obj11 = {
+next:10,
+err: () => console.log(1089870),
+comp: "sss"
+}
+console.log(this.obj11.next  + "," +" , "+this.obj11.comp);  // would display 10 and sss
+this.obj11.err() ; // would display 1089870
+----------------------
+var person = {
+  firstName: "John",
+  lastName: "Doe" 
+};
+lastname can be accessed person.lastName; or person["lastName"];
+-----
+arr = [1,2,3];
+var json1 =  { name:"sumit"} ;
+both of these are typeof object 
+but Array.isArray(arr) is true and Array.isArray(json1) is false
+---------------
+
+typeof obj11 is object 
+obj11 = {
+next:10,
+err: () => console.log(1089870),
+comp: "sss"
+}
+-------------
+
+creating object 
+// Create an object:
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  get fullName() {
+    return this.firstName + " " + this.lastName;
+  }
+};  
+------------
+When the sourceMap set to false. the output will be built with out a sourcemap file.
+ And you can't debug with the browser on ts file without that.
+
+--------------------------------------------------------------------
+TO display keys and values , use Object 
+
+let objArr = [
+  'apple',
+  'microsoft',
+  'amazon',
+  'alphabet',
+  'tencent',
+  'alibaba'
+];
+console.log("values"+Object.values(objArr)); // display apple, microsoft...
+console.log("values"+Object.keys(objArr));  displays 0,1,2,3,....
+
+let obj = {
+  name: 'Krunal',
+  education: 'IT Engineer'
+} ;
+console.log(Object.keys(obj)); // display name, education
+
+-------------------------------------------
+var abcd = JSON.parse(temp)  // temp is json object , 
+let keyData = Object.keys(abcd);  // keyData is array of all keys
+ console.log(keyData); // display all keys 
+keyData.forEach( element => console.log(abcd[element])); // display all values
+-----------------------------------
+all the java script classes are derived from Object class , this class has some inbuild functions 
+--------------
+data is json object 
+this.temp = Array.from(Object.keys(data), k=>data[k]);
+ // this.temp is a array of values ie it stores only values not keys 
+----
+iterate over array (  these are not recursive )
+https://www.geeksforgeeks.org/ways-iterating-array-javascript/
+1:-
+var myStringArray = ["Hello","World"];
+var arrayLength = myStringArray.length;
+for (var i = 0; i < arrayLength; i++) {
+    console.log(myStringArray[i]);
+    //Do something
+}
+2:-
+const array = ["one", "two", "three"]
+array.forEach(function (item, index) {
+  console.log(item, index);
+});
+3:-
+array.forEach(item => console.log(item));
+
+----
+in a string array (ie non json array) , key is always 0,1,2,3...
+and value is actual value
+---
+WE ONLY USE Json.Parse WHEN WE HAVE A STRING OBJECT THAT NEEDS TO BE CONVERTED 
+IN JSON , IF WE ALREADY HAVE A JSON OBJECT THEN WE DONT NEED TO PARSE IT
+EXAMPLE NO NEED TO PARSE BELOW OBJECT AS IT IS ALREADY JSON OBJECT 
+let myObject = {
+  "employeeid": "160915848",
+  "firstName": "tet",
+  "lastName": "test" 
+};
+-----
+we can pass json array object into JSON.parse method , it will parse 
+else json object will be printed on console as [Object]
+----
+let myObject =  { "name" : "sumit" };
+myObject["addr"] = "temp";  // correct way of adding element  to myObject 
+myObject.addr = "temp";    //INCORRECT way of adding element to json myObject 
+
+----------
+
+ITERATE OVER JSON RECURSIVELY AND CHANGE VALUE:- 
+
+function inside(json)
+  {
+    for (let i in json) {
+      if (typeof json[i] === 'object')
+        inside(json[i]);
+      else
+     if (json[i] == '$ref') { 
+	 // do something
+	 }
+    }
+	return json;
+  }
+ let test = inside(json);
+ 
+--------------------------
+to write into a file 
+var ss = JSON.stringify(test);
+const fs = require('fs');
+fs.writeFileSync('2pac.txt', ss, 'ascii'); 
+-------
+let myObject = { "employeeid": "160915848" } 
+console.log(myObject["abcd"]);   // this code will log undefined but wont throw error
+console.log(myObject["abcd"]["xyz"]);  // this code throw error Cannot read property 'xyz' of undefined
+-------------------

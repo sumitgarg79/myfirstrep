@@ -35,7 +35,7 @@ HOW TO DEBUG A ANGULAR APPLICATION :-
 -------------------------------------
 ngForm :- 
 using below instead of <form> as below,  #heroForm can be any any variable while ngForm is constant
-<form #heroForm="ngForm" (ngSubmit)="register(myform)" >
+<form #myform="ngForm" (ngSubmit)="register(myform)" >
 ngForm can be passed to register method and we can access many useful properties of ngForm either in your template or in your component:
 myform.value , myform.valid, myform.touched:
 
@@ -94,4 +94,116 @@ scripts section in package.json is used to add commands that can be run via angu
 command to install webpack , webpack-cli , webpack dev server
 npm install --save-dev webpack  webpack-cli webpack-dev-server
 -----------------
+using @Input() ( Input needs to be defined in child) 
+example :- 
+the component which includes below needs to have parent property name in its ts file and child property name should be present in child component
+we can access value in child component html as  {{child}} 
+ <app-rxjs-comp   *ngIf="true"  [child]="parent"  ></app-rxjs-comp>
+----------------------------
+ng-if and ng-for together should always be used within ng-container
+----------------
+@Output with EventEmitter to be used when there is some event in child component and parent component get notifcation
 
+button click on child increments counter and emits an event which is passed to parent component using event binding 
+and parent componet calls function when that event is received from child
+https://dzone.com/articles/understanding-output-and-eventemitter-in-angular
+-------------------
+push adds new element to array
+this.heroes.push("new value");
+stream methods like reduce , map , filter , foreach can be used with an array and not with string
+----------------------
+event type
+https://www.positronx.io/useful-list-of-angular-7-event-types-for-event-binding/
+------
+to apply CSS classes dynamically use [ngClass] and [ngStyle]
+------
+In ReactiveX an observer subscribes to an Observable.
+subscribe method takes next , error and complete as arguments
+----
+
+observable is wrapper around some data to be observed , observer subscribe to observable 
+
+observer implements next , error and complete methods , in below this.myservice.getData() is observable ie data to be observed
+to which observer subscribed , observer is input to subscribe method
+OBSERVEABLE CALLS NEXT , ERROR , COMPLETE FUNCTIONS OF OBSERVER WHENEVER IT TRANSMITS DATA
+ observable.subscribe(observer) 
+OR 
+this.myservice.getData().subscribe( observer object ) ;	
+-------------------------------------------------------------------
+OBSERVER CAN BE CREATED USING BELOW METHOD :- 
+METHOD 1:- 
+ var observer = {
+      next: function temp(){
+        console.log("next");
+      },
+      error: function temp1(){
+       console.log("error");
+      },complete: function temp2(){
+       console.log("complete");
+      }
+     }
+METHOD 2:- 
+const myObserver = {
+  next: (x: string) => console.log('Observer got a next value: ' + x),
+  error: (err: string) => console.error('Observer got an error: ' + err),
+  complete: () => console.log('Observer got a complete notification'),
+};	 
+
+---------------------------- 
+fromEvent in rxjs is used to subscribe from from event ie observer methods next , error complete  will be called 
+-------
+debounceTime waits for some time before data is published , it is used when we are entering data on same data is send to http request
+  from(temp1).pipe(debounceTime(100)).subscribe(data => console.log(data));
+  distinctUntilChanged is used with debounceTime 
+-------------
+BehaviorSubject in rxjs :-  it is a speacial type of observerable 
+we can push values to it , and expose it as observable so that other observers can subscribe to it 
+once its value is changed , other objects can get the values
+using this we can pass values from grand child component to grand parent component
+------------------------
+Now whenever parent component changes value (even single letter typed) in any of its property that has been used in child component,
+ then in the child component the ngOnChanges() method runs 
+  ---
+ ngOnInit() only fires once after data-bound properties are set. This means ngOnInit() will execute if you refresh your browser 
+ or first initialize a component but not when other events occur.
+ ---
+ <myChild *ngIf="showChild"></myChild> , if showChild is false , myChild component will be destroyed and ngDestroy is called
+ Cleanup just before Angular destroys the directive/component. Unsubscribe observables and detach event handlers to avoid memory leaks.
+ ----
+ ngDoCheck Lifecycle hooks is called for any activity done on UI, if typed , clicked or anything done, it will be called
+ if types "xyz" in textbox , it will be called 3 times since xyz lenght is 3 
+ 
+ ----------
+ AfterView  Lifecycle hooks is called after angular  creates a component's child views.
+ -----
+ Object.keys Object.value :- 
+ 
+ Input : var check = ['x', 'y', 'z'];
+        console.log(Object.keys(check));
+Output : ['0', '1', '2']
+
+Input : var object = { 0: 'x', 1: 'y', 2: 'z' };
+        console.log(Object.keys(object));
+Output : ['0', '1', '2']
+--------------------------------
+ngFor is used to iterate over array elements only not json object 
+-------------
+if one is null then iterate over other :- 
+ *ngFor="let attr of demo['propexxrties'] || demo.items.properties 
+ ----
+demo['propexxrties'] will not throw exeption but demo.propexxrties will throw 
+sicne there is no such property in demo json object 
+------
+difference between followings
+<li  *ngFor="let attr of demo[temp11]      //iterate over demo.{{temp11}} ,temp11 defined in ts file
+<li  *ngFor="let attr of demo["temp11"]    // iterate over temp11 property of demo , if this prperty does not exist then nothing will be displayed
+<li  *ngFor="let attr of demo['temp11']    // same as above
+<li  *ngFor="let attr of demo.temp11      // temp11 should be present in demo else compiler exeption 
+
+---
+below are the 4types of select 
+<mat-select>
+<select>
+<ng-select>
+<ng-multiselect-dropdown>
+-------
