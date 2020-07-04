@@ -1,3 +1,6 @@
+VERY IMP :- 
+https://www.freecodecamp.org/news/15-useful-javascript-examples-of-map-reduce-and-filter-74cbbb5e0a1f/
+-----
 NOTE :- Object.keys returns an array of the given object’s property names
         in case if object is json object it returns and array of all keys 
 		in case object is array object it returns array of index ie 01,2,3,4...
@@ -157,3 +160,67 @@ let myObject = { "employeeid": "160915848" }
 console.log(myObject["abcd"]);   // this code will log undefined but wont throw error
 console.log(myObject["abcd"]["xyz"]);  // this code throw error Cannot read property 'xyz' of undefined
 -------------------
+to modify the key in json object( ie create new key point to object and remove old key)
+for( let key in jsonObj ){
+    jsonObj[toCamelCase(key)] =  jsonObj[key]   
+    delete  jsonObj[key];  // this wil remove whole key value pair
+}  
+-----
+to flatten json ie as below  USE BELOW METHOD 
+ {
+   "prop1": {
+       "nestedProp1": "nestedVal1",
+       "nestedProp2": "nestedVal2"
+   }
+}
+
+TO 
+{ 
+   "prop1.nestedProp1": "nestedVal1",
+   "prop1.nestedProp2": "nestedVal2"
+}
+ flatten (data) {
+    var result = {};
+    function recurse (cur, prop) {
+        if (Object(cur) !== cur) {
+            result[prop] = cur;
+        } else if (Array.isArray(cur)) {
+             for(var i=0, l=cur.length; i<l; i++)
+                 recurse(cur[i], prop + "[" + i + "]");
+            if (l == 0)
+                result[prop] = [];
+        } else {
+            var isEmpty = true;
+            for (var p in cur) {
+                isEmpty = false;
+                recurse(cur[p], prop ? prop+"."+p : p);
+            }
+            if (isEmpty && prop)
+                result[prop] = {};
+        }
+    }
+    recurse(data, "");
+    return result;
+  }
+-------------------------
+to unflatten json :- 
+ Object.unflatten = function(data) {
+    "use strict";
+    if (Object(data) !== data || Array.isArray(data))
+        return data;
+    var regex = /\.?([^.\[\]]+)|\[(\d+)\]/g,
+        resultholder = {};
+    for (var p in data) {
+        var cur = resultholder,
+            prop = "",
+            m;
+        while (m = regex.exec(p)) {
+            cur = cur[prop] || (cur[prop] = (m[2] ? [] : {}));
+            prop = m[2] || m[1];
+        }
+        cur[prop] = data[p];
+    }
+    return resultholder[""] || resultholder;
+};
+
+-------

@@ -1,6 +1,12 @@
+mount a drive to a folder in unix ? ,
+command to see if there is any filesystem on a device ?
+unmount a drive ?
+
 Print the matched line, along with the 3 lines after it.
 grep -A 3 -i "example" demo_text
 
+lsblk 
+it will display all mounted drives
 
 Search for a given string in all files recursively
 grep -r "ramesh" *
