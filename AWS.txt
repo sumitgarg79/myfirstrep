@@ -1,0 +1,233 @@
+https://www.edureka.co/blog/interview-questions/top-aws-architect-interview-questions-2016/
+----------------
+sumitgarg/sumitgarg79...@/Ayush@...  root
+sumithcl/Reyan..../322993837972
+sumit1hcl/Reyan@.../322993837972/ other user 
+https://aws0514.signin.aws.amazon.com/console
+IAM 
+replication
+s3 service
+
+
+policy for public access bucket
+
+{
+    "Version": "2012-10-17",
+    "Id": "Policy1588244367769",
+    "Statement": [
+        {
+            "Sid": "Stmt1588244362976",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::testsumitbucket/*"
+        }
+    ]
+}
+
+
+
+encrption aws s3 & techniquie
+
+how to host website on s3 bucket
+
+cloudguru ryan assocaite architect
+
+---
+to presign a resource :-
+aws s3 presign s3://29031983/Text.txt --region ap-south-1
+aws s3 presign s3://testsumitbucket1/new.txt --expires-in 3600 
+presign is to give temperary access to other users for sometime 
+----
+
+using regional table we can know which services are offered in which region
+MFA is multifactor authentication for IAM user
+
+---
+
+https://aws.amazon.com/premiumsupport/knowledge-center/analyze-logs-athena/
+
+
+cloud trail
+
+-----------------
+ec2 provides ebs (storing data) load balancing (elb) and autoscalling (asg)
+
+to connect to ec2 machine 
+ssh -i keyvalue.pem ec2-user@35.154.158.215
+
+----------------------
+elastic IP
+----
+private IP does not change on ec2 instance reboot but public ip changes
+---
+install apace webserver steps :- 
+sudo su to login as root user 
+#!/bin/bash
+yum update -y to update the linux packages
+yum install -y httpd.x86_64  to install apache webserver
+systemctl start httpd.service
+systemctl enable httpd.service
+echo "Hello world from $(hostname -f)" > /var/www/html/index.html
+curl localhost:80 
+------
+http://13.127.83.172:80
+scheduled instances are available in selected regions only
+https://ec2instances.info/
+------
+Dedicated Hosts  give you the visibility into the
+physical host that is required for a Bring Your Own License
+while dedicated instance does not 
+---------
+https://www.trek10.com/blog/dedicated-hosts-and-dedicated-instances
+You should also try Dedicated Hosts if your app requires minimal latency between instances
+Use Dedicated Instances if you are only concerned with compliance with regulations
+---
+price wise 
+on demand 100 rs , it is billed per second
+reserved  25 rs upto 75% of ondemand
+spot      10 rs  upto 90% of ondemand
+
+-----------
+on start stop ip changes 
+------
+dedicated host price is not hourly basis unlike others
+------
+spot price is hourly
+----
+AMIs are stored in S3 and we cant see it on S3
+---
+each Regions have multiple availablilty zones
+each availablilty zone has multiple partitions
+each partition has set of racks ( rack is hardware)  
+each racks can have multiple instances
+ -------------------
+ cluster placement group is available for large instances only
+ ---
+ we can have both IPv4 Public IP and elastic IP assigned to an instance
+ -----
+ if we need 4 instances with all of them with apache webserver , 
+ dont need to install apache on all, do as below :- 
+ 
+ Creating an AMI after installing the applications allows you to
+ start more EC2 instances directly from that AMI, 
+ hence bypassing the need to install the application 
+ (as it's already installed)
+ ------
+ same ami id is region locked and cannot be used accross regions
+ if a AMI is copied to different region , new ami is created with 
+ different ami id
+ ------
+ When an instance is terminated, the instance performs a normal shutdown, then the attached Amazon EBS volumes are deleted unless the volume’s deleteOnTermination attribute is set to false
+ ---
+ NLB has 1 static IP per AZ
+ https://aws.amazon.com/elasticloadbalancing/features/
+-----
+classic load balancer does not support SNI, ALB and NLB supports SNI
+it supports only 1 ssl cert, if we need to have multiple cert then we need multiple classic 
+load balancer
+----
+in autoscalling , launch template is new version and launch configuration is old version
+---
+subnet
+-------
+Auto Scaling balance your instances across the zones.
+----
+S3 (Simple Storage Service) and EBS (Elastic Block Store) are two file storage services provided by Amazon. The main difference between them is  EBS is specifically meant for EC2 (Elastic Computing Cloud) instances and is not accessible unless mounted to one. On the other hand, S3 is not limited to EC2
+------
+Network Load Balancers expose a public static IP, whereas an Application or Classic Load Balancer exposes a static DNS (URL)
+---
+With Client Side Encryption you perform the encryption yourself and send the encrypted data to AWS directly. AWS does not know your encryption keys and cannot decrypt your data.
+---
+if a user is not autherized to access a bucket he wont be able to access even it is public
+----
+there is a root volume and a attached volume ie EBS volume
+---
+we have to mount a ebs volume before we use it 
+-----
+ebs volumes are network based and not physically attached to instance like instance store
+-----
+iops are very high ie in millions in case of local instance store , in ebs volume iops is limited
+to 64000
+-------
+Throughput is the measure of the amount of data transferred from/to a storage device in a second
+There are two throughput modes to choose from for your file system, Bursting Throughput and Provisioned Throughput. With Bursting Throughput mode, throughput on Amazon EFS scales as the size of your file system in the standard storage class grows
+https://docs.aws.amazon.com/efs/latest/ug/performance.html#throughput-modes
+-----
+default VPC:- it  is created when we created our account 
+--------
+iam db authentication works with mysql and postregsql
+----
+Aurora :- 
+storage automatically grows from 10gb to 64 tB
+can have 15  read eplicas and there is autoscaling on read replicas
+failover is faster 
+stores 6 copies of data in 3 AZ
+if one AZ is down , it needs 4 copies out of 6 for writes and 3 copies out of 6 for read
+internal peer to peer replication happens internally
+by default one aurora takes write ( master )
+if master fails , any of read replica becomes master 
+writer end points connects to master and reader endpoints connects to all read replicas
+there is shared volume between writer and all readers 
+we can restore db to any point of time 
+automated backup
+we cannot ssh to db instance 
+--------
+aurora serveless :- 
+automated db instantiation and autoscalling based on actual usage 
+with aurora we dont need to do any scalling 
+it is not supported in global aurora 
+---------
+global aurora :- 
+  1.aurora cross region read replicas :- it has cross region read replicas
+  2.global db :- one primary read/write region and up to 5 secondry read regions 
+                 upto 16 read replicas per secondry region
+				 in case of disaster in one region, other region will become primary
+				 
+----------
+elastic cache:- in memory db , two types ( REDIS and MEMCACHED)
+REDIS is multi AZ with autofailover, can have read scale , data durable after restart
+Multi-AZ can not be enabled when the number of replicas is set to 0. Select one or more replicas to enable Multi-AZ.
+MEMECACHED :- if it goes down data is lost , no backup or restore and it is multithreaded
+When you create a Redis (cluster mode enabled) cluster using the ElastiCache console, you specify the number of shards in the cluster and the number of nodes in the shards.                 
+https://www.tutorialspoint.com/awselasticache/awselasticache_redis_shards.htm#:~:text=AWS%20ElastiCache%20%2D%20Redis%20Shards,of%20loss%20of%20few%20nodes.
+------
+snapshots are backups manually triggered backups
+------
+ElastiCache and RDS Read Replicas do indeed help with scaling reads.
+----
+Multi AZ keeps the same connection string regardless of which database is up. Read Replicas imply we need to reference them individually in our application as each read replica will have its own DNS name
+----
+Storing Session Data in ElastiCache is a common pattern to ensuring different instances can retrieve your user's state if needed.
+---
+ORacle database technology does NOT support IAM authentication
+-----
+reddis auth enhance the security of your Redis cache to force users to enter a password
+---
+as we move away from current az , cost will increase 
+---
+You would like to create a disaster recovery strategy for your RDS PostgreSQL database so that in case of a regional outage, a database can be quickly made available for Read and Write workload in another region. The DR database must be highly available. What do you recommend
+ANS :- create a read replica in different region and enable multiAZ on main db
+-----
+load balancer are region specific only ie we cannot have loadbalancer on instances on different regions
+----- 
+domain registrar vs DNS
+a domain registrar offers services that allow you to pick a domain name and register it to an IP address
+DNS is the framework of the internet that connects a user who types in a domain name to their desired site
+---
+Private hosted zones are meant to be used for internal network queries
+ and are not publicly accessible. Public Hosted Zones are meant
+ to be used for people requesting your website through the public internet.
+ Finally, NS records must be updated on the 3rd party registrar.
+------------
+using the command curl http://169.254.169.254/latest/ on ec2 instance to get all
+info about the ec2 instance like role , hostname , access, info etc...
+---
+enable MFA delete 
+ aws configure --profile root-sumitgarg
+ aws s3api put-bucket-versioning --bucket mfademo98000608 --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa "arn:aws:iam::322993837972:mfa/root-account-mfa-device 364493" --profile root-sumitgarg
+disable MFA delete
+ aws s3api put-bucket-versioning --bucket mfademo98000608 --versioning-configuration Status=Enabled,MFADelete=Disabled --mfa "arn:aws:iam::322993837972:mfa/root-account-mfa-device 146786" --profile root-sumitgarg
+-------
+s3 is global service but s3 bucket is region specific
+https://aws.amazon.com/s3/storage-classes/

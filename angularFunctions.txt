@@ -1,0 +1,172 @@
+hardcode api ( save json file locally and return response 
+    var configURL = './assets/api/RuleTemplateDefination.json';
+    return this.http.get(configURL);
+	
+	
+	var text = '{ "name":"John", "birth":"1986-12-14", "city":"New York"}';
+var obj = JSON.parse(text, function (key, value) {
+  if (key == "birth") {
+    return new Date(value);
+  } else {
+    return value;
+  }
+});
+
+
+iterate over json :- 
+function inside(json)
+  {
+    for (i in json) {
+      if (typeof json[i] === 'object')
+        inside(json[i]);
+      else
+     if (json[i] == '$ref') { 
+	 
+	 }
+    }
+  }
+  inside(json);
+
+-----------
+http call to static file and returning data :- 
+var configURL = './assets/Payments-v2.json';
+    return this.http.get(configURL);
+---------------------------------------
+
+convert http response to json :- 		
+	 makeRequest(): void {
+    this.loading = true;
+    this.http.request('http://jsonplaceholder.typicode.com/posts/1')
+    .subscribe((res: Response) => {
+      this.data = res.json();
+      this.loading = false;
+    });
+  }
+  ---------
+  
+JSON.parse("temp" );  ---> would throw an error since temp is string and not valid json , Json.parse would throw exception if json is not parseable
+JSON.parse('{ "sumi":"amit"}')); --> runs fine 
+fist a json is parsed using JSON.parse then it can be used to fetch elements of json at any given position in json file.
+ JSON.parse takes valid json data in string format as input
+ 
+ steps :- to process a json 
+ take a json and convert it as a string then parse it 
+  var xyz = JSON.parse(temp);   ( temp is of type string , typeof xyz is Object and not string ) 
+ console.log(  xyz  ); WRONG
+ console.log(JSON.stringify(xyz);); RIGHT
+ -------------------------------
+{"definitions":{"pet":{"type":"object","properties":{"name":{"type":"string"},"breed":{"type":"string"},"age":{"type":"string"}},"required":["name","breed","age"]}},"type":"object","properties":{"cat":{"$ref":"#/definitions/pet"},"dog":{"$ref":{"abc":{"$ref":"#/definitions/pet"}}}}}
+
+ const file = readFileSync('Payments-v2.json', 'utf-8');
+var temp = file.toString();  // note temp is string 
+var xyzz =JSON.parse(temp);  //note xyzz is object 
+IsJsonString( xyzz) will be false ;
+IsJsonString( temp) will be true ;
+ IsJsonString( JSON.stringify(  xyzz["definitions"])  will be true
+  IsJsonString( xyzz["definitions"])  will be false since xyz is object type
+  
+  function IsJsonString(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+}
+NOTE :- JSON.parse(temp) will throw exception if temp is not valid json  but JSON.stringify will not throw any exception
+ console.log( "temp = " +JSON.stringify("ABC"));  will give ABC
+ console.log( "temp = " +JSON.stringify("{}}")); will give {}}
+ 
+ -------
+ in typescript when defined in a class function keyword is not used for a method while outside function keyword is used for method
+ -----
+ READ FILE:-
+ import { readFileSync } from 'fs';
+ 
+const file = readFileSync('Payments-v2.json', 'utf-8');
+console.log(  file.toString());
+--------------
+RxJS `of` operator used to emit a variable amount of values in a sequence and then emits a complete notification
+https://www.techiediaries.com/angular-rxjs-tutorial/
+https://alligator.io/angular/ng-container-element/
+
+-------------
+ROUTER ROUTES AND ROUTE PARAMETERS : -
+router-outlet
+The RouterOutlet is a directive from the router library that is used like a component. 
+It acts as a placeholder that marks the spot in the template where the router should display the components for that outlet.
+
+path: 'hero/:id' = localhost:4200/hero/15  AND NOT ( localhost:4200/hero?id=15 ) 
+( id value can be accessed in component ) 
+if   testRoute2/:id ( in const routes ) is defined and testRoute2/ is not defined then only http://localhost:4200/testRoute2/id will work 
+and http://localhost:4200/testRoute2 wont work since no mapping defined for testRoute2 
+path: ''  The empty path in the fourth route represents the default path for the application, the place to go when the path in the URL is empty, as it typically is at the start
+The ** path in the last route is a wildcard. The router will select this route if the requested URL doesn't match any
+
+in component file use  this.router.navigate(['/heroes']); to navigate back to some other component
+
+this.router.navigate(['/heroes', { id: heroId, foo: 'foo' }]); is equal to localhost:4200/heroes;id=15;foo=foo (The optional route parameters are not separated by "?" and "&" as they would be in the URL query string. They are separated by semicolons )
+[routerLink]="['/artist', item.artistId]"  is converted to something like artist/78500
+---------------
+convert http response data to array
+persondata is an array  
+ this.myservice.getData().subscribe((data) => {
+      this.persondata = Array.from(Object.keys(data), (k) => data[k]);
+      console.log(this.persondata);
+    });
+----------------------
+ACCESSING JSON ARRAY :- 
+ this.http.get('./capabilitiesJson.json?listLocator=capList').subscribe(resData => { 
+       if(resData && resData['responseMap'] && resData['responseMap']['ValueJson']) {
+        this.capabilityData = resData['responseMap']['ValueJson']['capList'];
+         
+      }
+    });
+JSON EXAMPLE :- 
+{
+  "status": "SUCCESS",
+  "responseMap": {
+    "ValueJson": {
+            "capList":  
+[
+    {
+        "organization": "TMO",
+	}
+]}}}
+-------------------------
+test  = { "capList": [  
+       {  "name" : "sumit"  },
+       {  "name" : "sumit1" } ,
+       {   "name" : "sumit1"}  
+  ]
+  }
+ <li *ngFor="let attr of test.capList   let i = index">
+    {{i}} . {{attr.name}}  
+</li>  
+in ts file use console.log(this.test.capList[0].name);
+capList is a json array , ngFor only works with arrays
+-----------------
+demo = {
+    'key1': 'ANGULAR 2',
+    'key2': 'Pardeep',
+    'key3': 'Jain',
+    'cars': { 'subkey':  [ "Ford", "BMW", "Fiat" ] }
+  }
+<li  *ngFor="let attr of demo  | keyvalue"  >
+    
+     {{attr.key }} , {{attr.value }} 
+</li>
+
+keyvalue :- Transforms Object or Map into an array of key value pairs.
+(demo is not a array )
+--------------  
+ Object.keys Object.value :- 
+ 
+ Input : var check = ['x', 'y', 'z'];
+        console.log(Object.keys(check));
+Output : ['0', '1', '2']
+
+Input : var object = { 0: 'x', 1: 'y', 2: 'z' };
+        console.log(Object.keys(object));
+Output : ['0', '1', '2']
+-----

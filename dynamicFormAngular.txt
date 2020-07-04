@@ -1,0 +1,35 @@
+{
+    "numberOfTickets": "1",
+    "tickets": [
+        {
+            "name": "ss",
+            "email": "ss@gmail.com",
+            "age": "22"
+        }
+    ],
+    "objects": {
+        "objName": "test",
+        "objType": "test1"
+    },
+    "temp": "sumit",
+    "testObj": [
+        {
+            "firstName": "forstName",
+            "lastName": "lastName"
+        },
+        {
+            "firstName": "forstName",
+            "lastName": "lastName"
+        }
+    ]
+}
+
+to set value in "name" :- 
+this.dynamicForm.get('tickets')['controls'][0].get('name').setValue("SUMIT");
+this.dynamicForm.get('numberOfTickets').setValue("2");
+
+to display name in console log :-
+JSON.stringify(this.dynamicForm.controls.tickets.value[0].name ) == "ss"
+this.dynamicForm.controls.numberOfTickets.value == 1 
+
+var testObj1 =  this.dynamicForm.controls.testObj as FormArray;

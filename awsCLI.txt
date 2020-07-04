@@ -1,0 +1,34 @@
+
+C:\Users\SumitG>aws --version
+aws-cli/2.0.11 Python/3.7.5 Windows/10 botocore/2.0.0dev15
+
+C:\Users\SumitG>aws configure
+AWS Access Key ID [None]: AKIAUWM7O26KHYSIN4JP
+AWS Secret Access Key [None]: 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
+Default region name [None]: ap-south-1
+Default output format [None]: json
+
+C:\Users\SumitG>aws s3 ls
+2020-04-30 23:01:13 testreplicatebucket0608
+2020-05-05 16:11:59 testsumitbucket
+
+C:\Users\SumitG>
+
+local path :-
+C:\Users\SumitG\.aws
+
+aws cli commands :-
+https://docs.aws.amazon.com/cli/latest/index.html
+https://docs.aws.amazon.com/cli/latest/userguide/cli-services-s3-commands.html
+https://docs.aws.amazon.com/cli/latest/reference/s3/
+
+IMP COMMANDS
+aws s3 cp AWS.txt s3://testsumitbucket/AWS.txt
+aws ec2 describe-instances   						( details of the aws intances )
+aws ec2 start-instances --instance-ids i-1348636c   ( start aws instance ) 
+aws help 
+aws s3 ls s3://mybucket
+aws s3 cp myfolder s3://mybucket/myfolder --recursive (copy recursively)
+aws s3 sync myfolder s3://mybucket/myfolder --exclude *.tmp  (sync ) 
+aws s3 mb s3://testbucket1234 ( make new bucket)
+aws s3 rb s3://testbucket1234  ( remove bucket)

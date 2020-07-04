@@ -1,0 +1,387 @@
+working
+C:\notes\angular\my-first-project     ( general project)
+C:\notes\angular\routingProject\routingProj   ( routing project)
+https://www.tutorialspoint.com/angular7/index.htm
+https://angular.io/start ( official url)
+https://www.geeksforgeeks.org/angular-7-directives/
+https://www.tutorialspoint.com/angular7/angular7_pipes.htm
+https://angular.io/guide/singleton-services
+https://www.tutorialspoint.com/angular7/angular7_services.htm
+https://angular.io/guide/architecture-modules
+https://www.tutorialspoint.com/angular7/angular7_cli_prompts.htm ( imp angular commands)
+https://www.javatpoint.com/angular-7-files-explanation
+https://phpenthusiast.com/blog/angular-form-ngform-and-two-ways-data-binding ( IMP)
+https://jasonwatmore.com/post/2018/11/22/angular-7-role-based-authorization-tutorial-with-example
+https://medium.com/@madhavmahesh/list-of-all-decorators-available-in-angular-71bdf4ad6976
+https://angular.io/guide/aot-compiler
+https://hackr.io/blog/angular-interview-questions
+https://angular.io/guide/component-interaction
+https://angular.io/guide/template-syntax#inputs-outputs
+https://www.youtube.com/watch?v=k5E2AVpwsko  1:27 22.22 , 52
+https://dzone.com/articles/understanding-output-and-eventemitter-in-angular
+https://medium.com/angular-in-depth/debug-angular-apps-in-production-without-revealing-source-maps-ab4a235edd85
+---------------
+package-lock.json is automatically generated for any operations where npm modifies either the node_modules tree, or package.json
+when ever there is error like An accessor cannot be declared in ambient-context then use --skipLibCheck	 = true in compiler options
+~1.2.3 will use releases from 1.2.3 to < 1.3.0
+^2.3.4 will use releases from 2.3.4 to < 3.0.0
+------
+for reactive http://reactivex.io/documentation/observable.html
+
+using search text filter if we type something in textbox or any other places , it will filter the list/table
+ to which this search text filter is used
+--------------
+converts xls to json using xlsx library 
+DomSanitizer is used for preventing Cross Site Scripting Security bugs (XSS) ie for security purpose
+-----
+file-saver library can be used to save files
+------
+
+npm global or local packages
+local packages are installed in the directory where you run npm install <package-name> , and they are put in the node_modules folder under this directory.
+global packages are all put in a single place in your system (exactly where depends on your setup), regardless of where you run npm install -g <package-name>
+----
+By default, NgModules are eagerly loaded, which means that as soon as the app loads, so do all the NgModules,
+Injectable :- Decorator that marks a class as available to be provided and injected as a dependency.
+ <ng-content></ng-content> tag is used in component as placeholder for that dynamic content
+Webpack is a command line tool to create bundles of assets (code and files). Webpack doesn't run on the server or the browser. Webpack takes all your javascript files and any other assets and transforms then into one huge file. This big file can then be sent by the server to a client's browse
+list of decorators available in Angular: @NgModule,@Component,@Injectable,@Directive,@Pipe
+lazy loading in angular is a technique in Angular that allows you to load JavaScript components asynchronously when a specific route is activated
+Angular offers two ways to compile your application: Just-in-Time (JIT), which compiles your app in the browser at runtime. Ahead-of-Time (AOT), which compiles your app at build time
+typescript is purely object-oriented programming, is a superset of Javascript as it is Javascript + Types or extra features like typecasting for variables, annotations,
+Angular is built up of many components. There is a root component that serves as the parent component, every other components can be called a Child Component to the root component since the root component is the Parent Component.
+-------------------
+DATA BINDING :-
+There are 3 ways to achieve data binding:
+
+Event Binding – Enables the application to respond to user input in the target environment
+Property Binding – Enables interpolation of values computed from application data into the HTML
+Two-way Binding – Changes made in the application state gets automatically reflected in the view and vice-versa. The ngModel directive is used for achieving this type of data binding.
+
+----
+TYPE OF DIRECTIVES
+
+Component directive :- directives with a templates @Component
+Structure directive :- change layout of elements *ngIf and *ngFor
+Attribute directive :- change appearance of perticular element @Directive
+we can also create our own custom Attribute Directives
+C:\notes\angular\my-first-project>ng g directive tempdir
+---------------------------------------------
+
+to create pipe use @Pipe
+@Pipe ({
+   name : 'sqrt'
+})
+export class SqrtPipe implements PipeTransform {
+   transform(val : number) : number {
+      return Math.sqrt(val);
+   }
+}
+------------------------------------
+ TO INCLUDE ROUTING IN OUR PROJECT :-  
+if routing is selected ie Y then app-routing.module.ts file is created
+if we select routing to Y while creating project
+then app-routing module is create in which we need to add route details , then this module needs
+to be imported in app routing module , in app.module.ts we mention import statements , it can be component or module also
+
+
+
+----------------------------------------------------------
+SERVICE
+
+TO CREATE A SERVICE
+
+ng g service myservice
+
+C:\notes\angular\routingProject\routingProj>ng g service myservice
+CREATE src/app/myservice.service.spec.ts (348 bytes)
+CREATE src/app/myservice.service.ts (138 bytes)
+
+after a service is created two files spec.ts and ts files are created as above
+include it in app.module.ts and app.compoment.ts
+
+we need some code to be used everywhere on the page.
+For example, it can be for data connection that needs to be shared across components.
+This is achieved with the help of Services. With services,
+we can access methods and properties across other components in the entire project.
+
+SINGLETON SERVICE
+
+Singleton services
+A singleton service is a service for which only one instance exists in an app.
+
+There are two ways to make a service a singleton in Angular:
+
+Set the providedIn property of the @Injectable() to "root".
+Include the service in the AppModule or in a module that is only imported by the AppModule
+
+
+-------------------------------------------------------------------------
+PROVIDERS
+
+A provider is an instruction to the Dependency Injection system on how to obtain a value for a dependency.
+Most of the time, these dependencies are services that you create and provide.
+
+------------------------------------------------------------------------
+NGONINIT METHOD :-
+ngOnInit
+A callback method that is invoked immediately after the default change detector has checked the directive's data-bound properties
+for the first time, and before any of the view or content children have been checked.
+It is invoked only once when the directive is instantiated.
+
+
+--------------------------------------------------
+@NGMODULE ( it is following below sections )
+
+declarations :- ie components , custom pipes
+imports :- other modules
+providers :- the services that we create
+bootstrap starting component
+
+----------------------------------------------  
+Angular-CLI is a TOOL to create  angular 2 application.
+It provides commands to generate code such as components,
+services and directives to make angular 2 development easier to the developer. ...
+Angular CLI is a command line interface for writing or easily setting/building up an angular application.
+
+---------------------------------------------------
+ng-model is used for two way data binding
+
+
+----------------------------------------------------
+npm nodejs package manager is used to install 3rd party libraries , one the the 3rd party lib is angular CLI
+ie it is command line tool to create angular project , angular cli uses webpa
+to check cli installation is success do ng --version
+------------------------------------------------
+FOLDER STRUCTURE
+
+e2e :- end to end test , write code to launch browser etc
+
+node_module :- we store all third party libs in this that app depends one , this is for dev , when we compile our app
+part of this bundle and deploy with our app.
+
+src :- actual source code of aplication, there is app folder in it,
+app folder :-  it has module and component, application should have atleast 1 module and 1 component
+assets :- stores static contents ie image , static files
+enviroments :- settings for different envs , different files for production and dev
+main.ts :- stating point of our application
+polyfills.ts :- get java script  features needed by angular and browser features
+style.css :- css
+test.ts :- setting up testing env
+angular-cli.json :- configuration file for CLI ,
+editorconfig :- editor setting to be userd by team member
+package.json :  - stores libraries that our angular depends on , third party libs listed here , we can remove if we dont need
+tsconfig.json :-(type script compiler settings ) based on the settings in this file , type script is compiled into java script code  so that browser can understand
+tslint.json :- ts lint is static analysis tool for type script
+
+Hot module replacement(HMR) :- whenever we change any file , web pack compile app automatically and changes are reflected ie no need to refresh browser
+--------------------
+component = data + html + logic
+module has multiple components
+
+an app may have one or more modules
+
+-----------------
+
+Component steps :-
+1) create component :- add new file named courses.component.ts( ie append .component.ts ) under src/app
+2) Register it in module
+3) add element in html markup
+
+------------
+
+https://www.javatpoint.com/angular-7-files-explanation  
+delete all file in folder: %APPDATA%\npm-cache\_locks
+C:\Users\SumitG\AppData\Roaming\npm-cache\_logs\2019-08-27T08_21_57_498Z-debug.log
+ 
+
+---------------------------------------------
+COMMANDS
+
+npm uninstall @angular-devkit/build-angular  ( to uninstall ) 
+node --version
+npm --version
+npm install -g @angular/cli  ( to install angular CLI)
+ng --version (to check if angular cli is installed correctly type)
+npm config rm proxy
+npm config rm https-proxy
+npm config list
+npm config ls -l
+ng new my-first-project (to create new project)
+cd my-first-project
+ng serve (when we run ng server , angluar compiler invokes type script compiler )
+ng serve --host 0.0.0.0 --port 4201   ( to change port )
+npm install -g typescript ( install type script )
+tsc --version  ( to check type script version )
+code main.js will open main.js in visual studio
+tsc main.ts ( to compile type script ) , it will create js file ie main.js
+node main.js command would run java script code and print out put
+tsc main.ts  | node main.js ( to compile ts and run js at same time )
+ng generate component COMP1 ( generate component)
+ng g c COMP1  ( generate component)
+npm config set proxy http://inetgw.aa.com:4713/files/proxy91.pac
+npm config set https-proxy  http://inetgw.aa.com:4713/files/proxy91.pac
+npm config set http-proxy  http://inetgw.aa.com:4713/files/proxy91.pac
+ng generate class CarModel ( generate class type, run command from app folder , it will create 2 files )
+ng generate module [name]  ( generate module )
+npm install --save-dev @angular-devkit/build-angular  
+npm ls @angular/compiler-cli  ( to check the version of the module)
+npm update node-sass  ( to update to a latest version ) 
+npm install  @angular-devkit/build-angular
+npm ls @angular-devkit/build-angular  
+npm install -g @angular/compiler-cli  ( install globally )
+npm install    @angular/compiler-cli@latest   ( install latest version locally)
+ng generate service hero  ( to create new service)
+npm install --save-dev  @angular/compiler-cli
+
+npm root ( will result C:\Users\SumitG\node_modules ie path of installations)
+npm install -g <package_name> ( install package globally )
+--------------------
+
+
+
+FLOW :-
+
+1. INDEX.HTML IS STARTING POINT
+IT HAS CODE LIKE
+<body>
+  <app-new-cmp></app-new-cmp>
+</body>
+
+2. NOW CHECK app.module.ts , check bootstrap ie that is the component loaded on server start ( ng serve)
+
+ providers: [],
+  bootstrap: [NewCmpComponent]
+}
+3. go to NewCmpComponent folder , check its ts file to get template name and other details
+
+@Component({
+  selector: 'app-new-cmp',
+  templateUrl: './new-cmp.component.html',
+  styleUrls: ['./new-cmp.component.css']
+})
+
+----------------------------------------------------------
+
+
+type script files have ts as extension ie main.ts , java script files have js extension
+
+any valid java script is valid type script ie type script is super set of java script
+
+type script compiler compiles type script into java scrpt
+
+in type script there are 2 ways to create varible ie using var and using let
+
+
+
+if there is compilation error in ts file , tsc main.ts command still generates js ie main.js file supported  
+
+ie it generates js files even there is error in type script file
+
+type script example :-
+let message;
+message ='aa';
+
+let cc =(<string>message).endsWith('c');
+or
+
+let cc1 =( message as string).endsWith('c');
+
+-----------------
+
+inline annotation in type script
+
+arroy function in type script
+
+custom types in typescript :- no need to pass so many paramters to function
+we create a object that encaptulate all paramters in it
+
+interfaces in typescript:-
+interface point {
+
+x:number,
+y:number
+}
+classses in type script
+
+----
+
+type script :-
+
+type script is  java script + additional features
+strong typing , object orietaed features , we can catch error at compile time ,
+
+browser does not understand type script , so type script compiler compiles type scrpit code into java script code
+
+difference between var and let :- var keyword has scope in function in which it is defined , while let has scope in inner most block only
+
+type script even if there is any error still generates valid java script
+
+variable defined in type script as number remains as number only unlike java script where variable can be changed to letter from number
+
+declararion
+
+let a: any;
+let a: number;
+a=22;
+let arr: number[] = [1,2,3];
+const color =22;  // defining constants
+num color  {redColor , redBlue }; //enum
+
+type assertion ( example below since we are not defining mess as string during initialization)
+
+ let mess;
+ let str1 = (<string>mess).toLocaleLowerCase
+ 
+ arrow function
+ let cat = (message) => {
+     console. log(message);
+ 
+ }
+ 
+ inline annotations in type script
+ 
+ -------------
+ 
+ TypeScript Variable Scope
+Global Scope - Global variables are declared outside the programming constructs. These variables can be accessed from anywhere within your code.
+Class Scope - These variables are also called fields. Fields or class variables are declared within the class but outside the methods. These variables can be accessed using the object of the class. Fields can also be static. Static fields can be accessed using the class name.
+Local Scope - Local variables, as the name suggests, are declared within the constructs like methods, loops etc. Local variables are accessible only within the construct where they are declared.
+ ---------------------
+----------------------- EXCERCISE-------
+ create a method which takes interface and compare name to print full name
+ 
+ 
+ tsc --out app.js InvoiceTest.ts   ( this command would compile InvoiceTest.ts into app.js )
+ typeof
+ 
+ ----------------
+
+    RouterModule.forRoot(  
+        appRoutes,
+        { enableTracing: true } // <-- debugging purposes only
+    )
+   
+    WHAT IS DECORATOR ?
+    how to test ?
+    how to build ?
+    how to debug type script and html code ?
+-------------
+
+running npm install from project folder will create ngmodule folder and add all packages (that are in package.json )to that folder ie the installed
+packages are only accessible that project 
+C:\Sumit\CODE\T-mobile\digitalpaymentruleenginestudio>npm install 
+
+running npm install -g will install the packages to the global ngmodule folder , the location of global package dir 
+can be find by using npm root
+----------
+ng serve  is equal to  ng serve -env=dev if 
+  environment = {
+  production: false,
+  
+ ------------------------------
+  to enable type script logging 
+  npm - typescript-logging
+  ---------
+  below would format the json 
+ JSON.stringify(this.dynamicForm.value, null, 4));
