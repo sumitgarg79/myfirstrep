@@ -1,3 +1,7 @@
+to connect to git sumitgarg79
+git clone  https://github.com/sumitgarg79/myfirstrep.git 
+git clone -b feature/ObjectReference git@gitlab.com:tmobile/eps/mustangs/digitalpaymentruleenginestudio.git
+----------------
 git installed locally uses private key to make a connection with guthub, 
 to make a secure connection
 
@@ -41,9 +45,7 @@ Host github.com-jexchan
 STEP 3:- 
 do a git clone and test if success
 ----------------
-to connect to git sumitgarg79
-git clone  https://github.com/sumitgarg79/myfirstrep.git 
-git clone -b feature/ObjectReference git@gitlab.com:tmobile/eps/mustangs/digitalpaymentruleenginestudio.git
+
 -----------
 ALL BELOW ARE SAME
 git push origin  master
@@ -110,7 +112,9 @@ will pull changes from the locally stored branch origin/master and merge that to
 -----
 below command will only discard changes in working directory for given  file and make it in sync with local repository
  
- 
+----
+below will get the latest code into local repo from remote repo 
+git pull 
  -----
  (before doing git diff brch1 brch2 , do a git pull)
  git diff   branch1   branch2

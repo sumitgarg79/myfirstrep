@@ -385,3 +385,4 @@ public Object readResolve() {
  
  5. do not implement serializable and cloneable for singleton class
 ------------------     
+@SuppressWarnings will disable compilation warnings for a certain part of a program

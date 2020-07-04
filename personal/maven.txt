@@ -1,3 +1,39 @@
+to use Maven variables inside your .properties files use resouces tag in pom.xml 
+-------
+mvn clean install is not same as mvn install ( clean is not called in this case)
+clean is in clean lifecycle while install is in default lifecycle
+------------------------------------
+
+NOTE :- add  repository URL in settings.xml instead of pom.xml to download dependency
+---------
+As of Maven 3.x, repositories are searched in the order in which they are declared.
+to download a specific file 
+we can declare repositories either in pom.xml and and settings.xml also 
+
+to download a specific dependency
+mvn install:install-file -DgroupId=io.packagecloud  -DartifactId=client  -Dversion=3.0.0  -Dclassifier=sources         
+                           
+SNAPSHOT version dependencies look just like regular dependencies, except the version will have -SNAPSHOT appended to it.
+
+<dependency>
+  <groupId>io.packagecloud</groupId>
+  <artifactId>client</artifactId>
+  <version>3.0.0-SNAPSHOT</version>
+</dependency>
+The idea is that you can continuously push your latest changes to 3.0.0-SNAPSHOT and anyone depending on it will get the latest changes every time they build their project. Then, after a few iterations, and everyone is happy the latest state of 3.0.0-SNAPSHOT, it can be permanently released as 3.0.0
+
+Maven central is defined in SUPER pom.xml ie we dont need to define it in our pom
+<url>http://repo1.maven.org/maven2</url>                     
+                           
+download specific dependency 					   
+mvn org.apache.maven.plugins:maven-dependency-plugin:2.1:get  -DrepoUrl=https://gitlab.com/api/v4/groups/5513871/-/packages/maven   -Dartifact=com.amazonaws:aws-java-sdk-s3:1.11.475
+			
+-----------------------------------
+in case of error "Failure to find org.jfrog.maven.annomojo:maven-plugin-anno:jar:1.4.0 in http://myrepo:80/artifactory/repo was cached in the local repository, resolution will not be reattempted until the update interval of MyRepo has elapsed "
+do as below 
+mvn -U clean install where -U will force update the repo or use  <updatePolicy>always</updatePolicy>
+in settings.xml 
+-----
 MAVEN
 https://www.youtube.com/watch?v=x8sMN4tossY&t=690s
 
@@ -146,3 +182,17 @@ https://stackoverflow.com/questions/36757902/what-is-mirror-in-maven-settings-xm
   </profiles>
    
  -----------------------------------
+ https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#:~:text=Dependency%20scope%20is%20used%20to,used%20for%20various%20build%20tasks.&text=This%20is%20the%20default%20scope,all%20classpaths%20of%20a%20project.
+ SCOPES IN DEPENDENCY (there are 6 dependencies ):-  
+compile
+This is the default scope, used if none is specified. Compile dependencies are available in all classpaths of a project. Furthermore, those dependencies are propagated to dependent projects.
+provided
+This is much like compile, but indicates you expect the JDK or a container to provide the dependency at runtime. For example, when building a web application for the Java Enterprise Edition, you would set the dependency on the Servlet API and related Java EE APIs to scope provided because the web container provides those classes. This scope is only available on the compilation and test classpath, and is not transitive.
+runtime
+This scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath.
+test
+This scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases.
+system
+This scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository.
+import (only available in Maven 2.0.9 or later)
+This scope is only used on a dependency of type pom in the section. It indicates that the specified POM should be replaced with the dependencies in that POM's section. Since they are replaced, dependencies with a scope of import do not actually participate in limiting the transitivity of a dependency.

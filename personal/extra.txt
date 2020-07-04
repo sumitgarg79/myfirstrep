@@ -1,3 +1,6 @@
+SONAR IMP LINK
+https://docs.sonarqube.org/latest/project-administration/narrowing-the-focus/
+
 INtellij 
 CONFIGURE PROJECT FROM ONE IDE instance into another :- 
 when we create a project in intellij , .idea file is created along with application related java project.
@@ -32,10 +35,6 @@ Heap dump file created
 F:\>"C:\Program Files\Java\jdk1.8.0_144\bin\jhat" test.hprof
 Reading from test.hprof...
 Dump file created Fri Jul 20 15:01:07 IST 2018
-
-
-
-
 
 jstack is used for anlyzing thread dump
 jstack -l  <process id>
@@ -158,4 +157,8 @@ Thus, if you want to use support from Spring and Mockito simultaneously, you can
 -----------------
 Mockito is simple and always used , in case to mock static or private methods then only use powerMock
 If you dont need to mock static or private functions than you dont need to use PowerMock. PowerMock is a wrapper around other mocking frameworks.
---------------
+-------------------------------
+paste in excel cell to append
+=CONCATENATE(B2,  C2 , "','",D2 , "','" ,E2)
+=CONCATENATE(A2, B2 , "' AND product_group='" ,C2, "' AND channel_id='", D2 ,  "' AND business_unit='" , E2 , "' AND biller_code='" , F2 , "' AND order_type='" , G2 , "' AND status='" , H2 , "' AND acquirer_name='" , I2 , "';" )
+--------------------------

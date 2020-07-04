@@ -1,0 +1,143 @@
+https://www.youtube.com/watch?v=g91lFo8OTDY
+https://howtodoinjava.com/spring-cloud/microservices-monitoring/
+https://howtodoinjava.com/spring-cloud/spring-hystrix-circuit-breaker-tutorial/
+https://cloud.spring.io/spring-cloud-netflix/reference/html/
+https://www.javainuse.com/
+https://www.javatpoint.com/microservices
+https://howtodoinjava.com/microservices/elk-stack-tutorial-example/
+https://www.youtube.com/watch?v=rxTNUw0wp-U
+ 
+ Gateway service, which is internet facing, the client will call only one endpoint and it delegates the call to an actual 
+microservice, and all the authentication or security checking will be done in the gateway service.
+
+service discovery :- client side discovery and server side discovery
+
+
+ client side discovery :- 
+ Netflix Eureka is a service registry. It provides a REST API for managing service-instance registration and for querying available
+ 
+  Netflix Ribbon is an IPC client that works with Eureka to load balance requests across the available service instances
+  
+  
+  server side discovery 
+  The client makes a request to a service via a load balancer. The load balancer queries the service registry and routes each request to an available service instance. As with client-side discovery, service instances are registered and deregistered with the service registry.
+  The AWS Elastic Load Balancer (ELB) is an example of a server-side discovery router
+  
+  
+  architecture of microservices applications 
+  
+  1 monolothic ie traditional appraoch
+  2using api gateway
+  
+  API Gateway is a server that is the single entry point into the system. It is similar to the Facade pattern from object‑oriented design.
+   It might have other responsibilities such as authentication, monitoring, load balancing, caching, request shaping and management, 
+  and static response handling.
+  
+
+What is the use of @EnableCircuitBreaker?
+Use of the Circuit Breaker pattern can let a microservice continue operating when a related service fails, 
+preventing the failure from cascading and giving the failing service time to recover.
+
+Hystrix is an tool to build this circuit breaker.
+ Zuul is a JVM-based router and server-side load balancer from Netflix.
+
+ 
+ when a REST service register itself with Eureka server , it becomes microservice 
+ to register add below in application.properties
+ eureka.client.serviceUrl.defaultZone = http://localhost:8080/eureka
+ 
+ netflix zuul is a application gateway 
+ 
+  netflix provides api for zuul to create filters 
+ zuul support for filters 
+ pre , post , error , Route filter
+ 
+ zuul gateway has below configutation
+ zuul.routes.producer.url = http://localhost:8080       ( path where microservice with url pattern /producer is deployed, this property redirects the incoming request to the given url)
+ eureka.client.serviceUrl.defaultZone = http://localhost:8080/eureka  ( to register zuul to eureka resitery server )
+ 
+@EnableZuulProxy along with @SpringBootApplication and @EnableEurekaClient needs to be added in the main spring boot application file 
+to make it as api gateway
+
+Note :- if a service is down or not started yet, it wont reflect in eureka server page, 
+if we start the service ie run spring boot application , and then , we refresh eureka server , it will be reflected and shown on the page 
+
+To include Zuul in your project, use the starter with a group ID of org.springframework.cloud and a artifact ID of spring-cloud-starter-netflix-zuul
+
+we can define below in zuul api gateway
+MaxTotalHttpConnections: 500
+MaxConnectionsPerHost
+
+client side load balancing :- 
+https://www.youtube.com/watch?v=tG2dA6zyEgM&feature=youtu.be
+
+two ways of client side load balancing 
+1.simple  load balancing :- using @LoadBalanced on RestTemplate object so that everytime rest template calls microservice , it will be load balanced
+2. advanced load balancing using DiscoveryClient object 
+
+
+how to create multiple instances of a microservice:- change port and run below command , and then if we check in eureka server , we will
+see two instances of  movie-info microservice
+
+java -Dserver.port=8201 -jar movie-info.jar
+java -Dserver.port=8202 -jar movie-info.jar
+
+zuul by default comes with ribbon 
+https://www.youtube.com/watch?v=z90Dcid2py4
+zuul api gate way uses ribben to load balance 
+
+
+traditional Server side load balancing is involved in monolithic applications where
+ we have limited number of application instances behind the load load balancer. 
+ We deploy our war/ear files into multiple server instances which are basically a
+ pool of server having the same application deployed and we put a load balancer
+ in front of it.
+To overcome the problems of traditional load balancing, client side load balancing came into picture. They reside in the application as inbuilt component and bundled along with the application, so we don’t have to deploy them in separate servers.
+ 
+ 
+ client side load balancing steps
+ 
+  if one microservice wants to communicate with another microservice :- 
+ 1. it generally looks up the service registry using discovery client 
+ 2. Eureka server returns all the instances of that target microservice to the caller service.
+ 3.  Then it is the responsibility of the caller service to choose which instance to 
+ send request.using using @LoadBalanced annotation
+ 
+ 
+ Spring client side load balancing :- 
+ Spring Netflix Eureka has a built-in client side load balancer called Ribbon.
+ Ribbon can automatically be configured by registering RestTemplate as a bean and 
+ annotating it with @LoadBalanced.
+ In this example we will focus on how to access a microservice instance transparently
+ using RestTemplate and @LoadBalance.
+ 
+ 
+ @EnableHystrixDashBoard – To give dashboard view of Hystrix stream.
+ @HystrixCommand(fallbackMethod = "fallbackMethod")
+ https://www.tutorialspoint.com/spring_boot/spring_boot_hystrix.htm
+ 
+ HOW TO ENABLE HYSTRIX DASHBOARD
+ 1.  @EnableHystrixDashBoard ADD THIS TO APPLICATION JAVA FILE
+ 2. ADD A PROPERTY IN APPLICATION.PROPERTIES TO INCLUDE hystrix.stream
+ 3. RESTART THE APPLICATION , GO TO URL http://localhost:8081/hystrix
+ 
+ 
+ hystrix:-
+ https://www.youtube.com/watch?v=WfsomLHaSzQ
+
+ELK stack:- 
+ the challenge is that microservices are isolated among themselves and they does not share common database and log files. As the number of microservice increases and we enable cloud deployment with automated continuous integration tools, it is very much necessary to have some provision of debugging the components when we have any problem.
+
+Thanks to the open source movement. We already have bundle of tools which can do the magic if used properly together. One such popular set of tools are Elastic Search, Logstash and Kibana – together referred as ELK stack. They are used for searching, analyzing, and visualizing log data in a real time.
+
+Spring Cloud Config Server :- 
+
+external service containing properties files are deployed , these properties files contains microservices URL and other commonly used properties used in multiple microsservices so that if there is any change all effected microservices are not deployed
+only spring cloud config app needs to be deployed with updated changes
+
+@EnableConfigServer is used with @SpringBootApplication
+
+start config server as below
+java -jar target\spring-config-server-0.0.1-SNAPSHOT.jar
+
+kubernate can create new instances dynamically if load is more on spring microservices or remove instances if load is less
